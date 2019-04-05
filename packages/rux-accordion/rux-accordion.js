@@ -58,7 +58,7 @@ export class RuxAccordion extends PolymerElement {
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        width: calc(100% - 12px);
+        width: calc(100% - 12px -1rem);
         background-color: transparent;
       }
 
@@ -71,7 +71,7 @@ export class RuxAccordion extends PolymerElement {
         padding: .5rem .5rem .5rem 1rem;
         white-space: normal;
         overflow: hidden;
-        width: calc(100% - 12px);
+        width: calc(100% - 12px -1rem);
         background-color: transparent;
       }
                 
@@ -86,11 +86,11 @@ export class RuxAccordion extends PolymerElement {
       </style>
 
       <details class="rux-accordion__item">
-        <summary class="rux-accordion__label" title="[[label]]">
-          [[label]] 
+        <summary class="rux-accordion__label">
+          <slot name="label"></slot>
         </summary>
         <div class="rux-accordion__content">
-          <slot></slot>
+          <slot name="content"></slot>
         </div>
       </details>
         
