@@ -1,41 +1,43 @@
-#Tree
-The RUX Tree component …
+#Accordion
+The RUX Accordion component â€¦
 
-RUX Tree is based on the industry standard [WebComponents v1 spec](https://html.spec.whatwg.org/multipage/custom-elements.html) and implemented with [Polymer Project 3](https://www.polymer-project.org) for backwards compatibility and document binding.
+RUX Accordion is based on the industry standard [WebComponents v1 spec](https://html.spec.whatwg.org/multipage/custom-elements.html) and implemented with [Polymer Project 3](https://www.polymer-project.org) for backwards compatibility and document binding.
 
-RUX Tree is available as a preview release and should not be used in production code.
+RUX Accordion is available as a preview release and should not be used in production code.
 
 For stylesheet usage outside of a WebComponent environment, please see [Astro UXDS Stylesheets](https://bitbucket.org/rocketcom/astro-styles)
 
 ##Guidelines
 
-* [Astro UXDS: Tree](http://www.astrouxds.com/library/tree)
+* [Astro UXDS: Accordion](https://www.astrouxds.com/ui-components/accordion)
 
 ##Installation
-<<<<<<< HEAD
-
-`npm i -S @astrouxds/rux-button`
+`npm i -S @astrouxds/rux-accordion`
 ###Dependancies
 =======
 Install the Astro Component Library.
 `git clone https://bitbucket.org/rocketcom/astro-components.git`
+
 ###Dependencies
->>>>>>> 640dab3311697257515398ffdaf617fc9873b1a5
 
 * [Polymer 3](https://www.polymer-project.com)
 * [Astro 3 Core CSS](https://bitbucket.org/rocketcom/astro-styles/src/master/)
 
 ##Usage
-###Import the RUX Tree
+###Import the RUX Accordion
 
 ```javascript
-import { RuxTree } from "@astro-components/rux-tree/rux-tree.js";
+import { RuxAccordion } from "@astro-components/rux-accordion/rux-accordion.js";
 ```
 
 ###Advanced HTML Usage
 
 ```xml
-<rux-tree></rux-tree>
+<rux-accordion>
+ <rux-accordion--baffle title="Label">
+  <slot></slot>
+ </rux-accordion--baffle>
+</rux-accordion>
 ```
 
 ###Properties
