@@ -33,10 +33,8 @@ import { RuxAccordion } from "@astro-components/rux-accordion/rux-accordion.js";
 ###Advanced HTML Usage
 
 ```xml
-<rux-accordion>
- <rux-accordion--baffle title="Label">
-  <slot></slot>
- </rux-accordion--baffle>
+<rux-accordion label="Accordion Label">
+  Accordion Content
 </rux-accordion>
 ```
 
@@ -44,4 +42,4 @@ import { RuxAccordion } from "@astro-components/rux-accordion/rux-accordion.js";
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
-|          |      |             |  |
+| label         | String     | Content for the always-visible accordion header            |  

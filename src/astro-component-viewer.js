@@ -218,12 +218,19 @@ export class AstroComponentViewer extends PolymerElement {
 
 
 .tree {
-  
   grid-row-start: 1;
+  grid-row-end: 4;
+  grid-column-start: 4;
+  grid-column-end: 7;
+}
+
+.accordion {
+  grid-row-start: 4;
   grid-row-end: 8;
   grid-column-start: 4;
   grid-column-end: 7;
 }
+
 
 .clock {
   grid-row-start: 4;
@@ -511,7 +518,7 @@ rux-global-status-bar {
 
         <rux-tabs id="main">
         
-        <rux-tab id="t1" role="tab">Elements</rux-tab>
+          <rux-tab id="t1" role="tab">Elements</rux-tab>
           <rux-tab id="t2" role="tab">Components</rux-tab>
           <rux-tab id="t6" role="tab">Icons</rux-tab>
           <rux-tab id="t3" role="tab">Widgets</rux-tab>
@@ -1113,24 +1120,41 @@ rux-global-status-bar {
               <header class="rux-card__header">
                 <h1>Status Progress</h1>
               </header>
-              
-              <input
-                value="[[statusProgressValue]]"
-                type="number"
-                step="1"
-                min="0"
-                max="100"
-                on-input="_updateStatusProgressValue"
-                
-              />
-
               <div class="rux-card__content">
+                <input
+                  value="[[statusProgressValue]]"
+                  type="number"
+                  step="1"
+                  min="0"
+                  max="100"
+                  on-input="_updateStatusProgressValue"
+                  
+                />
                 <rux-status-progress
                   min=0
                   max=100
                   val=[[statusProgressValue]]></rux-status-progress>
               </div>
             </section>
+
+
+
+            <!-- 10. ACCORDION //-->
+            <section class="rux-card accordion">
+              <header class="rux-card__header">
+                <h1>Accordion</h1>
+              </header>
+              <div class="rux-card__content">
+                <rux-accordion label="Accordion 1">
+                  I am some content HTML
+                </rux-accordion>
+                <rux-accordion label="Accordion 2">
+                  I am some other content HTML
+                </rux-accordion>
+              </div>
+            </section>
+
+
           </div>
         </rux-tab-panel>
 
@@ -1577,6 +1601,24 @@ rux-global-status-bar {
             payload: { action: 'â€¦ itâ€™s just an Object' },
           },
         ],
+      },
+    ];
+    /* ACCORDION DATA */
+    this.accordionData = [
+      {
+        _id: 'i1',
+        label: 'Item 1',
+        payload: 'Slot Content',
+      },
+      {
+        _id: 'i2',
+        label: 'Item 2',
+        payload: 'Slot 2 Content',
+      },
+      {
+        _id: 'i2',
+        label: 'Item 3',
+        payload: 'Slot 3 Content',
       },
     ];
 
