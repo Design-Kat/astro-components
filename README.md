@@ -42,7 +42,7 @@ Install NPM modules for this project
 npm i
 ```
 
-Build and hsot the site locally
+Build and host the site locally
 
 ```
 polymer serve
