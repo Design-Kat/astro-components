@@ -7,8 +7,8 @@ import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
 export class RuxAccordion extends PolymerElement {
   static get properties() {
     return {
-      label: {
-        type: String,
+      open: {
+        type: Boolean,
         notify: true
       }
     };
@@ -85,7 +85,7 @@ export class RuxAccordion extends PolymerElement {
       
       </style>
 
-      <details class="rux-accordion__item">
+      <details open$="[[ open ]]" class="rux-accordion__item">
         <summary class="rux-accordion__label">
           <slot name="label"></slot>
         </summary>

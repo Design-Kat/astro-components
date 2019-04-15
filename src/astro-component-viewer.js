@@ -1146,7 +1146,7 @@ rux-global-status-bar {
               </header>
               <div class="rux-card__content">
 
-                <rux-accordion>
+                <rux-accordion open="true">
                   <span slot="label">Accordion 1</span>
                   <span slot="content">I am some content HTML</span>
                 </rux-accordion>
