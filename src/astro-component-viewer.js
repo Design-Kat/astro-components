@@ -29,6 +29,7 @@ import {RuxIcon} from '../packages/rux-icon/rux-icon.js';
 import {RuxTimeline} from '../packages/rux-timeline/rux-timeline.js';
 
 import {LitClock} from '../packages/lit-clock/lit-clock.js';
+import {LitTimeline} from '../packages/lit-timeline/lit-timeline.js';
 
 /* eslint-enable no-unused-vars */
 
@@ -67,6 +68,7 @@ export class AstroComponentViewer extends PolymerElement {
         <lit-clock></lit-clock>
       </rux-global-status-bar>
 
+      <lit-timeline id="litTimeline" tracks="[[multiTrack]]"></lit-timeline>
       <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline>
     `;
   }
