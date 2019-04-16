@@ -1,25 +1,29 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 
-import { RuxIcon } from '../../packages/rux-icon/rux-icon.js';
-import { RuxAccordion } from '../packages/rux-accordion/rux-accordion.js';
-import { RuxButton } from '../packages/rux-button/rux-button.js';
-import { RuxClock } from '../packages/rux-clock/rux-clock.js';
-import { RuxGlobalStatusBar } from '../packages/rux-global-status-bar/rux-global-status-bar.js';
-import { RuxLog } from '../packages/rux-log/rux-log.js';
-import { RuxModal } from '../packages/rux-modal/rux-modal.js';
-import { RuxNotification } from '../packages/rux-notification/rux-notification.js';
-import { RuxPopUpMenu } from '../packages/rux-pop-up-menu/rux-pop-up-menu.js';
-import { RuxProgress } from '../packages/rux-progress/rux-progress.js';
-import { RuxPushButton } from '../packages/rux-push-button/rux-push-button.js';
-import { RuxSegmentedButton } from '../packages/rux-segmented-button/rux-segmented-button.js';
-import { RuxSlider } from '../packages/rux-slider/rux-slider.js';
-import { RuxSpectrumAnalyzer } from '../packages/rux-spectrum-analyzer/rux-spectrum-analyzer.js';
-import { RuxStatus } from '../packages/rux-status/rux-status.js';
-import { RuxTimeline } from '../packages/rux-timeline/rux-timeline.js';
-import { RuxToggle } from '../packages/rux-toggle/rux-toggle.js';
-import { RuxTabs } from '../packages/rux-tabs/rux-tabs.js';
-import { RuxTree } from '../packages/rux-tree/rux-tree.js';
+/* eslint-disable no-unused-vars */
+import {RuxIcon} from '../../packages/rux-icon/rux-icon.js';
+import {RuxAccordion} from '../packages/rux-accordion/rux-accordion.js';
+import {RuxButton} from '../packages/rux-button/rux-button.js';
+import {RuxClock} from '../packages/rux-clock/rux-clock.js';
+import {RuxGlobalStatusBar} from '../packages/rux-global-status-bar/rux-global-status-bar.js';
+import {RuxLog} from '../packages/rux-log/rux-log.js';
+import {RuxModal} from '../packages/rux-modal/rux-modal.js';
+import {RuxNotification} from '../packages/rux-notification/rux-notification.js';
+import {RuxPopUpMenu} from '../packages/rux-pop-up-menu/rux-pop-up-menu.js';
+import {RuxProgress} from '../packages/rux-progress/rux-progress.js';
+import {RuxPushButton} from '../packages/rux-push-button/rux-push-button.js';
+import {RuxSegmentedButton} from '../packages/rux-segmented-button/rux-segmented-button.js';
+import {RuxSlider} from '../packages/rux-slider/rux-slider.js';
+import {RuxSpectrumAnalyzer} from '../packages/rux-spectrum-analyzer/rux-spectrum-analyzer.js';
+import {RuxStatus} from '../packages/rux-status/rux-status.js';
+import {RuxTimeline} from '../packages/rux-timeline/rux-timeline.js';
+import {RuxToggle} from '../packages/rux-toggle/rux-toggle.js';
+import {RuxTabs} from '../packages/rux-tabs/rux-tabs.js';
+import {RuxTree} from '../packages/rux-tree/rux-tree.js';
+import {LitClock} from '../packages/lit-clock/lit-clock.js';
+
+/* eslint-enable no-unused-vars */
 
 /**
  * @polymer
@@ -73,20 +77,18 @@ export class AstroComponentViewer extends PolymerElement {
         padding: 0 1.5rem;
         
       }
-	
-	.astro-elements-pane h1 {
 
-    
-    font-size: 1.5rem;
-		padding: 0.5rem;
-		margin: 0 0 1rem 0;
-		background-color: var(--paneHeaderBackgroundColor);
-		color: var(--textColor);
-	
-		position: -webkit-sticky;
-		position: sticky;
-		top: 0; 
-  }
+      .astro-elements-pane h1 {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+        margin: 0 0 1rem 0;
+        background-color: var(--paneHeaderBackgroundColor);
+        color: var(--textColor);
+
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0; 
+    }
   
 
   /* grid definitions */
@@ -512,33 +514,17 @@ rux-global-status-bar {
         <rux-tabs id="main">
         
         <rux-tab id="t1" role="tab">Elements</rux-tab>
-          <rux-tab id="t2" role="tab">Components</rux-tab>
+         <!--  <rux-tab id="t2" role="tab">Components</rux-tab>
           <rux-tab id="t6" role="tab">Icons</rux-tab>
           <rux-tab id="t3" role="tab">Widgets</rux-tab>
           <rux-tab id="t5" role="tab">Typography</rux-tab>
-          <rux-tab id="t4" role="tab">Colors</rux-tab>
+          <rux-tab id="t4" role="tab">Colors</rux-tab> -->
         </rux-tabs>
 
+        <rux-clock></rux-clock>
+        <lit-clock></lit-clock>
 
-
-        <ul class="astro-advanced-status-indicators">
-          <dom-repeat id="astroAdvancedStatus" items="{{statusIndicators}}">
-            <template>
-              <li>
-                <rux-status status=[[item.status]] label=[[item.label]] sublabel="sub label" icon=[[item.icon]] notifications=[[item.notifications]]
-                on-click="_showPopUp"></rux-status>
-              </li>
-
-            </template>
-          </dom-repeat>
-          <li>
-            <rux-status label="Notifications" icon="utility:notifications" notifications=5 active></rux-status>
-          </li>
-          <li>
-            <rux-status label="Settings" icon="utility:settings"></rux-status>
-          </li>
-          </li>
-        </ul>
+       
 
         <rux-segmented-button data={{theme}}>
         </rux-segmented-button>
@@ -911,7 +897,11 @@ rux-global-status-bar {
                 <h1>Slider</h1>
               </header>
               <div class="rux-card__content">
-                <rux-slider axis-labels=[[sliderObjThree.labels]] min=0 max=100 val={{sliderObjThree.value}}></rux-slider>
+                <rux-slider 
+                  axis-labels=[[sliderObjThree.labels]] 
+                  min=0 
+                  max=100 
+                  val={{sliderObjThree.value}}></rux-slider>
               </div>
             </section>
 
@@ -1017,14 +1007,12 @@ rux-global-status-bar {
 
                 <rux-button class="rux-launch-button" on-click="_launchModal">Launch Modal</rux-button>
 
-                <!--
-                    <figcaption>
-                      <p>Iâ€™m just sitting here listening for a modal window event: <span class="look">[[modalMessage]]</span></p>
-                    </figcaption>
-                    //-->
 
-                <rux-modal message="Release Modem 2 on slice 1000 for deactivation. Releasing this modem cannot be undone."
-                confirm-text="Release" deny-text="Cancel" opened></rux-modal>
+                <rux-modal 
+                  message="Release Modem 2 on slice 1000 for deactivation. Releasing this modem cannot be undone."
+                  confirm-text="Release" 
+                  deny-text="Cancel" 
+                  opened></rux-modal>
               </div>
             </section>
 
@@ -1050,23 +1038,44 @@ rux-global-status-bar {
               <div class="rux-card__content">
                 <ul class="no-list advanced-status-list">
                   <li>
-                    <rux-status status="off" label="Mission" icon="monitoring:mission" notifications=0></rux-status>
+                    <rux-status 
+                      status="off" 
+                      label="Mission" 
+                      icon="monitoring:mission" 
+                      notifications=0></rux-status>
                   </li>
                   <li>
-                    <rux-status label="Equipment" progress=[[statusProgressValue]]></rux-status>
-                    <!-- <rux-status status="standby" label="Equipment" icon="monitoring:equipment" notifications=1></rux-status> //-->
+                    <rux-status 
+                      label="Equipment" 
+                      progress=[[statusProgressValue]]></rux-status>
                   </li>
                   <li>
-                    <rux-status status="normal" label="Processor" icon="monitoring:processor" notifications=10></rux-status>
+                    <rux-status 
+                      status="normal" 
+                      label="Processor" 
+                      icon="monitoring:processor" n
+                      otifications=10></rux-status>
                   </li>
                   <li>
-                    <rux-status status="caution" label="Antenna" icon="monitoring:antenna-off" notifications=100></rux-status>
+                    <rux-status 
+                      status="caution" 
+                      label="Antenna" 
+                      icon="monitoring:antenna-off" 
+                      notifications=100></rux-status>
                   </li>
                   <li>
-                    <rux-status status="serious" label="Ant" icon="monitoring:antenna-transmit" notifications=1000 active></rux-status>
+                    <rux-status 
+                      status="serious" 
+                      label="Ant" 
+                      icon="monitoring:antenna-transmit" 
+                      notifications=1000 active></rux-status>
                   </li>
                   <li>
-                    <rux-status status="critical" label="Ant" icon="monitoring:antenna-receive" notifications=1000000 active></rux-status>
+                    <rux-status 
+                      status="critical" 
+                      label="Ant" 
+                      icon="monitoring:antenna-receive" 
+                      notifications=1000000 active></rux-status>
                   </li>
                 </ul>
               </div>
@@ -1326,22 +1335,46 @@ rux-global-status-bar {
 
                 <ul class="no-list advanced-status-list">
                   <li>
-                    <rux-status status="off" label="Mission" icon="monitoring:mission" notifications=0></rux-status>
+                    <rux-status 
+                      status="off" 
+                      label="Mission" 
+                      icon="monitoring:mission" 
+                      notifications=0></rux-status>
                   </li>
                   <li>
-                    <rux-status status="standby" label="Equipment" icon="monitoring:equipment" notifications=1></rux-status>
+                    <rux-status 
+                      status="standby" 
+                      label="Equipment" 
+                      icon="monitoring:equipment" 
+                      notifications=1></rux-status>
                   </li>
                   <li>
-                    <rux-status status="normal" label="Processor" icon="monitoring:processor" notifications=10></rux-status>
+                    <rux-status 
+                      status="normal" 
+                      label="Processor" 
+                      icon="monitoring:processor" 
+                      notifications=10></rux-status>
                   </li>
                   <li>
-                    <rux-status status="caution" label="Antenna" icon="monitoring:antenna-off" notifications=100></rux-status>
+                    <rux-status 
+                      status="caution" 
+                      label="Antenna" 
+                      icon="monitoring:antenna-off"
+                       notifications=100></rux-status>
                   </li>
                   <li>
-                    <rux-status status="serious" label="Ant" icon="monitoring:antenna-transmit" notifications=1000 active></rux-status>
+                    <rux-status 
+                      status="serious" 
+                      label="Ant" 
+                      icon="monitoring:antenna-transmit"
+                      notifications=1000 active></rux-status>
                   </li>
                   <li>
-                    <rux-status status="critical" label="Ant" icon="monitoring:antenna-receive" notifications=1000000 active></rux-status>
+                    <rux-status 
+                      status="critical" 
+                      label="Ant" 
+                      icon="monitoring:antenna-receive"
+                      notifications=1000000 active></rux-status>
                   </li>
                 </ul>
             </section>
@@ -1502,7 +1535,7 @@ rux-global-status-bar {
     return ['_themeChanged(theme.*)'];
   }
 
-  _themeChanged(newValue, oldValue) {
+  _themeChanged(newValue) {
     const body = document.getElementsByTagName('body')[0];
 
     body.classList.remove(this.selectedTheme);
@@ -1515,9 +1548,9 @@ rux-global-status-bar {
 
     this.selectedTheme = null;
     this.theme = [
-      { label: 'None', theme: 'no-theme' },
-      { label: 'Dark', theme: 'dark-theme' },
-      { label: 'Light', theme: 'light-theme' },
+      {label: 'None', theme: 'no-theme'},
+      {label: 'Dark', theme: 'dark-theme'},
+      {label: 'Light', theme: 'light-theme'},
     ];
 
     /* SEGMENTED BUTTON DATA */
@@ -1544,25 +1577,25 @@ rux-global-status-bar {
       {
         _id: 'i1',
         label: 'Item 1',
-        payload: { action: 'this could be anythingÂ â€¦' },
+        payload: {action: 'this could be anythingÂ â€¦'},
         children: [
-          { _id: 'i1-1', label: 'Child 1', payload: { action: 'â€¦Â an id' } },
+          {_id: 'i1-1', label: 'Child 1', payload: {action: 'â€¦Â an id'}},
           {
             _id: 'i1-2',
             label: 'Child 2',
-            payload: { action: 'â€¦ a method call to be interpreted' },
+            payload: {action: 'â€¦ a method call to be interpreted'},
           },
         ],
       },
       {
         _id: 'i4',
         label: 'Item 4',
-        payload: { action: 'Works on items with no children' },
+        payload: {action: 'Works on items with no children'},
       },
       {
         _id: 'i2',
         label: 'Item 3',
-        payload: { action: 'Just use the paylod property â€¦' },
+        payload: {action: 'Just use the paylod property â€¦'},
         children: [
           {
             _id: 'i2-1',
@@ -1574,7 +1607,7 @@ rux-global-status-bar {
           {
             _id: 'i2-2',
             label: 'Child 1.2',
-            payload: { action: 'â€¦ itâ€™s just an Object' },
+            payload: {action: 'â€¦ itâ€™s just an Object'},
           },
         ],
       },
@@ -1873,7 +1906,7 @@ rux-global-status-bar {
   }
 
   disconnectedCallback() {
-    suer.disconnectedCallback();
+    super.disconnectedCallback();
   }
 
   ready() {
