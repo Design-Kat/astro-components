@@ -1,4 +1,4 @@
-import { html, PolymerElement } from "@polymer/polymer/polymer-element.js";
+import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 // import { RuxIcon } from "/src/astro-components/rux-icon/rux-icon.js";
 // import "./rux-icons-svg.js";
 /**
@@ -10,36 +10,36 @@ export class RuxStatus extends PolymerElement {
     return {
       status: {
         type: String,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
       label: {
         type: String,
-        value: false
+        value: false,
       },
       sublabel: {
-        type: String
+        type: String,
       },
       notifications: {
-        type: Number
+        type: Number,
       },
       icon: {
-        type: String
+        type: String,
       },
       progress: {
         type: Number,
         value: false,
-        observer: "setProgress"
+        observer: 'setProgress',
       },
       _notifications: {
         type: String,
         value: null,
-        computed: "_filterNotifications(notifications)"
+        computed: '_filterNotifications(notifications)',
       },
       advanced: {
         type: Boolean,
         value: false,
-        computed: "_isAdvanced()"
-      }
+        computed: '_isAdvanced()',
+      },
     };
   }
 
@@ -114,7 +114,7 @@ export class RuxStatus extends PolymerElement {
         }
 
         :host .rux-advanced-status__icon::before {
-          content: "";
+          content: '';
           display: block;
           position: relative;
           margin-bottom: -12px;
@@ -124,25 +124,42 @@ export class RuxStatus extends PolymerElement {
           background-repeat: no-repeat;
         }
 
-        :host([status="off"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusOff, url(""data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%223%22%20fill%3D%22%238C9AA3%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='off']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusOff,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%223%22%20fill%3D%22%238C9AA3%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-        :host([status="standby"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusStandby, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%224.5%22%20fill%3D%22none%22%20stroke%3D%22%231EDCFF%22%20stroke-width%3D%223%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='standby']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusStandby,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%224.5%22%20fill%3D%22none%22%20stroke%3D%22%231EDCFF%22%20stroke-width%3D%223%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-        :host([status="normal"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusNormal, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%226%22%20fill%3D%22%2300E600%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='normal']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusNormal,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%226%22%20fill%3D%22%2300E600%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-        :host([status="caution"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusCaution, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFD800%22%20fill-rule%3D%22evenodd%22%20d%3D%22M2%204H14V12H2z%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='caution']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusCaution,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFD800%22%20fill-rule%3D%22evenodd%22%20d%3D%22M2%204H14V12H2z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-        :host([status="serious"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusSerious, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFAB00%22%20fill-rule%3D%22evenodd%22%20d%3D%22M3%203H12V12H3z%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='serious']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusSerious,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFAB00%22%20fill-rule%3D%22evenodd%22%20d%3D%22M3%203H12V12H3z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-        :host([status="critical"]) .rux-advanced-status__icon::before {
-          background-image: var(--statusCritical, url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22red%22%20fill-rule%3D%22evenodd%22%20d%3D%22M15%2013.667L1%2013.667%208%202z%22%2F%3E%0A%3C%2Fsvg%3E%0A"));
+        :host([status='critical']) .rux-advanced-status__icon::before {
+          background-image: var(
+            --statusCritical,
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22red%22%20fill-rule%3D%22evenodd%22%20d%3D%22M15%2013.667L1%2013.667%208%202z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
+          );
         }
-
 
         .progress {
           transition: stroke-dashoffset 0.367s, stroke 0.367s;
@@ -150,29 +167,24 @@ export class RuxStatus extends PolymerElement {
           transform-origin: 50% 50%;
         }
 
-        :host([status="off"]) .progress {
-          stroke: var(--colorOff)
+        :host([status='off']) .progress {
+          stroke: var(--colorOff);
         }
-        :host([status="standby"])  .progress {
-          stroke: var(--colorStandby)
+        :host([status='standby']) .progress {
+          stroke: var(--colorStandby);
         }
-        :host([status="normal"])  .progress {
-          stroke: var(--colorNormal)
+        :host([status='normal']) .progress {
+          stroke: var(--colorNormal);
         }
-        :host([status="caution"])  .progress {
-          stroke: var(--colorCaution)
+        :host([status='caution']) .progress {
+          stroke: var(--colorCaution);
         }
-        :host([status="serious"])  .progress {
-          stroke: var(--colorSerious)
+        :host([status='serious']) .progress {
+          stroke: var(--colorSerious);
         }
-        :host([status="critical"]) .progress {
-          stroke: var(--colorCritical)
+        :host([status='critical']) .progress {
+          stroke: var(--colorCritical);
         }
-
-
-
-
-
 
         .rux-advanced-status__badge {
           display: block;
@@ -194,9 +206,6 @@ export class RuxStatus extends PolymerElement {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-
-
-
 
         .rux-advanced-status__label {
           text-align: center;
@@ -246,7 +255,6 @@ export class RuxStatus extends PolymerElement {
           fill: var(--colorCritical, rgb(255, 56, 56));
         }
 
-
         .rux-advanced-status__icon.style-scope {
           height: 44px !important;
           width: 44px !important;
@@ -254,7 +262,6 @@ export class RuxStatus extends PolymerElement {
 
         /* .rux-status  */
         .rux-status-indicator {
-
           font-size: 1rem;
 
           line-height: 1;
@@ -262,7 +269,7 @@ export class RuxStatus extends PolymerElement {
           vertical-align: middle;
           text-align: center;
 
-           height: 16px;
+          height: 16px;
           width: 16px;
 
           margin: 2px;
@@ -272,7 +279,7 @@ export class RuxStatus extends PolymerElement {
         /* Icon */
         .rux-status-indicator::before,
         .rux-status::before {
-          content: "";
+          content: '';
           display: inline-block;
 
           height: 16px;
@@ -288,7 +295,7 @@ export class RuxStatus extends PolymerElement {
         .rux-status--off .rux-advanced-status__icon::before {
           background-image: var(
             --statusOff,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%223%22%20fill%3D%22%238C9AA3%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%223%22%20fill%3D%22%238C9AA3%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
         }
 
@@ -296,7 +303,7 @@ export class RuxStatus extends PolymerElement {
         .rux-status--standby .rux-advanced-status__icon::before {
           background-image: var(
             --statusStandby,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%224.5%22%20fill%3D%22none%22%20stroke%3D%22%231EDCFF%22%20stroke-width%3D%223%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%224.5%22%20fill%3D%22none%22%20stroke%3D%22%231EDCFF%22%20stroke-width%3D%223%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
         }
 
@@ -306,7 +313,7 @@ export class RuxStatus extends PolymerElement {
         .rux-status--ok .rux-advanced-status__icon::before {
           background-image: var(
             --statusNormal,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%226%22%20fill%3D%22%2300E600%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Ccircle%20cx%3D%228%22%20cy%3D%228%22%20r%3D%226%22%20fill%3D%22%2300E600%22%20fill-rule%3D%22evenodd%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
           /* background-position: 1px 1px; */
         }
@@ -315,7 +322,7 @@ export class RuxStatus extends PolymerElement {
         .rux-status--caution .rux-advanced-status__icon::before {
           background-image: var(
             --statusCaution,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFD800%22%20fill-rule%3D%22evenodd%22%20d%3D%22M2%204H14V12H2z%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFD800%22%20fill-rule%3D%22evenodd%22%20d%3D%22M2%204H14V12H2z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
           /* background-position: 1px 1px; */
         }
@@ -326,7 +333,7 @@ export class RuxStatus extends PolymerElement {
         .rux-status--error .rux-advanced-status__icon::before {
           background-image: var(
             --statusSerious,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFAB00%22%20fill-rule%3D%22evenodd%22%20d%3D%22M3%203H12V12H3z%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22%23FFAB00%22%20fill-rule%3D%22evenodd%22%20d%3D%22M3%203H12V12H3z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
           /* margin-top: 1px; */
           transform: rotate(45deg);
@@ -339,15 +346,13 @@ export class RuxStatus extends PolymerElement {
         .rux-status--emergency .rux-advanced-status__icon::before {
           background-image: var(
             --statusCritical,
-            url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22red%22%20fill-rule%3D%22evenodd%22%20d%3D%22M15%2013.667L1%2013.667%208%202z%22%2F%3E%0A%3C%2Fsvg%3E%0A")
+            url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%3E%0A%20%20%3Cpath%20fill%3D%22red%22%20fill-rule%3D%22evenodd%22%20d%3D%22M15%2013.667L1%2013.667%208%202z%22%2F%3E%0A%3C%2Fsvg%3E%0A')
           );
           transform: rotate(180deg);
           background-position: 0 -1px;
         }
 
-
         .rux-advanced-status__progress {
-
           font-family: var(--fontFamilyMono);
           font-size: 0.8rem;
           position: absolute;
@@ -361,7 +366,6 @@ export class RuxStatus extends PolymerElement {
         .rux-advanced-status__badge.style-scope {
           display: inline;
           padding: 0;
-          width: auto;
           text-align: center;
           line-height: normal;
         }
@@ -404,17 +408,12 @@ export class RuxStatus extends PolymerElement {
         </div>
 
         <div class="rux-advanced-status__label" hidden="[[!label]]">
-          [[label]]<span class="rux-advanced-status__label__sub-label"
-            >[[sublabel]]</span
-          >
+          [[label]]<span class="rux-advanced-status__label__sub-label">[[sublabel]]</span>
         </div>
       </div>
 
       <!-- Use simple status if no other properties are set //-->
-      <div
-        class$="rux-status-indicator rux-status--[[status]]"
-        hidden="[[advanced]]"
-      ></div>
+      <div class$="rux-status-indicator rux-status--[[status]]" hidden="[[advanced]]"></div>
     `;
   }
 
@@ -430,17 +429,13 @@ export class RuxStatus extends PolymerElement {
 
     // set a progress icon if the progress value is set
     if (this.progress >= 0 && !this.icon) {
-      this.icon = "utility:progress";
+      this.icon = 'utility:progress';
     }
 
     // Find if this is a progress element and if so create
     // a refernce to the underlying SVG, then set the progress
-    var statusIcon = this.shadowRoot.querySelector(
-      ".rux-advanced-status__icon"
-    );
-    this.progressCircleElement = statusIcon.shadowRoot.querySelector(
-      ".progress-ring__circle"
-    );
+    const statusIcon = this.shadowRoot.querySelector('.rux-advanced-status__icon');
+    this.progressCircleElement = statusIcon.shadowRoot.querySelector('.progress-ring__circle');
     if (this.progressCircleElement) {
       this.setProgress();
     }
@@ -455,47 +450,39 @@ export class RuxStatus extends PolymerElement {
   }
 
   _isProgress() {
-    return this.progress > 1 ? "progress" : "";
+    return this.progress > 1 ? 'progress' : '';
   }
 
   setProgress() {
     if (this.progress > 0 && this.progress < 25) {
-      this.status = "critical";
+      this.status = 'critical';
     } else if (this.progress >= 25 && this.progress < 50) {
-      this.status = "serious";
+      this.status = 'serious';
     } else if (this.progress >= 50 && this.progress < 75) {
-      this.status = "caution";
+      this.status = 'caution';
     } else if (this.progress >= 75) {
-      this.status = "normal";
+      this.status = 'normal';
     }
 
-    this._progress =
-      this._circumference - (this.progress / 100) * this._circumference;
+    this._progress = this._circumference - (this.progress / 100) * this._circumference;
 
     if (this.progressCircleElement) {
-      this.progressCircleElement.setAttribute(
-        "style",
-        `stroke-dashoffset:${this._progress}`
-      );
+      this.progressCircleElement.setAttribute('style', `stroke-dashoffset:${this._progress}`);
     }
   }
 
   _isAdvanced() {
-    if (
-      this.label ||
-      this.icon ||
-      this.notifications ||
-      this.progress ||
-      this.icon
-    )
+    if (this.label || this.icon || this.notifications || this.progress || this.icon) {
       return true;
+    }
   }
 
   _filterNotifications(n) {
-    if (isNaN(n))
+    if (isNaN(n)) {
       console.error(`${this.label}'s notification count is not a number`);
+    }
 
-    let _n = Math.floor(n);
+    const _n = Math.floor(n);
 
     // don't show any values less than 0
     if (_n <= 0) return null;
@@ -510,17 +497,17 @@ export class RuxStatus extends PolymerElement {
     let _message = _n;
 
     if (_trillion >= 1) {
-      _message = "∞";
+      _message = '∞';
     } else if (_billion >= 1) {
-      _message = _billion.toFixed(1).toString() + "b";
+      _message = _billion.toFixed(1).toString() + 'b';
     } else if (_million >= 1) {
-      _message = _million.toFixed(1).toString() + "m";
+      _message = _million.toFixed(1).toString() + 'm';
     } else if (_thousand >= 1) {
-      _message = _thousand + "k";
+      _message = _thousand + 'k';
     }
 
     return _message;
   }
 }
 
-customElements.define("rux-status", RuxStatus);
+customElements.define('rux-status', RuxStatus);

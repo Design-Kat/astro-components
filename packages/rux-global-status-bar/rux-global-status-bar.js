@@ -1,4 +1,4 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 // import { RuxButton } from "../rux-button/rux-button.js";
 /**
  * @polymer
@@ -117,16 +117,16 @@ export class RuxGlobalStatusBar extends PolymerElement {
     // something like tabs inside of a global status each one
     // would implement an override
     if (this.theme) {
-      for (let slot of this.children) {
+      for (const slot of this.children) {
         slot.classList.add(`${this.theme}-theme`);
       }
     }
   }
   _masterOff() {
     window.dispatchEvent(
-      new CustomEvent('master-off', {
-        detail: { off: 'yo' },
-      }),
+        new CustomEvent('master-off', {
+          detail: {off: 'yo'},
+        })
     );
   }
   ready() {

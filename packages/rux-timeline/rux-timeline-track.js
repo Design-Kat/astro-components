@@ -1,6 +1,8 @@
-import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
-import { RuxTimelineRegion } from "./rux-timeline-region.js";
-import "@polymer/polymer/lib/elements/dom-repeat.js";
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
+/* eslint-disable no-unused-vars */
+import {RuxTimelineRegion} from './rux-timeline-region.js';
+/* eslint-enable no-unused-vars */
 
 /**
  * @polymer
@@ -12,38 +14,38 @@ export class RuxTimelineTrack extends PolymerElement {
       id: {
         type: String,
         value: () => {
-          return "RTT-" + Math.floor(Math.random() * 1000);
-        }
+          return 'RTT-' + Math.floor(Math.random() * 1000);
+        },
       },
       index: {
         type: Number,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
       regions: {
-        type: Array
+        type: Array,
       },
       test: {
-        type: String
+        type: String,
       },
       label: {
-        type: String
+        type: String,
       },
       scale: {
-        type: Number
+        type: Number,
       },
       duration: {
-        type: Number
+        type: Number,
       },
       selectedRegion: {
         type: Object,
         notify: true,
-        observer: "_regionChanged"
+        observer: '_regionChanged',
       },
       selected: {
         type: Boolean,
         value: false,
-        reflectToAttribute: true
-      }
+        reflectToAttribute: true,
+      },
     };
   }
 
@@ -147,17 +149,15 @@ export class RuxTimelineTrack extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.trackWidth = this.shadowRoot.querySelectorAll(
-      ".rux-timeline__track"
-    )[0].offsetWidth;
+    this.trackWidth = this.shadowRoot.querySelectorAll('.rux-timeline__track')[0].offsetWidth;
 
-    this.addEventListener("update", this._windowListener);
+    this.addEventListener('update', this._windowListener);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener("update", this._windowListener);
+    this.removeEventListener('update', this._windowListener);
   }
 
   ready() {
@@ -169,10 +169,10 @@ export class RuxTimelineTrack extends PolymerElement {
 
   _resetSelected() {
     // reset any region that may be selected
-    this.shadowRoot.querySelectorAll("rux-timeline-region").forEach(region => {
+    this.shadowRoot.querySelectorAll('rux-timeline-region').forEach((region) => {
       if (!this.selectedRegion) return;
       if (region._id !== this.selectedRegion._id) {
-        region.removeAttribute("selected");
+        region.removeAttribute('selected');
       }
     });
   }
@@ -190,34 +190,31 @@ export class RuxTimelineTrack extends PolymerElement {
     // composed tracks have a single loop to add regions, expanded
     // tracks have a loop to create the subtrack, then nested loop
     // to create the reqions.
-    const _model = e.model ? e.model.pass : e.subitem;
+    // const _model = e.model ? e.model.pass : e.subitem;
 
-    if (_region.hasAttribute("selected")) {
+    if (_region.hasAttribute('selected')) {
       this._resetSelected();
       this.selectedRegion = {};
     } else {
       this._resetSelected();
-      _region.setAttribute("selected", "");
+      _region.setAttribute('selected', '');
 
       const now = new Date();
       const utcNow = new Date(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(),
-        now.getUTCHours(),
-        now.getUTCMinutes(),
-        now.getUTCSeconds()
+          now.getUTCFullYear(),
+          now.getUTCMonth(),
+          now.getUTCDate(),
+          now.getUTCHours(),
+          now.getUTCMinutes(),
+          now.getUTCSeconds()
       );
 
-      let temporality = "past";
+      let temporality = 'past';
 
-      if (
-        utcNow.getTime() > _region.startTime &&
-        utcNow.getTime() < _region.endTime
-      ) {
-        temporality = "present";
+      if (utcNow.getTime() > _region.startTime && utcNow.getTime() < _region.endTime) {
+        temporality = 'present';
       } else if (utcNow.getTime() < _region.startTime) {
-        temporality = "future";
+        temporality = 'future';
       }
 
       this.selectedRegion = {
@@ -228,7 +225,7 @@ export class RuxTimelineTrack extends PolymerElement {
         endTime: _region.endTime,
         detail: _region.detail,
         durationMins: _region.durationMins,
-        temporality: temporality
+        temporality: temporality,
       };
     }
   }
@@ -238,9 +235,7 @@ export class RuxTimelineTrack extends PolymerElement {
   }
 
   _onWindowResize() {
-    this.trackWidth = this.shadowRoot.querySelectorAll(
-      ".rux-timeline__track"
-    )[0].offsetWidth;
+    this.trackWidth = this.shadowRoot.querySelectorAll('.rux-timeline__track')[0].offsetWidth;
   }
 }
-customElements.define("rux-timeline-track", RuxTimelineTrack);
+customElements.define('rux-timeline-track', RuxTimelineTrack);

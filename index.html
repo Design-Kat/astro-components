@@ -9,100 +9,13 @@
   <meta name="description" content="Sample application using the Astro Design System">
 
   <!-- Global Styles //-->
-  <link rel="stylesheet" href="/public/css/astro.core.css">
+  <link rel="stylesheet" href="/css/astro.core.css">
 
   <!-- Load WebComponent Polyfill //-->
   <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
 
-  <style>
-    .dark-theme {
-      --sampleLinkColor: rgba(255, 255, 255, .5);
-      --sampleLinkHoverColor: rgba(255, 255, 255, 1);
-    }
-
-    .light-theme {
-      --sampleLinkColor: rgba(0, 0, 0, .5);
-      --sampleLinkHoverColor: rgba(0, 0, 0, 1);
-    }
-
-    ::-webkit-scrollbar {
-  width: 18px;
-  height: 18px;
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollBarThumbBackgroundColor, rgb(46, 103, 153));
-  border-radius: 10px;
-  border: 3px solid transparent;
-  background-clip: padding-box;
-}
-/* visually "centers" because the dark edge of the shadow gives the illusion this is offset */
-::-webkit-scrollbar-thumb:vertical {
-  border-left-width: 4px;
-}
-
-::-webkit-scrollbar-thumb:horizontal {
-  border-top-width: 4px;
-}
-
-::-webkit-scrollbar-thumb:active,
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(
-    --scrollBarThumbBackgroundHoverColor,
-    rgb(58, 129, 191)
-  );
-}
-
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
-  background-color: var(--scrollBarTrackCornerBackgroundColor, rgb(32, 50, 70));
-}
-::-webkit-scrollbar-track:vertical {
-  -webkit-box-shadow: inset 2px 0 4px rgba(0, 0, 0, 0.15);
-}
-::-webkit-scrollbar-track:horizontal {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-  </style>
   <!-- Load Astro App //-->
-  <script type="module" src="src/astro-component-viewer.js"></script>
-  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script> -->
-
-  <script>
-
-    /* Quick and dirty theme switcher */
-    document.addEventListener('DOMContentLoaded', () => {
-      // get all theme switching radio buttons
-      const radios = Array.from(document.querySelectorAll('.theme-switcher'));
-      // get the body
-      const body = document.getElementsByTagName('body')[0];
-
-      // add an event listener to all radio buttons
-      radios.forEach(radio => {
-        radio.addEventListener('change', event => {
-
-          // remove all themese
-          body.classList = [];
-
-          // get the theme value from the radio button
-          let theme = event.currentTarget.value;
-
-          // if anything other than the default theme is selected
-          // concatenate and set body class to that theme
-          if (theme !== 'default') {
-            body.classList.add(`${theme}-theme`);
-          }
-        })
-      })
-    }, false);
-
-    toggleTheme = function () {
-      alert('toggle theme')
-      const body = document.getElementsByTagName('html')[0];
-    }
-  </script>
-
+  <script type="module" src="app.bundle.js" crossorigin></script>
 </head>
 
 <body class="dark-theme">

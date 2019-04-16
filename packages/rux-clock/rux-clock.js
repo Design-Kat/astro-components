@@ -1,4 +1,4 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 /**
  * @polymer
  * @extends HTMLElement
@@ -175,7 +175,7 @@ export class RuxClock extends PolymerElement {
     super.connectedCallback();
 
     // start the time
-    let _timer = setInterval(() => {
+    this._timer = setInterval(() => {
       this._updateTime();
     }, 1000);
 
@@ -209,7 +209,7 @@ export class RuxClock extends PolymerElement {
    **
    */
   _setTimeOptions(hideTimezone) {
-    let _timeOptions = {
+    const _timeOptions = {
       hour12: false,
       timeZone: this.timezone,
     };
@@ -236,7 +236,7 @@ export class RuxClock extends PolymerElement {
       _now = this._getUTCDateFrom(_now);
     }
 
-    let _day = Math.round((_now - _year) / this._oneDay);
+    const _day = Math.round((_now - _year) / this._oneDay);
 
     // May need to polyfill or find an alternate option for .padStart IE11 doesnâ€™t support
     return _day.toString().padStart(3, '000');

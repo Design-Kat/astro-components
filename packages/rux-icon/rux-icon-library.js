@@ -1,4 +1,4 @@
-import { PolymerElement } from "@polymer/polymer/polymer-element.js";
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 /**
  * @polymer
  * @extends HTMLElement
@@ -8,11 +8,11 @@ export class RuxIconLibrary extends PolymerElement {
     return {
       name: {
         type: String,
-        observer: "_nameChanged"
+        observer: '_nameChanged',
       },
       size: {
-        type: String
-      }
+        type: String,
+      },
     };
   }
   constructor() {
@@ -23,11 +23,11 @@ export class RuxIconLibrary extends PolymerElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener("set-icon", this._updateIconListener);
+    window.addEventListener('set-icon', this._updateIconListener);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener("set-icon", this._updateIconListener);
+    window.removeEventListener('set-icon', this._updateIconListener);
   }
   ready() {
     super.ready();
@@ -37,19 +37,16 @@ export class RuxIconLibrary extends PolymerElement {
    Needs a rewrite
    */
   _setIcon(e) {
-    let _icon = e.detail;
-    if (_icon.icon == "") return;
+    const _icon = e.detail;
+    if (_icon.icon == '') return;
 
     if (this.name && _icon.library && this.name === _icon.library) {
       if (_icon.size) {
         if (parseInt(_icon.size)) {
-          let iconSize = _icon.size + "px";
-          e.detail.el.setAttribute(
-            "style",
-            `height:${iconSize}; width:${iconSize}`
-          );
+          const iconSize = _icon.size + 'px';
+          e.detail.el.setAttribute('style', `height:${iconSize}; width:${iconSize}`);
         } else {
-          let iconSize = `rux-icon--${_icon.size}`;
+          const iconSize = `rux-icon--${_icon.size}`;
           e.detail.el.classList.add(iconSize);
         }
       }
@@ -60,29 +57,30 @@ export class RuxIconLibrary extends PolymerElement {
 
       // if no icon exists then put
       if (!sourceSvg) {
-        sourceSvg = this.querySelectorAll("#fpo")[0];
+        sourceSvg = this.querySelectorAll('#fpo')[0];
         console.error(`No icon for "${_icon.icon}" exists in the SVG library`);
       }
 
-      if (!this.size) this.size = "128";
-      let content = sourceSvg.cloneNode(true);
+      if (!this.size) this.size = '128';
+      const content = sourceSvg.cloneNode(true);
 
       if (_icon.color) {
-        content.setAttribute("fill", _icon.color);
+        content.setAttribute('fill', _icon.color);
       }
-      let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-      svg.setAttribute("viewBox", `0 0 ${this.size} ${this.size}`);
-      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
-      svg.setAttribute("focusable", "false");
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', `0 0 ${this.size} ${this.size}`);
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      svg.setAttribute('focusable', 'false');
       svg.appendChild(content);
       e.detail.el.root.insertBefore(svg, null);
     }
   }
   _nameChanged() {
-    let icon = Object.create(null);
-    this.querySelectorAll("[id]").forEach(function(icon) {
+    // eslint-disable-next-line no-unused-vars
+    const icon = Object.create(null);
+    this.querySelectorAll('[id]').forEach(function(icon) {
       icon[icon.id] = icon;
     });
   }
 }
-customElements.define("rux-icon-library", RuxIconLibrary);
+customElements.define('rux-icon-library', RuxIconLibrary);

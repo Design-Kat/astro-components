@@ -1,4 +1,4 @@
-import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
 /**
  * @polymer
  * @extends HTMLElement
@@ -7,71 +7,71 @@ export class RuxTimelineRegion extends PolymerElement {
   static get properties() {
     return {
       id: {
-        type: String
+        type: String,
       },
       label: {
-        type: String
+        type: String,
       },
       status: {
         type: String,
-        value: "off"
+        value: 'off',
       },
       scale: {
         type: Number,
-        observer: "_updateRegion",
-        value: false
+        observer: '_updateRegion',
+        value: false,
       },
       trackWidth: {
-        type: Number
+        type: Number,
       },
       filter: {
         type: String,
-        observer: "_filterUpdated"
+        observer: '_filterUpdated',
       },
       hidden: {
         type: Boolean,
-        value: false
+        value: false,
       },
       duration: {
-        type: Number
+        type: Number,
       },
       startTime: {
-        type: Date
+        type: Date,
       },
       endTime: {
-        type: Date
+        type: Date,
       },
       detail: {
-        type: Object
+        type: Object,
       },
       selected: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true
+        notify: true,
       },
       temporality: {
         type: String,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
       _startTime: {
         type: Date,
-        computed: "_getTime(startTime)"
+        computed: '_getTime(startTime)',
       },
       _endTime: {
         type: Date,
-        computed: "_getTime(endTime)"
+        computed: '_getTime(endTime)',
       },
       _initialState: {
         type: Object,
-        value: false
+        value: false,
       },
       _id: {
         type: String,
         value: () => {
-          return "RTR-" + Math.floor(Math.random() * 1000);
-        }
-      }
+          return 'RTR-' + Math.floor(Math.random() * 1000);
+        },
+      },
     };
   }
 
@@ -85,10 +85,7 @@ export class RuxTimelineRegion extends PolymerElement {
 
           font-size: 0.875rem;
           top: 0;
-          background-color: var(
-            --timelineRegionBackgroundColor,
-            rgb(0, 36, 57)
-          );
+          background-color: var(--timelineRegionBackgroundColor, rgb(0, 36, 57));
           color: var(--timelineRegionTextColor, rgb(255, 255, 255));
           overflow: hidden;
 
@@ -142,32 +139,27 @@ export class RuxTimelineRegion extends PolymerElement {
         }
         */
         :host(.current),
-        :host([temporality="present"]) {
+        :host([temporality='present']) {
           border: 1px solid #4dacff;
 
           transition: border 0.267s ease-in-out;
         }
 
         :host([selected]) {
-          border: 1px solid
-            var(--timelineRegionSelectedBorderColor, rgb(77, 172, 255));
-          background-color: var(
-            --timelineRegionSelectedBackgroundColor,
-            rgb(58, 129, 191)
-          );
+          border: 1px solid var(--timelineRegionSelectedBorderColor, rgb(77, 172, 255));
+          background-color: var(--timelineRegionSelectedBackgroundColor, rgb(58, 129, 191));
           color: var(--timelineRegionSelectedTextColor, rgb(255, 255, 255));
           z-index: 1;
         }
 
-        :host([temporality="past"]) {
+        :host([temporality='past']) {
           color: rgba(255, 255, 255, 0.5);
           /* filter: brightness(85%); */
         }
 
         :host(.future),
-        :host([temporality="future"]) {
-          border: 1px dotted
-            var(--timelineRegionSelectedBorderColor, rgb(77, 172, 255));
+        :host([temporality='future']) {
+          border: 1px dotted var(--timelineRegionSelectedBorderColor, rgb(77, 172, 255));
         }
 
         .rux-region__segment {
@@ -243,27 +235,18 @@ export class RuxTimelineRegion extends PolymerElement {
         }
 
         .rux-region__time__end-time::before {
-          content: "-";
+          content: '-';
           margin-right: 0.25rem;
         }
       </style>
-      <div
-        class="container"
-        label="[[label]]: [[_formatTime(_startTime)]]-[[_formatTime(_endTime)]]"
-      >
-        <div
-          class="rux-region__segment rux-region__header rux-region__segment rux-region__header"
-        >
+      <div class="container" label="[[label]]: [[_formatTime(_startTime)]]-[[_formatTime(_endTime)]]">
+        <div class="rux-region__segment rux-region__header rux-region__segment rux-region__header">
           <rux-status class="light-theme" status="[[status]]"></rux-status>
           <div class="rux-region__label">[[label]]</div>
         </div>
         <div class="rux-region__segment rux-region__time">
-          <span class="rux-region__time__start-time"
-            >[[_formatTime(_startTime)]]</span
-          >
-          <span class="rux-region__time__end-time"
-            >[[_formatTime(_endTime)]]</span
-          >
+          <span class="rux-region__time__start-time">[[_formatTime(_startTime)]]</span>
+          <span class="rux-region__time__end-time">[[_formatTime(_endTime)]]</span>
         </div>
       </div>
     `;
@@ -281,46 +264,34 @@ export class RuxTimelineRegion extends PolymerElement {
 
     this._setDefaultSize();
 
-    this.addEventListener("update", this._windowListener);
+    this.addEventListener('update', this._windowListener);
 
-    window.addEventListener("resize", this._windowListener);
+    window.addEventListener('resize', this._windowListener);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener("update", this._windowListener);
+    this.removeEventListener('update', this._windowListener);
 
-    window.removeEventListener("resize");
+    window.removeEventListener('resize');
   }
 
   _setDefaultSize() {
     // console.log("set default size");
     const now = new Date();
-    const today = new Date(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      0,
-      0,
-      0
-    );
+    const today = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0);
 
-    const left =
-      ((this._startTime.getTime() - today.getTime()) * this.trackWidth) /
-      this.duration;
+    const left = ((this._startTime.getTime() - today.getTime()) * this.trackWidth) / this.duration;
 
-    const width =
-      ((this._endTime.getTime() - this._startTime.getTime()) *
-        this.trackWidth) /
-      this.duration;
+    const width = ((this._endTime.getTime() - this._startTime.getTime()) * this.trackWidth) / this.duration;
 
     // set the initial values for each region
     //
     this._initialState = {
       width: width,
       left: left,
-      scale: this.scale
+      scale: this.scale,
     };
 
     // console.log("track width", this.trackWidth);
@@ -348,7 +319,7 @@ export class RuxTimelineRegion extends PolymerElement {
     if (isNaN(time)) return false;
 
     return new Date(time).toLocaleTimeString(this.locale, {
-      hour12: false
+      hour12: false,
     });
   }
 
@@ -361,11 +332,11 @@ export class RuxTimelineRegion extends PolymerElement {
   }
 
   _resetSize() {
-    this.classList.remove("small", "standard", "compact");
+    this.classList.remove('small', 'standard', 'compact');
   }
 
   _filterUpdated() {
-    if (this.filter.toLowerCase() === "none") {
+    if (this.filter.toLowerCase() === 'none') {
       this.hidden = false;
     } else if (this.filter.toLowerCase() !== this.status.toLowerCase()) {
       this.hidden = true;
@@ -378,23 +349,23 @@ export class RuxTimelineRegion extends PolymerElement {
     const _width = this._getRegionWidth();
     const _left = this._getRegionLeft();
 
-    this.style.left = _left + "px";
-    this.style.width = _width + "px";
+    this.style.left = _left + 'px';
+    this.style.width = _width + 'px';
 
     this._resetSize();
     if (_width > 180) {
       // this is a normal sized widget
-      this.classList.add("large");
+      this.classList.add('large');
     } else if (_width < 180 && _width > 140) {
       // this is a mid sized widget without its time element
-      this.classList.add("medium");
+      this.classList.add('medium');
     } else if (_width < 140 && _width > 40) {
       // this is a small widget without time or label
-      this.classList.add("small");
+      this.classList.add('small');
     } else if (_width < 40) {
       // this is a small widget without time or label
-      this.classList.add("compact");
+      this.classList.add('compact');
     }
   }
 }
-customElements.define("rux-timeline-region", RuxTimelineRegion);
+customElements.define('rux-timeline-region', RuxTimelineRegion);
