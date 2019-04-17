@@ -17,6 +17,7 @@ export class RuxAccordion extends PolymerElement {
   static get template() {
     return html`
       <style>
+
       :host,
       .rux-accordion {
         display: inline-block;
@@ -28,7 +29,6 @@ export class RuxAccordion extends PolymerElement {
       
         font-size: 1rem;
       
-        background-color: var(--accordionBackgroundColor, rgb(30, 47, 66));
       
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -48,18 +48,23 @@ export class RuxAccordion extends PolymerElement {
         align-items: center;
         align-content: stretch;
         margin: 0;
+        border-style: solid;
+        border-color: var(--accordion-item-border-color, rgb(40, 63, 88));
+        border-width: var(--accordion-item-border-width, 0 0 1px 0);
       }
       
       .rux-accordion__label {
         flex-grow: 1;
-        padding: 0.5rem 0.5rem 0.5rem 1rem;
+        padding: var(--accordion-label-padding, .5rem .5rem .5rem 1rem);
         display: block;
-      
+        color: var(--accordion-label-color, rgb(255,255,255));
+
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        width: calc(100% - 12px -1rem);
-        background-color: transparent;
+        background-color: var(--accordion-closed-label-background, transparent);
+        pointer-events: all;
+        transition: background .125s;
       }
 
       .rux-accordion__label::-webkit-details-marker {
@@ -67,19 +72,19 @@ export class RuxAccordion extends PolymerElement {
       }
       
       .rux-accordion__content {
-        padding: 0.5rem;
-        padding: .5rem .5rem .5rem 1rem;
+        padding: var(--accordion-content-padding, 1rem);
+        color: var(--accordion-content-color, rgb(255,255,255));
         white-space: normal;
         overflow: hidden;
-        width: calc(100% - 12px -1rem);
-        background-color: transparent;
+        background: var(--accordion-content-background, rgb(20, 32, 44));
       }
-                
-      [open] .rux-accordion__label {
-        background-color: var(--accordionSelectedBackgroundColor, rgb(0, 68, 107));
-        box-shadow: inset 5px 0 var(--accordionSelectedAccentColor, rgb(77, 172, 255));
       
-        color: var(--accordionSelectedTextColor, rgb(255, 255, 255));
+      .rux-accordion__label:hover {
+        background-color: var(--accordion-hover-label-background,  gb(40, 63, 88));
+      }
+
+      [open] .rux-accordion__label {
+        background-color: var(--accordion-open-label-background, rgb(40, 63, 88));
       }
       
       

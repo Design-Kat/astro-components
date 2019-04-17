@@ -8,7 +8,22 @@ export class RuxAccordionSample extends PolymerElement {
   static get template() {
     return html`
       <style>
+      
         rux-accordion {
+
+          --accordion-label-padding: .5rem .5rem .5rem 1rem;
+          --accordion-label-color: var(--colorWhite, rgb(255,255,255));
+          --accordion-content-padding: 1rem;
+          --accordion-content-color: var(--colorWhite, rgb(255,255,255));
+          --accordion-item-border-color: rgb(40, 63, 88);
+          --accordion-item-border-width: 0 0 1px 0;
+          
+          --accordion-closed-label-background: transparent;
+          --accordion-open-label-background: var(--colorTertiary, rgb(40, 63, 88));
+          --accordion-hover-label-background: var(--colorTertiary, rgb(40, 63, 88));
+          --accordion-content-background: var(--logHeaderBackgroundColor, rgb(20, 32, 44));
+
+          
           width: 300px;
         }
 
