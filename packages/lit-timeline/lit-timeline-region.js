@@ -26,10 +26,10 @@ export class LitTimelineRegion extends LitElement {
         type: Number,
       },
       startTime: {
-        type: Date,
+        type: String,
       },
       endTime: {
-        type: Date,
+        type: String,
       },
       detail: {
         type: Object,
@@ -41,14 +41,6 @@ export class LitTimelineRegion extends LitElement {
       temporality: {
         type: String,
         reflect: true,
-      },
-      _startTime: {
-        type: Date,
-        computed: '_getTime(startTime)',
-      },
-      _endTime: {
-        type: Date,
-        computed: '_getTime(endTime)',
       },
       _initialState: {
         type: Object,
@@ -63,8 +55,6 @@ export class LitTimelineRegion extends LitElement {
     this.hidden = false;
     this.selected = false;
     this.temporality = 'past';
-    this._startTime = this._getTime(this.startTime);
-    this._endTime = this._getTime(this.endTime);
 
     this._windowListener = this._onWindowResize.bind(this);
   }
@@ -73,15 +63,15 @@ export class LitTimelineRegion extends LitElement {
     return html`
       <div
         class="container"
-        label="${this.label}: ${this._formatTime(this._startTime)}-${this._formatTime(this._endTime)}"
+        label="${this.label}: ${this._formatTime(this.startTime)}-${this._formatTime(this.endTime)}"
       >
         <div class="rux-region__segment rux-region__header rux-region__segment rux-region__header">
           <rux-status class="light-theme" status="${this.status}"></rux-status>
           <div class="rux-region__label">${this.label}</div>
         </div>
         <div class="rux-region__segment rux-region__time">
-          <span class="rux-region__time__start-time">${this._formatTime(this._startTime)}</span>
-          <span class="rux-region__time__end-time">${this._formatTime(this._endTime)}</span>
+          <span class="rux-region__time__start-time">${this._formatTime(this.startTime)}</span>
+          <span class="rux-region__time__end-time">${this._formatTime(this.endTime)}</span>
         </div>
       </div>
     `;
@@ -255,8 +245,6 @@ export class LitTimelineRegion extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this._setDefaultSize();
-
     this.addEventListener('update', this._windowListener);
 
     window.addEventListener('resize', this._windowListener);
@@ -270,14 +258,16 @@ export class LitTimelineRegion extends LitElement {
     window.removeEventListener('resize');
   }
 
-  _setDefaultSize() {
-    // console.log("set default size");
+  firstUpdated() {
     const now = new Date();
-    const today = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0);
+    const today = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0).getTime();
+    const start = new Date(this.startTime).getTime();
+    const end = new Date(this.endTime).getTime();
 
-    const left = ((this._startTime.getTime() - today.getTime()) * this.trackWidth) / this.duration;
+    this.trackWidth = this.parentElement.offsetWidth;
 
-    const width = ((this._endTime.getTime() - this._startTime.getTime()) * this.trackWidth) / this.duration;
+    const left = ((start - today) * this.trackWidth) / this.duration;
+    const width = ((end - start) * this.trackWidth) / this.duration;
 
     // set the initial values for each region
     //
@@ -287,7 +277,6 @@ export class LitTimelineRegion extends LitElement {
       scale: this.scale,
     };
 
-    // console.log("track width", this.trackWidth);
     this._updateRegion();
   }
 

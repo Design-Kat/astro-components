@@ -475,8 +475,6 @@ export class RuxTimeline extends PolymerElement {
     this.currentTimeAnimator = window.requestAnimationFrame(this._updateCurrentTime.bind(this));
 
     this.currentPlayheadAnimator = window.requestAnimationFrame(this._updatePlayhead.bind(this));
-
-    console.log('tracks', this.tracks);
   }
 
   disconnectedCallback() {

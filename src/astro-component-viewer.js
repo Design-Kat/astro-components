@@ -1,4 +1,5 @@
 import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+
 import '@polymer/polymer/lib/elements/dom-repeat.js';
 
 /* eslint-disable no-unused-vars */
@@ -28,6 +29,7 @@ import {RuxStatus} from '../packages/rux-status/rux-status.js';
 import {RuxIcon} from '../packages/rux-icon/rux-icon.js';
 import {RuxTimeline} from '../packages/rux-timeline/rux-timeline.js';
 
+import {LitElement} from 'lit-element';
 import {LitClock} from '../packages/lit-clock/lit-clock.js';
 import {LitTimeline} from '../packages/lit-timeline/lit-timeline.js';
 

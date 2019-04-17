@@ -162,9 +162,6 @@ export class RuxTimelineTrack extends PolymerElement {
 
   ready() {
     super.ready();
-    console.log(this.regions);
-    console.log(this.test);
-    console.log(this.label);
   }
 
   _resetSelected() {

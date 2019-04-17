@@ -34,7 +34,6 @@ export class LitTimelineTrack extends LitElement {
     super();
 
     this.id = 'RTT-' + Math.floor(Math.random() * 1000);
-    console.log(this.regions);
     this._windowListener = this._onWindowResize.bind(this);
   }
 
@@ -50,17 +49,16 @@ export class LitTimelineTrack extends LitElement {
                   class="rux-timeline-region rux-timeline-region--main"
                   label="${region.label}"
                   status="${region.status}"
-                  start-time="${region.startTime}"
-                  end-time="${region.endTime}"
+                  startTime="${region.startTime}"
+                  endTime="${region.endTime}"
                   detail="${region.detail}"
                   scale="${this.scale}"
-                  track-width="${this.trackWidth}"
                   duration="${this.duration}"
                 >
                 </lit-timeline-region>
               </li>
             `
-  )};
+  )}
         </ol>
       </div>
     `;
@@ -83,19 +81,7 @@ export class LitTimelineTrack extends LitElement {
         display: none;
       }
 
-      .rux-timeline__track__subtracks {
-        background-color: var(--colorTertiaryDarken2);
-        display: none;
-      }
-
-      :host([selected]) .rux-timeline__track__subtracks {
-        display: block;
-        background-color: #203246;
-        width: 100%;
-      }
-
-      .rux-timeline__track,
-      .subtrack {
+      .rux-timeline__track {
         position: relative;
         display: block;
         height: 60px;
@@ -103,15 +89,6 @@ export class LitTimelineTrack extends LitElement {
 
         box-sizing: border-box;
         overflow: hidden;
-      }
-
-      .subtrack {
-        margin: 2px 0;
-        background-color: var(--colorTertiaryDarken2);
-      }
-
-      .subtrack:last-of-type {
-        margin: 2px 0 0 0;
       }
 
       *,
@@ -122,7 +99,6 @@ export class LitTimelineTrack extends LitElement {
 
       .rux-timeline__track {
         position: relative;
-        /* height: 100%; */
       }
 
       ol {
@@ -137,8 +113,6 @@ export class LitTimelineTrack extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.trackWidth = this.shadowRoot.querySelectorAll('.rux-timeline__track')[0].offsetWidth;
-
     this.addEventListener('update', this._windowListener);
   }
 
@@ -148,8 +122,8 @@ export class LitTimelineTrack extends LitElement {
     this.removeEventListener('update', this._windowListener);
   }
 
-  ready() {
-    super.ready();
+  firstUpdated() {
+    this.trackWidth = this.shadowRoot.querySelectorAll('.rux-timeline__track')[0].offsetWidth;
   }
 
   _resetSelected() {

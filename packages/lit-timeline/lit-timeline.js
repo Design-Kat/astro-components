@@ -68,7 +68,7 @@ export class LitTimeline extends LitElement {
                 <div class="rux-timeline__track__label">${track.label}</div>
               </div>
             `
-  )};
+  )}
         </div>
 
         <div id="rux-timeline__viewport__track-container">
@@ -85,7 +85,7 @@ export class LitTimeline extends LitElement {
                     .regions="${track.regions}"
                   ></lit-timeline-track>
                 `
-  )};
+  )}
             </div>
             <div id="rux-timeline__current-time"></div>
             <div id="rux-timeline__playhead"></div>
@@ -159,12 +159,12 @@ export class LitTimeline extends LitElement {
         display: none;
       }
 
-      rux-timeline-track {
+      lit-timeline-track {
         /* height: 60px; */
         margin: 2px 0;
       }
 
-      rux-timeline-track {
+      lit-timeline-track {
         background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
       }
 
