@@ -27,7 +27,11 @@ export default class {
     );
   }
 
-  static formatTime(time = new Date(), locale = 'us-en', options) {
+  static formatTime(
+      time = new Date(),
+      locale = 'us-en',
+      options = {hour12: false, timeZone: 'UTC', timeZoneName: 'short'}
+  ) {
     return new Date(time).toLocaleTimeString(locale, options);
   }
 }

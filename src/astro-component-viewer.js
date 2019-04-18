@@ -23,6 +23,7 @@ import {RuxToggle} from '../packages/rux-toggle/rux-toggle.js';
 import {RuxTabs} from '../packages/rux-tabs/rux-tabs.js';
 import {RuxTree} from '../packages/rux-tree/rux-tree.js'; */
 
+import {RuxButton} from '../packages/rux-button/rux-button.js';
 import {RuxGlobalStatusBar} from '../packages/rux-global-status-bar/rux-global-status-bar.js';
 import {RuxClock} from '../packages/rux-clock/rux-clock.js';
 import {RuxStatus} from '../packages/rux-status/rux-status.js';
@@ -63,6 +64,13 @@ export class AstroComponentViewer extends PolymerElement {
           --paneHeaderBackgroundColor: var(--colorSecondaryDarken3, rgb(19, 43, 64));
           --paneHeaderColor: var(--colorWhite, rgb(255, 255, 255));
         }
+
+        p {
+          font-family: 'InterUI', serif;
+          font-size: 1rem;
+          font-variation-settings: 'wght' 800;
+          font-style: oblique 60deg;
+        }
       </style>
 
       <rux-global-status-bar theme="dark">
@@ -70,8 +78,11 @@ export class AstroComponentViewer extends PolymerElement {
         <lit-clock></lit-clock>
       </rux-global-status-bar>
 
-      <lit-timeline id="litTimeline" tracks="[[multiTrack]]"></lit-timeline>
-      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline>
+      <rux-button>Test</rux-button>
+      <p>Test</p>
+
+      <!-- <lit-timeline id="litTimeline" tracks="[[constellationLogForTimeline]]"></lit-timeline>
+      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline> -->
     `;
   }
 
@@ -160,6 +171,86 @@ export class AstroComponentViewer extends PolymerElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    fetch('https://services.astrouxds.com/contacts/recent')
+        .then((response) => {
+          return response.json();
+        })
+        .then((theJson) => {
+          const groupKey = 'contactSatellite';
+
+          // In a real world app it would be ideal for all data services
+          // to standardize on a consistent property naming structure so
+          // all elements in the app consuming any sort of status or label
+          // can always use the same key.
+
+          // in the meantime this remaps data service values to expected
+          // values in the timeline
+          const keyMap = {
+            contactBeginTimestamp: 'startTime',
+            contactEndTimestamp: 'endTime',
+            contactGround: 'label',
+            contactStatus: 'status',
+          };
+
+          // create a clone of an the constellationLog to avoid polluting
+          // the table data.
+          //
+          // @todo all of this copy/mapping stuff probably means re-thinking
+          // the data structures. Creating a new copy of the original array
+          // will inevitably break partiy between the two lists or require
+          // some convoluted update method.
+          const _clonedConstellation = [...theJson];
+
+          _clonedConstellation.forEach((entry) => {
+            entry.detail = {
+              azimuth: entry.contactAzimuth,
+              elevation: entry.contactElevation,
+              detail: entry.contactDetail,
+              satellite: entry.contactSatellite,
+              state: this._mapContactState(entry.contactResolution),
+            };
+          });
+
+          // remap all start and end time values. the array structure should be the same
+          // at the end of this method
+          _clonedConstellation.forEach((entry, index, array) => {
+          // loop through each entries properties and replace contactBeginTimestamp
+          // and contactEndStamp with startTime and endTime for consumption by the
+          // timeline component
+            array[index] = Object.keys(entry).reduce((acc, key) => {
+            // create a new object
+              const remappedObj = {
+              // see if there's a matching value in the keyMap object and if so
+              // use that as the key, if not use the original key. Assign the
+              // value to the new (or existing) key
+                [keyMap[key] || key]: entry[key],
+              };
+
+              // merge and return the acc(umulator) value with the remapped object
+              return {
+                ...acc,
+                ...remappedObj,
+              };
+            }, {});
+          });
+
+          // group the consteallation list by its contact satellite set in groupKey cosnt
+          const _groupedConsteallation = _clonedConstellation.reduce((acc, val) => {
+            (acc[val[groupKey]] = acc[val[groupKey]] || []).push(val);
+            return acc;
+          }, []);
+
+          // create a new array of objects that have the structure expected by the timeline
+          // essentially a label property followed by an array of satellites at the end of
+          // this an array entry should look like { label: "IRON", data: []}
+          const _labeledConstellation = Object.keys(_groupedConsteallation).map((key) => {
+            return {label: key, data: _groupedConsteallation[key]};
+          });
+
+          this.constellationLogForTimeline = _labeledConstellation;
+          console.log(this.constellationLogForTimeline);
+        });
   }
 
   disconnectedCallback() {
@@ -168,6 +259,23 @@ export class AstroComponentViewer extends PolymerElement {
 
   ready() {
     super.ready();
+  }
+
+  _mapContactState(status) {
+    switch (status.toLowerCase()) {
+      case 'prepass':
+      case 'pre-pass': {
+        return 'standby';
+      }
+      case 'pass': {
+        return 'normal';
+      }
+      case 'scheduled':
+      case 'complete':
+      default: {
+        return 'off';
+      }
+    }
   }
 }
 

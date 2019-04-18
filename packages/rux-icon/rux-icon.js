@@ -67,7 +67,7 @@ export class RuxIcon extends PolymerElement {
   }
   constructor() {
     super();
-    this._iconLibraryEvent = this._iconLibraryLoaded.bind(this);
+    // this._iconLibraryEvent = this._iconLibraryLoaded.bind(this);
   }
   connectedCallback() {
     super.connectedCallback();

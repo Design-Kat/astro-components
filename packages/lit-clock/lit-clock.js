@@ -22,11 +22,13 @@ export class LitClock extends LitElement {
       hideDate: {
         type: Boolean,
       },
-      _currentTime: {
+      time: {
         type: String,
+        reflect: true,
       },
-      _currentDayOfYear: {
+      dayOfYear: {
         type: String,
+        reflect: true,
       },
     };
   }
@@ -34,20 +36,18 @@ export class LitClock extends LitElement {
   constructor() {
     super();
 
-    // set value of one day in milliseconds
-    this._oneDay = 86400000;
-    this.aos = null;
-    this.los = null;
     this.timezone = 'UTC';
     this.locale = 'us-en';
-    this.hideTimezone = false;
+    this.hideTimezone = true;
     this.hideDate = false;
 
     this.timeOptions = {
       hour12: false,
       timeZone: this.timezone,
-      timeZoneName: this.hideTimezone ? 'long' : 'short',
+      timeZoneName: 'short',
     };
+
+    this.updateTime();
   }
 
   render() {
@@ -56,7 +56,7 @@ export class LitClock extends LitElement {
         ? html`
             <div class="rux-clock__segment rux-clock__day-of-the-year">
               <div class="rux-clock__segment__value" aria-labeledby="rux-clock__day-of-year-label">
-                ${this._currentDayOfYear}
+                ${this.dayOfYear}
               </div>
               <div class="rux-clock__segment__label" id="rux-clock__day-of-year-label">Date</div>
             </div>
@@ -65,7 +65,7 @@ export class LitClock extends LitElement {
 
       <div class="rux-clock__segment rux-clock__time">
         <div class="rux-clock__segment__value" aria-labeledby="rux-clock__time-label">
-          ${this._currentTime}
+          ${this.time}
         </div>
         <div class="rux-clock__segment__label" id="rux-clock__time-label">
           Time
@@ -106,8 +106,8 @@ export class LitClock extends LitElement {
         margin: 0 1rem;
 
         color: var(--clockTextColor, rgb(255, 255, 255));
-
-        font-size: 1.15rem;
+        font-family: 'InterUI', sans-serif;
+        font-weight: 500;
       }
 
       .rux-clock__segment {
@@ -119,7 +119,9 @@ export class LitClock extends LitElement {
       .rux-clock__segment__value {
         display: flex;
         align-items: center;
-        font-family: var(--fontFamilyMono, 'Roboto Mono', monospace);
+        /* font-family: var(--fontFamilyMono, 'Roboto Mono', monospace); */
+        font-family: 'InterUI', serif;
+        font-feature-settings: 'tnum';
         font-weight: 700;
 
         border: 1px solid var(--clockBorderColor, rgb(40, 63, 88));
@@ -133,7 +135,7 @@ export class LitClock extends LitElement {
       }
 
       .rux-clock__segment__value {
-        font-size: 1.75rem;
+        font-size: 1.7rem;
         height: 2.75rem;
         padding: 0 0.75rem;
       }
@@ -171,9 +173,13 @@ export class LitClock extends LitElement {
     super.connectedCallback();
 
     this._timer = setInterval(() => {
-      this._currentTime = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions);
-      this._currentDayOfYear = RuxUtils.dayOfYear();
+      this.updateTime();
     }, 1000);
+  }
+
+  updateTime() {
+    this.time = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions);
+    this.dayOfYear = RuxUtils.dayOfYear();
   }
 
   disconnectedCallback() {
