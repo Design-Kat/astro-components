@@ -64,13 +64,6 @@ export class AstroComponentViewer extends PolymerElement {
           --paneHeaderBackgroundColor: var(--colorSecondaryDarken3, rgb(19, 43, 64));
           --paneHeaderColor: var(--colorWhite, rgb(255, 255, 255));
         }
-
-        p {
-          font-family: 'InterUI', serif;
-          font-size: 1rem;
-          font-variation-settings: 'wght' 800;
-          font-style: oblique 60deg;
-        }
       </style>
 
       <rux-global-status-bar theme="dark">
@@ -78,11 +71,8 @@ export class AstroComponentViewer extends PolymerElement {
         <lit-clock></lit-clock>
       </rux-global-status-bar>
 
-      <rux-button>Test</rux-button>
-      <p>Test</p>
-
-      <!-- <lit-timeline id="litTimeline" tracks="[[constellationLogForTimeline]]"></lit-timeline>
-      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline> -->
+      <lit-timeline id="litTimeline" tracks="[[constellationLogForTimeline]]"></lit-timeline>
+      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline>
     `;
   }
 

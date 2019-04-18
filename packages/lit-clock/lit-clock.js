@@ -106,7 +106,6 @@ export class LitClock extends LitElement {
         margin: 0 1rem;
 
         color: var(--clockTextColor, rgb(255, 255, 255));
-        font-family: 'InterUI', sans-serif;
         font-weight: 500;
       }
 
@@ -119,9 +118,7 @@ export class LitClock extends LitElement {
       .rux-clock__segment__value {
         display: flex;
         align-items: center;
-        /* font-family: var(--fontFamilyMono, 'Roboto Mono', monospace); */
-        font-family: 'InterUI', serif;
-        font-feature-settings: 'tnum';
+        font-family: var(--fontFamilyMono, 'Roboto Mono', monospace);
         font-weight: 700;
 
         border: 1px solid var(--clockBorderColor, rgb(40, 63, 88));
