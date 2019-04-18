@@ -1,6 +1,9 @@
-import {LitElement, html, css} from 'lit-element';
+import {LitElement, html} from 'lit-element';
+import style from './lit-clock.css';
+
 import RuxUtils from '../rux-utils/datetime.js';
 
+/** Class representing a single Clock instance. */
 export class LitClock extends LitElement {
   static get properties() {
     return {
@@ -50,6 +53,37 @@ export class LitClock extends LitElement {
     this.updateTime();
   }
 
+  /*
+    Lifecycle hooks should occur after the constructor and before custom methods
+  */
+  connectedCallback() {
+    super.connectedCallback();
+
+    this._timer = setInterval(() => {
+      this.updateTime();
+    }, 1000);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    clearTimeout(this._timer);
+  }
+
+  /*
+    Public functions should occur after lifecycle hooks
+  */
+
+  /*
+    Private functions should occur after public functions
+  */
+  updateTime() {
+    this.time = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions);
+    this.dayOfYear = RuxUtils.dayOfYear();
+  }
+
+  /*
+    Template and styles blocks should appear as the very last code blocks
+  */
   render() {
     return html`
       ${!this.hideDate
@@ -99,89 +133,9 @@ export class LitClock extends LitElement {
     `;
   }
 
+  /* uses the lit-scss-loader to import external CSS */
   static get styles() {
-    return css`
-      :host {
-        display: flex;
-        margin: 0 1rem;
-
-        color: var(--clockTextColor, rgb(255, 255, 255));
-        font-weight: 500;
-      }
-
-      .rux-clock__segment {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .rux-clock__segment__value {
-        display: flex;
-        align-items: center;
-        font-family: var(--fontFamilyMono, 'Roboto Mono', monospace);
-        font-weight: 700;
-
-        border: 1px solid var(--clockBorderColor, rgb(40, 63, 88));
-
-        background-color: var(--clockBackgroundColor, rgb(20, 32, 44));
-        margin-bottom: 0.25rem;
-
-        white-space: nowrap;
-        overflow-y: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .rux-clock__segment__value {
-        font-size: 1.7rem;
-        height: 2.75rem;
-        padding: 0 0.75rem;
-      }
-
-      :host([compact]) .rux-clock__segment__value {
-        height: 2.75rem;
-        padding: 0 0.75rem;
-        font-size: 1.15rem;
-        font-weight: 500;
-      }
-
-      .rux-clock__segment__label {
-        font-size: 0.875rem;
-      }
-
-      .rux-clock__day-of-the-year .rux-clock__segment__value {
-        border-right: none;
-      }
-
-      .rux-clock__segment--secondary .rux-clock__segment__value {
-        font-weight: 100;
-      }
-
-      .rux-clock__aos {
-        margin-left: 1em;
-      }
-
-      .rux-clock__los {
-        margin-left: 0.5em;
-      }
-    `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this._timer = setInterval(() => {
-      this.updateTime();
-    }, 1000);
-  }
-
-  updateTime() {
-    this.time = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions);
-    this.dayOfYear = RuxUtils.dayOfYear();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    clearTimeout(this._timer);
+    return [style];
   }
 }
 customElements.define('lit-clock', LitClock);

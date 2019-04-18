@@ -13,13 +13,23 @@ module.exports = {
         use: ['text-loader'],
       },
       {
-        test: /\.(css)$/,
-        use: ['text-loader'],
-      },
-      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
+      },
+      {
+        test: /\.css|\.s(c|a)ss$/,
+        use: [
+          {
+            loader: 'lit-scss-loader',
+            options: {
+              minify: true, // defaults to false
+            },
+          },
+          'extract-loader',
+          'css-loader',
+          'sass-loader',
+        ],
       },
     ],
   },

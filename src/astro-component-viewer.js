@@ -71,8 +71,8 @@ export class AstroComponentViewer extends PolymerElement {
         <lit-clock></lit-clock>
       </rux-global-status-bar>
 
-      <lit-timeline id="litTimeline" tracks="[[constellationLogForTimeline]]"></lit-timeline>
-      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline>
+      <!-- <lit-timeline id="litTimeline" tracks="[[constellationLogForTimeline]]"></lit-timeline>
+      <rux-timeline id="listenerTimeline" status="caution" label="Timeline" tracks="[[multiTrack]]"> </rux-timeline> -->
     `;
   }
 
@@ -162,7 +162,7 @@ export class AstroComponentViewer extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
 
-    fetch('https://services.astrouxds.com/contacts/recent')
+    /* fetch('https://services.astrouxds.com/contacts/recent')
         .then((response) => {
           return response.json();
         })
@@ -240,7 +240,7 @@ export class AstroComponentViewer extends PolymerElement {
 
           this.constellationLogForTimeline = _labeledConstellation;
           console.log(this.constellationLogForTimeline);
-        });
+        }); */
   }
 
   disconnectedCallback() {
