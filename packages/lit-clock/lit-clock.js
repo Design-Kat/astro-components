@@ -1,6 +1,5 @@
-import {LitElement, html} from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import style from './lit-clock.css';
-
 import RuxUtils from '../rux-utils/datetime.js';
 
 /** Class representing a single Clock instance. */
@@ -95,7 +94,7 @@ export class LitClock extends LitElement {
               <div class="rux-clock__segment__label" id="rux-clock__day-of-year-label">Date</div>
             </div>
           `
-        : html``}
+        : ''}
 
       <div class="rux-clock__segment rux-clock__time">
         <div class="rux-clock__segment__value" aria-labeledby="rux-clock__time-label">
@@ -117,7 +116,7 @@ export class LitClock extends LitElement {
               </div>
             </div>
           `
-        : html``}
+        : ''}
       ${this.los
         ? html`
             <div class="rux-clock__segment rux-clock__segment--secondary rux-clock__los">
@@ -129,13 +128,15 @@ export class LitClock extends LitElement {
               </div>
             </div>
           `
-        : html``}
+        : ''}
     `;
   }
 
   /* uses the lit-scss-loader to import external CSS */
   static get styles() {
-    return [style];
+    return css`
+      ${style}
+    `;
   }
 }
 customElements.define('lit-clock', LitClock);

@@ -12,14 +12,14 @@
   <link rel="stylesheet" href="/css/astro.core.css">
 
   <!-- Load WebComponent Polyfill //-->
-  <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <!-- <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
 
   <!-- Load Astro App //-->
-  <script type="module" src="app.bundle.js" crossorigin></script>
+  <script type="module" src="./packages/lit-clock/lit-clock.js" crossorigin></script>
 </head>
 
 <body class="dark-theme">
-  <astro-component-viewer></astro-component-viewer>
+  <lit-clock></lit-clock>
 </body>
 
 </html>
