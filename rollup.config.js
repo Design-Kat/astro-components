@@ -7,19 +7,15 @@ const config = createDefaultConfig({
 });
 
 export default [
-  // add plugin to the first config
   {
     ...config,
     plugins: [
       ...config.plugins,
       copy({
-        // copy over all images files
-        files: ['public/**/*'],
+        files: ['public/**'],
         dest: 'dist',
         options: {
-          // parents makes sure to preserve the original folder structure
           parents: true,
-          verbose: true,
         },
       }),
       litcss({
@@ -28,6 +24,4 @@ export default [
       }),
     ],
   },
-
-  // leave the second config untouched
 ];
