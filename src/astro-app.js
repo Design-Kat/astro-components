@@ -1,27 +1,18 @@
 import { LitElement, html } from 'lit-element';
 
-export class AstroApp extends LitElement {
-  render = () => html`
-    <rux-global-status-bar theme="dark">
-      <lit-clock></lit-clock>
-    </rux-global-status-bar>
-  `;
-
+/** Class representing a single Clock instance. */
+export class LitClock extends LitElement {
   static get properties() {
     return {};
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-  }
-
-  ready() {
-    super.ready();
+  /*
+    Template and styles blocks should appear as the very last code blocks
+  */
+  static render() {
+    return html`
+      <h1>test</h1>
+    `;
   }
 }
-
-customElements.define('astro-app', AstroApp);
+customElements.define('lit-clock', LitClock);
