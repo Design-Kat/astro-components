@@ -1,9 +1,9 @@
 import { LitElement, html, css } from 'lit-element';
-import style from './lit-clock.css';
+import style from './rux-clock.css';
 import RuxUtils from '../rux-utils/datetime.js';
 
 /** Class representing a single Clock instance. */
-export class LitClock extends LitElement {
+export class RuxClock extends LitElement {
   static get properties() {
     return {
       aos: {
@@ -88,7 +88,7 @@ export class LitClock extends LitElement {
       ${!this.hideDate
         ? html`
             <div class="rux-clock__segment rux-clock__day-of-the-year">
-              <div class="rux-clock__segment__value" aria-labeledby="rux-clock__day-of-year-label">
+              <div class="rux-clock__segment__value" aria-labelledby="rux-clock__day-of-year-label">
                 ${this.dayOfYear}
               </div>
               <div class="rux-clock__segment__label" id="rux-clock__day-of-year-label">Date</div>
@@ -97,7 +97,7 @@ export class LitClock extends LitElement {
         : ''}
 
       <div class="rux-clock__segment rux-clock__time">
-        <div class="rux-clock__segment__value" aria-labeledby="rux-clock__time-label">
+        <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
           ${this.time}
         </div>
         <div class="rux-clock__segment__label" id="rux-clock__time-label">
@@ -108,7 +108,7 @@ export class LitClock extends LitElement {
       ${this.aos
         ? html`
             <div class="rux-clock__segment rux-clock__segment--secondary rux-clock__aos">
-              <div class="rux-clock__segment__value" aria-labeledby="rux-clock__time-label">
+              <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
                 ${RuxUtils.formatTime(this.aos, this.locale, this.timeOptions)}
               </div>
               <div class="rux-clock__segment__label" id="rux-clock__time-label">
@@ -120,7 +120,7 @@ export class LitClock extends LitElement {
       ${this.los
         ? html`
             <div class="rux-clock__segment rux-clock__segment--secondary rux-clock__los">
-              <div class="rux-clock__segment__value" aria-labeledby="rux-clock__time-label">
+              <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
                 ${RuxUtils.formatTime(this.los, this.locale, this.timeOptions)}
               </div>
               <div class="rux-clock__segment__label" id="rux-clock__time-label">
@@ -139,4 +139,4 @@ export class LitClock extends LitElement {
     `;
   }
 }
-customElements.define('lit-clock', LitClock);
+customElements.define('rux-clock', RuxClock);
