@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 /* eslint-disable no-unused-vars */
-import { RuxClock } from '../components/rux-clock/rux-clock';
+import { RuxClock } from './components/rux-clock/rux-clock';
 /* eslint-enable no-unused-vars */
 
 /** Class representing a single Clock instance. */
@@ -15,7 +15,7 @@ export class AstroApp extends LitElement {
 
   constructor() {
     super();
-    this.appName = 'Astro 4';
+    this.appName = 'Astro 4.0';
   }
 
   /*

@@ -11,13 +11,11 @@ export default [
     ...config,
     plugins: [
       ...config.plugins,
-      copy({
-        files: ['public/**'],
-        dest: 'dist',
-        options: {
-          parents: true,
-        },
-      }),
+      copy([
+        { files: 'src/css/*.css', dest: './dist/css' },
+        { files: 'src/fonts/**', dest: './dist/fonts' },
+        { files: 'src/img/**/*', dest: './dist/img' },
+      ]),
       litcss({
         include: ['**/*.css'],
         uglify: true,
