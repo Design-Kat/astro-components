@@ -1,38 +1,106 @@
 const gulp = require('gulp');
-// const concat = require("gulp-concat");
+const browsersync = require('browser-sync').create();
 const concat = require('gulp-concat-css-import');
 const rename = require('gulp-rename');
-// const postcss = require('gulp-postcss');
-// const order = require("gulp-order");
-// const properties = require('postcss-custom-properties');
 const sourcemaps = require('gulp-sourcemaps');
-// const autoprefixer = require('gulp-autoprefixer');
 const csso = require('gulp-csso');
-/* const watch = require("gulp-watch");
-const color = require("postcss-color-function"); */
+const del = require('del');
+const rollup = require('rollup');
+const createDefaultConfig = require('@open-wc/building-rollup/modern-config');
+const litcss = require('rollup-plugin-lit-css');
+const copy = require('rollup-plugin-cpy');
 
-gulp.task('concatCoreCss', () =>
-  gulp
-    .src('./src/css/src/astro.core.css')
+function browserSync(done) {
+  browsersync.init({
+    server: {
+      baseDir: './dist/',
+    },
+    port: 3000,
+  });
+  done();
+}
+
+// BrowserSync Reload
+function browserSyncReload(done) {
+  browsersync.reload();
+  done();
+}
+
+function build() {
+  const config = createDefaultConfig({
+    input: './src/index.html',
+  });
+
+  console.log(config);
+
+  return rollup
+    .rollup({
+      ...config,
+      plugins: [
+        ...config.plugins,
+        copy([
+          { files: 'src/css/*.css', dest: './dist/css' },
+          { files: 'src/fonts/**', dest: './dist/fonts' },
+          { files: 'src/img/**/*', dest: './dist/img' },
+        ]),
+        litcss({
+          include: ['**/*.css'],
+          uglify: true,
+        }),
+      ],
+    })
+    .then(bundle =>
+      bundle.write({
+        dir: 'dist',
+        format: 'esm',
+        sourcemap: true,
+      }),
+    );
+}
+
+function css() {
+  return gulp
+    .src('./src/css/src/*.css')
     .pipe(sourcemaps.init())
     .pipe(concat({ isCompress: false }))
     .pipe(gulp.dest('src/css'))
+    .pipe(gulp.dest('./dist/css'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(csso())
     .pipe(gulp.dest('src/css'))
-    .pipe(sourcemaps.write('./')),
-);
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/css'));
+}
 
-gulp.task('concatAllCss', () =>
-  gulp
-    .src('./src/css/src/astro.css')
-    .pipe(sourcemaps.init())
-    .pipe(concat({ isCompress: false }))
-    .pipe(gulp.dest('src/css'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(csso())
-    .pipe(gulp.dest('src/css'))
-    .pipe(sourcemaps.write('./')),
-);
+function clean() {
+  return del(['./dist/']);
+}
 
-gulp.task('css', gulp.series('concatCoreCss', 'concatAllCss'));
+function watchFiles() {
+  // build site
+  gulp.watch(
+    './src/**/*',
+    { ignored: ['./src/fonts', './src/img', './src/css'] },
+    gulp.series(build, browserSyncReload),
+  );
+
+  // compile and minify css
+  gulp.watch(
+    './src/css/src/**/*.css',
+    { ignored: ['./src/css/src/astro.core.css', './src/css/src/astro.css'] },
+    gulp.series(css),
+  );
+}
+
+// gulp.task('css', gulp.series('concatCoreCss', 'concatAllCss'));
+// const css = gulp.series(concatCoreCss);
+const watch = gulp.parallel(watchFiles, browserSync);
+const generate = gulp.series(clean, watch, gulp.parallel(css, build));
+const start = gulp.series(clean, build, watch);
+
+exports.css = css;
+exports.watch = watch;
+exports.build = build;
+exports.start = start;
+exports.clean = clean;
+exports.generate = generate;

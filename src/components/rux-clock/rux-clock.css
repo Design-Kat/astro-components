@@ -5,6 +5,11 @@
 	color: var(--clockTextColor, rgb(255, 255, 255));
 
 	font-size: 1.15rem;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .rux-clock__segment {

@@ -4,6 +4,7 @@
 @import url('common/_theme--light.css');
 @import url('common/_theme--dark.css');
 @import url('common/_typography.css');
+@import url('common/_global.css');
 @import url('core/button.css');
 @import url('core/card.css');
 @import url('core/control.css');

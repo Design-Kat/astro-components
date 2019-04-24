@@ -15,7 +15,7 @@ export class AstroApp extends LitElement {
 
   constructor() {
     super();
-    this.appName = 'Astro 4.0';
+    this.appName = 'Astro 4.4';
   }
 
   /*
