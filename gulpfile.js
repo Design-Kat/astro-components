@@ -31,8 +31,6 @@ function build() {
     input: './src/index.html',
   });
 
-  console.log(config);
-
   return rollup
     .rollup({
       ...config,
@@ -76,31 +74,33 @@ function clean() {
   return del(['./dist/']);
 }
 
-function watchFiles() {
+function watch() {
   // build site
   gulp.watch(
     './src/**/*',
-    { ignored: ['./src/fonts', './src/img', './src/css'] },
+    {
+      ignored: ['./src/fonts', './src/img', './src/css'],
+    },
     gulp.series(build, browserSyncReload),
   );
 
   // compile and minify css
   gulp.watch(
     './src/css/src/**/*.css',
-    { ignored: ['./src/css/src/astro.core.css', './src/css/src/astro.css'] },
-    gulp.series(css),
+    {
+      ignored: ['./src/css/src/astro.core.css', './src/css/src/astro.css'],
+    },
+    gulp.series(css, browserSyncReload),
   );
 }
 
 // gulp.task('css', gulp.series('concatCoreCss', 'concatAllCss'));
 // const css = gulp.series(concatCoreCss);
-const watch = gulp.parallel(watchFiles, browserSync);
-const generate = gulp.series(clean, watch, gulp.parallel(css, build));
-const start = gulp.series(clean, build, watch);
+// const watch = gulp.series(watchFiles);
+const start = gulp.series(clean, build, browserSync, watch);
 
 exports.css = css;
 exports.watch = watch;
 exports.build = build;
 exports.start = start;
 exports.clean = clean;
-exports.generate = generate;
