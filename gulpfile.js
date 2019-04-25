@@ -40,6 +40,7 @@ function build() {
           { files: 'src/css/*.css', dest: './dist/css' },
           { files: 'src/fonts/**', dest: './dist/fonts' },
           { files: 'src/img/**/*', dest: './dist/img' },
+          { files: 'src/favicon.ico', dest: './dist' },
         ]),
         litcss({
           include: ['**/*.css'],
