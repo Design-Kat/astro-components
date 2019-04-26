@@ -93,29 +93,3 @@
   color: rgba(255, 255, 255, 0.6);
   display: block;
 }
-
-/*
-**
-** ADVANCED STATUS
-** =======================================================================
-** Defines the implementation of an advanced status system that expands 
-** the generic status icons to custom symbols and badges indicating counts
-** 
-**
-** NOTE: 	This is not a sub-class of the satcom-status class, but an 
-**			entirely self-contained library
-**			
-*/
-
-/*
-** SVG utilities
-** -----------------------------------------------------------------------
-** These handle some basic rendering and inheritance for the SVG icons
-**
-*/
-
-/* svg path,
-svg circle {
-  fill: inherit;
-}
- */

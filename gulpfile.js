@@ -11,7 +11,9 @@ const rollup = require('rollup');
 const createDefaultConfig = require('@open-wc/building-rollup/modern-config');
 const litcss = require('rollup-plugin-lit-css');
 const copy = require('rollup-plugin-cpy');
-// const properties = require('postcss-custom-properties');
+const gulpif = require('gulp-if');
+const properties = require('postcss-custom-properties');
+const autoprefixer = require('gulp-autoprefixer');
 
 function browserSync(done) {
   browsersync.init({
@@ -68,11 +70,19 @@ function color() {
     .pipe(gulp.dest('./src/css/src/common'));
 }
 
+function test() {
+  return gulp;
+}
+
 function css() {
+  const condition = file => file !== 'astro.css';
+
   return gulp
     .src('./src/css/src/*.css')
     .pipe(sourcemaps.init())
     .pipe(concat({ inlineImports: true }))
+    .pipe(gulpif(condition, postcss([properties()])))
+    .pipe(gulpif(condition, autoprefixer({ browsers: 'last 2 versions' })))
     .pipe(gulp.dest('src/css'))
     .pipe(gulp.dest('./dist/css'))
     .pipe(rename({ suffix: '.min' }))
@@ -124,3 +134,4 @@ exports.watch = watch;
 exports.build = build;
 exports.start = start;
 exports.clean = clean;
+exports.test = test;

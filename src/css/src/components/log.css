@@ -101,7 +101,6 @@
 } */
 
 .rux-log__filter-enabled {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   left: 0;
