@@ -4,11 +4,14 @@ const concat = require('gulp-concat-css-import');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const csso = require('gulp-csso');
+const postcss = require('gulp-postcss');
+const postcssColor = require('postcss-color-mod-function');
 const del = require('del');
 const rollup = require('rollup');
 const createDefaultConfig = require('@open-wc/building-rollup/modern-config');
 const litcss = require('rollup-plugin-lit-css');
 const copy = require('rollup-plugin-cpy');
+// const properties = require('postcss-custom-properties');
 
 function browserSync(done) {
   browsersync.init({
@@ -57,11 +60,19 @@ function build() {
     );
 }
 
+function color() {
+  return gulp
+    .src('./src/css/src/common/__variables.css')
+    .pipe(postcss([postcssColor()]))
+    .pipe(rename('_variables.css'))
+    .pipe(gulp.dest('./src/css/src/common'));
+}
+
 function css() {
   return gulp
     .src('./src/css/src/*.css')
     .pipe(sourcemaps.init())
-    .pipe(concat({ isCompress: false }))
+    .pipe(concat({ inlineImports: true }))
     .pipe(gulp.dest('src/css'))
     .pipe(gulp.dest('./dist/css'))
     .pipe(rename({ suffix: '.min' }))
@@ -85,11 +96,18 @@ function watch() {
     gulp.series(build, browserSyncReload),
   );
 
+  // watch for color changes and generate palette
+  gulp.watch('./src/css/src/common/__variables.css', gulp.series('color'));
+
   // compile and minify css
   gulp.watch(
     './src/css/src/**/*.css',
     {
-      ignored: ['./src/css/src/astro.core.css', './src/css/src/astro.css'],
+      ignored: [
+        './src/css/src/common/__variables.css',
+        './src/css/src/astro.core.css',
+        './src/css/src/astro.css',
+      ],
     },
     gulp.series(css, browserSyncReload),
   );
@@ -101,6 +119,7 @@ function watch() {
 const start = gulp.series(clean, build, browserSync, watch);
 
 exports.css = css;
+exports.color = color;
 exports.watch = watch;
 exports.build = build;
 exports.start = start;
