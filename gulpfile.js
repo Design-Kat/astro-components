@@ -31,6 +31,20 @@ function browserSyncReload(done) {
   done();
 }
 
+/*  
+* * Rather than making Webpack/Rollup do double duty as a task
+* * runner and a build tool, the current toolchain treats the
+* * build as just another task. Neither WebPack or Rollup were
+* * well suited to handling image minification/css concatenation
+* * etc …
+
+* * This build process takes the index.html as the entry point
+* * moves all "static" files and directories to a generated
+* * dist directory; imports external CSS and then writes an 
+* * optimized JS bundle and entry point HTML document along with
+* * source maps
+*/
+
 function build() {
   const config = createDefaultConfig({
     input: './src/index.html',
@@ -62,16 +76,18 @@ function build() {
     );
 }
 
+/*
+ * * The color method handles the generation of the tint/shade
+ * * color palettes using the CSS4 color-mod function (no longer)
+ * * part of the spec. It takes a base color and increases the
+ * * tint or shade by 20% increments
+ */
 function color() {
   return gulp
     .src('./src/css/src/common/__variables.css')
     .pipe(postcss([postcssColor()]))
     .pipe(rename('_variables.css'))
     .pipe(gulp.dest('./src/css/src/common'));
-}
-
-function test() {
-  return gulp;
 }
 
 function css() {
@@ -92,12 +108,21 @@ function css() {
     .pipe(gulp.dest('./dist/css'));
 }
 
+/*
+ * * Cleans the distribution folder before building
+ */
 function clean() {
   return del(['./dist/']);
 }
 
+/*
+ * * Handles watching for file changes and triggering a browser reload
+ * TODO: implement BrowserSync.stream for CSS changes to inject rather
+ * than reload browser
+ */
 function watch() {
-  // build site
+  // build the site if anything in /src changes except fonts, imgs, css
+  // css is handled by the css watcher
   gulp.watch(
     './src/**/*',
     {
@@ -123,9 +148,6 @@ function watch() {
   );
 }
 
-// gulp.task('css', gulp.series('concatCoreCss', 'concatAllCss'));
-// const css = gulp.series(concatCoreCss);
-// const watch = gulp.series(watchFiles);
 const start = gulp.series(clean, build, browserSync, watch);
 
 exports.css = css;
@@ -134,4 +156,3 @@ exports.watch = watch;
 exports.build = build;
 exports.start = start;
 exports.clean = clean;
-exports.test = test;
