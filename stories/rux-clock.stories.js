@@ -7,6 +7,5 @@ storiesOf('Components|Clock', module).add(
   'Clock',
   () => html`
     <rux-clock></rux-clock>
-    <rux-clock aos="${new Date()}"
   `,
 );

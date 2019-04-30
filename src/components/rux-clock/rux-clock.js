@@ -3,6 +3,10 @@ import { LitElement, html } from 'lit-element';
 import RuxUtils from '../rux-utils/datetime.js';
 
 /** Class representing a single Clock instance. */
+/**
+ * @polymer
+ * @extends HTMLElement
+ */
 export class RuxClock extends LitElement {
   static get properties() {
     return {

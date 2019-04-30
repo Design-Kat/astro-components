@@ -54,7 +54,8 @@
     "rollup-plugin-html-entry": "^0.2.0",
     "rollup-plugin-lit-css": "^2.0.0",
     "rollup-plugin-livereload": "^1.0.0",
-    "@storybook/html": "^5.0.11"
+    "@storybook/html": "^5.0.11",
+    "@storybook/addon-knobs": "^5.0.0"
   },
   "repository": "git@bitbucket.org:rocketcom/astro-app.git",
   "license": "MIT",
