@@ -5,9 +5,7 @@ import litcss from 'rollup-plugin-lit-css';
 import htmlEntry from 'rollup-plugin-html-entry';
 
 const config = createDefaultConfig({
-  input: {
-    include: ['./src/components/**/*.html'],
-  },
+  input: './src/index.html',
 });
 
 export default [
@@ -16,7 +14,6 @@ export default [
     plugins: [
       ...config.plugins,
       htmlEntry(),
-
       copy([
         { files: 'src/css/*.css', dest: './dist/css' },
         { files: 'src/fonts/**', dest: './dist/fonts' },
