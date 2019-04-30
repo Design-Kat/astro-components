@@ -12,6 +12,8 @@
     "lit-element": "^2.1.0"
   },
   "devDependencies": {
+    "acorn": "^6.1.1",
+    "ajv": "^6.10.0",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@commitlint/cli": "^7.0.0",
@@ -51,7 +53,8 @@
     "rollup-plugin-cpy": "^1.1.0",
     "rollup-plugin-html-entry": "^0.2.0",
     "rollup-plugin-lit-css": "^2.0.0",
-    "rollup-plugin-livereload": "^1.0.0"
+    "rollup-plugin-livereload": "^1.0.0",
+    "@storybook/html": "^5.0.11"
   },
   "repository": "git@bitbucket.org:rocketcom/astro-app.git",
   "license": "MIT",
