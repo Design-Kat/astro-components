@@ -3,6 +3,7 @@
 	margin: 0 1rem;
 
 	color: var(--clockTextColor, rgb(255, 255, 255));
+	color: black;
 
 	font-size: 1.15rem;
 
