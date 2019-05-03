@@ -1,28 +1,31 @@
-/* eslint-disable no-unused-vars */
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { RuxIconLibrary } from './rux-icon-library.js';
-import './rux-icons-svg.js';
-/**
- * @polymer
- * @extends HTMLElement
- */
-export class RuxIcon extends PolymerElement {
+import { LitElement, html } from 'lit-element';
+
+export class RuxIcon extends LitElement {
   static get properties() {
     return {
       icon: {
         type: String,
-        observer: '_updateIcon',
       },
       size: {
-        type: String,
+        type: Number,
       },
       color: {
+        type: Number,
+      },
+      library: {
         type: String,
       },
     };
   }
 
-  static get template() {
+  constructor() {
+    super();
+
+    this.size = 128;
+    this.library = '/icons/rux-icons.svg';
+  }
+
+  render() {
     return html`
       <style>
         :host {
@@ -30,8 +33,7 @@ export class RuxIcon extends PolymerElement {
           line-height: 0;
           fill: var(--iconDefaultColor, rgb(77, 172, 255));
           height: var(--icon-size--default, 44px);
-          /* width: var(--default-icon-width, 44px); */
-          /* outline: 1px solid red; */
+          width: var(--icon-size--default, 44px);
         }
 
         :host svg {
@@ -40,14 +42,12 @@ export class RuxIcon extends PolymerElement {
         }
 
         /* small variant */
-
         :host(.rux-icon--small) {
           height: var(--icon-size--small, 32px);
           width: var(--icon-size--small, 32px);
         }
 
         /* status symbol icon size */
-
         :host(.rux-icon--status) {
           height: var(--icon-size--status, 12px);
           width: var(--icon-size--status, 12px);
@@ -63,49 +63,22 @@ export class RuxIcon extends PolymerElement {
           height: var(--icon-size--button-large, 24px);
           width: var(--icon-size--button-large, 24px);
         }
+
+        ::slotted(div) {
+          margin-top: -54%;
+        }
       </style>
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 128 128"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+      >
+        <use href="/icons/monitoring.svg#${this.icon}"></use>
+      </svg>
+      <slot></slot>
     `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-    window.addEventListener('icon-library-added', this._iconLibraryEvent);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    window.removeEventListener('icon-library-added', this._iconLibraryEvent);
-  }
-
-  ready() {
-    super.ready();
-  }
-  //
-
-  //
-  _updateIcon(icon) {
-    // get the icon library and icon name
-    const parts = icon.split(':');
-    this._iconName = parts.pop();
-    this._iconLibrary = parts.pop();
-
-    // quick fix for repaint bug in icons
-    if (this.shadowRoot.querySelectorAll('svg')[0]) {
-      this.shadowRoot.removeChild(this.shadowRoot.querySelectorAll('svg')[0]);
-    }
-
-    //
-    window.dispatchEvent(
-      new CustomEvent('set-icon', {
-        detail: {
-          el: this,
-          icon: this._iconName,
-          library: this._iconLibrary,
-          size: this.size,
-          color: this.color,
-        },
-      }),
-    );
   }
 }
 customElements.define('rux-icon', RuxIcon);

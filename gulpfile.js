@@ -59,6 +59,7 @@ function build() {
           { files: 'src/css/*.css', dest: './dist/css' },
           { files: 'src/fonts/**', dest: './dist/fonts' },
           { files: 'src/img/**/*', dest: './dist/img' },
+          { files: 'src/icons/**/*', dest: './dist/icons' },
           { files: 'src/favicon.ico', dest: './dist' },
         ]),
         litcss({
