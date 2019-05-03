@@ -63,6 +63,10 @@ export class RuxIcon extends LitElement {
           height: var(--icon-size--button-large, 24px);
           width: var(--icon-size--button-large, 24px);
         }
+
+        ::slotted(div) {
+          margin-top: -54%;
+        }
       </style>
 
       <svg
@@ -73,6 +77,7 @@ export class RuxIcon extends LitElement {
       >
         <use href="/icons/monitoring.svg#${this.icon}"></use>
       </svg>
+      <slot></slot>
     `;
   }
 }

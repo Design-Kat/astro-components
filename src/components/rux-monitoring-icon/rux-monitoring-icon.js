@@ -25,9 +25,6 @@ export class RuxMonitoringIcon extends LitElement {
       progress: {
         type: Number,
       },
-      advanced: {
-        type: Boolean,
-      },
       config: {
         type: Object,
       },
@@ -37,37 +34,33 @@ export class RuxMonitoringIcon extends LitElement {
   constructor() {
     super();
 
-    // this.advanced = !!(this.label || this.icon || this.notifications || this.progress || this.icon);
-    this.advanced = true;
-
     this._circumference = 56 * 2 * Math.PI;
 
-    this.min = 0;
-    this.max = 100;
+    this.status = 'null';
     this.sort = 'ascending';
     this.range = [
       {
-        threshold: 0,
+        threshold: 17,
         status: 'off',
       },
       {
-        threshold: 17,
+        threshold: 33,
         status: 'standby',
       },
       {
-        threshold: 33,
+        threshold: 49,
         status: 'normal',
       },
       {
-        threshold: 49,
+        threshold: 65,
         status: 'caution',
       },
       {
-        threshold: 65,
+        threshold: 81,
         status: 'serious',
       },
       {
-        threshold: 81,
+        threshold: 100,
         status: 'critical',
       },
     ];
@@ -81,7 +74,6 @@ export class RuxMonitoringIcon extends LitElement {
           padding: 0;
 
           --monitoring-progress: 0;
-          --monitoring-status: var(--colorOff);
         }
 
         *[hidden] {
@@ -98,7 +90,6 @@ export class RuxMonitoringIcon extends LitElement {
           position: relative;
           margin: 0;
           line-height: 0;
-          /* width: 6.25rem; */
 
           display: flex;
           flex-direction: column;
@@ -112,14 +103,13 @@ export class RuxMonitoringIcon extends LitElement {
 
         .rux-advanced-status__icon-group {
           position: relative;
+          margin: 0 auto;
           display: flex;
-          justify-content: center;
-          max-width: 6.25rem;
-          min-width: 4.5rem;
+
+          width: 4.5rem;
 
           /*
-                Faux icon grid. Usefull for gross alignment
-                
+            Faux icon grid. Usefull for gross alignment
           border: 1px solid red;
 
           background-image: linear-gradient(
@@ -131,7 +121,7 @@ export class RuxMonitoringIcon extends LitElement {
             rgba(0, 255, 0, 0) 52%,
             rgba(0, 255, 0, 0) 100%
           );
-          */
+           */
         }
 
         .rux-advanced-status__status-icon {
@@ -144,29 +134,11 @@ export class RuxMonitoringIcon extends LitElement {
           margin: 0 auto;
         }
 
-        .progress {
-          transition: stroke-dashoffset 0.367s, stroke 0.367s;
-          // transform: rotate(-90deg);
-          transform-origin: 50% 50%;
-        }
-
-        :host([status='off']) .progress-ring__circle {
-          --monitoring-status: var(--colorOff, green);
-        }
-        :host([status='standby']) .progress-ring__circle {
-          --monitoring-status: var(--colorStandby);
-        }
-        :host([status='normal']) .progress-ring__circle {
-          --monitoring-status: var(--colorNormal);
-        }
-        :host([status='caution']) .progress-ring__circle {
-          --monitoring-status: var(--colorCaution);
-        }
-        :host([status='serious']) .progress-ring__circle {
-          --monitoring-status: var(--colorSerious);
-        }
-        :host([status='critical']) .progress-ring__circle {
-          --monitoring-status: var(--colorCritical);
+        rux-status {
+          position: absolute;
+          top: -0.4rem;
+          left: -0.4rem;
+          margin: 0;
         }
 
         .rux-advanced-status__badge {
@@ -176,7 +148,7 @@ export class RuxMonitoringIcon extends LitElement {
 
           position: absolute;
           bottom: -0.75rem;
-          right: -0.5rem;
+          right: -0.4rem;
 
           border: 1px solid rgba(255, 255, 255, 0.6);
           border-radius: 3px;
@@ -210,42 +182,49 @@ export class RuxMonitoringIcon extends LitElement {
         }
 
         .rux-status--off {
+          stroke: var(--colorOff, rgb(158, 167, 173));
           fill: var(--colorOff, rgb(158, 167, 173));
         }
 
         .rux-status--standby {
+          stroke: var(--colorStandby, rgb(45, 204, 255));
           fill: var(--colorStandby, rgb(45, 204, 255));
         }
 
         .rux-status--normal,
         .rux-status--ok {
+          stroke: var(--colorNormal, rgb(86, 240, 0));
           fill: var(--colorNormal, rgb(86, 240, 0));
         }
 
         .rux-status--caution {
+          stroke: var(--colorCaution, rgb(252, 232, 58));
           fill: var(--colorCaution, rgb(252, 232, 58));
         }
 
         .rux-status--error,
         .rux-status--serious {
+          stroke: var(--colorSerious, rgb(255, 179, 0));
           fill: var(--colorSerious, rgb(255, 179, 0));
         }
 
-        .rux-status--critical,
         .rux-status--emergency,
         .rux-status--alert,
         .rux-status--critical {
+          stroke: var(--colorCritical, rgb(255, 56, 56));
           fill: var(--colorCritical, rgb(255, 56, 56));
+        }
+
+        [data-progress] rux-icon {
+          transition: stroke-dashoffset 0.367s, stroke 0.367s;
+          transform-origin: 50% 50%;
         }
 
         .rux-advanced-status__progress {
           font-family: var(--fontFamilyMono);
           font-size: 0.8rem;
           align-self: center;
-          position: absolute;
 
-          /* margin-top: 1.5rem;
-          margin-left: -1px; */
           letter-spacing: -1px;
           text-align: center;
         }
@@ -255,22 +234,22 @@ export class RuxMonitoringIcon extends LitElement {
         id="rux-advanced-status__icon"
         class="rux-advanced-status rux-status--${this.status}"
         title="${this.notifications} ${this.label} ${this.sublabel}"
+        ?data-progress="${this.progress}"
       >
         <div class="rux-advanced-status__icon-group">
-          <rux-status status="${this.status}" }></rux-status>
+          <rux-status status="${this.status}"></rux-status>
 
           <rux-icon
             icon="${this.icon}"
-            class="rux-advanced-status__icon rux-status--${this.status}"
+            class="rux-advanced-status__icon progress rux-status--${this.status}"
           >
+            <div class="rux-advanced-status__progress" ?hidden="${!this.progress}">
+              ${this.progress}%
+            </div>
           </rux-icon>
 
           <div class="rux-advanced-status__badge" ?hidden="${!this.notifications}">
             ${this._filterNotifications()}
-          </div>
-
-          <div class="rux-advanced-status__progress" ?hidden="${!this.progress}">
-            ${this.progress}%
           </div>
         </div>
 
@@ -285,8 +264,6 @@ export class RuxMonitoringIcon extends LitElement {
   }
 
   updated(changedProperties) {
-    // super.update(changedProperties);
-
     if (changedProperties.get('progress')) {
       this.status = this.range.find(range => this.progress < range.threshold).status;
 

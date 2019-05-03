@@ -24,16 +24,24 @@ export class AstroApp extends LitElement {
     this.appName = 'Astro 4.4';
 
     this._progress = 0;
+    this._regress = 100;
 
     this.monitoringConfig = {};
 
     setInterval(() => {
       const _increment = Math.floor(Math.random() * 5);
+      const _decrement = _increment * -1;
 
       if (this._progress + _increment > 100) {
         this._progress = _increment;
       } else {
         this._progress += _increment;
+      }
+
+      if (this._regress + _decrement < 0) {
+        this._regress = 100;
+      } else {
+        this._regress += _decrement;
       }
     }, 500);
   }
@@ -83,7 +91,19 @@ export class AstroApp extends LitElement {
         icon="progress"
         progress="${this._progress}"
       ></rux-monitoring-icon>
-      <rux-monitoring-icon status="normal"></rux-monitoring-icon>
+
+      <rux-monitoring-icon
+        label="Progress"
+        icon="progress"
+        progress="${this._regress}"
+      ></rux-monitoring-icon>
+
+      <rux-status status="off"></rux-status>
+      <rux-status status="standby"></rux-status>
+      <rux-status status="normal"></rux-status>
+      <rux-status status="caution"></rux-status>
+      <rux-status status="serious"></rux-status>
+      <rux-status status="critical"></rux-status>
     `;
   }
 }

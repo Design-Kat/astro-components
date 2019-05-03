@@ -90,35 +90,6 @@ export class RuxStatus extends LitElement {
           box-sizing: border-box;
         }
 
-        .rux-status--off {
-          fill: var(--colorOff, rgb(158, 167, 173));
-        }
-
-        .rux-status--standby {
-          fill: var(--colorStandby, rgb(45, 204, 255));
-        }
-
-        .rux-status--normal,
-        .rux-status--ok {
-          fill: var(--colorNormal, rgb(86, 240, 0));
-        }
-
-        .rux-status--caution {
-          fill: var(--colorCaution, rgb(252, 232, 58));
-        }
-
-        .rux-status--error,
-        .rux-status--serious {
-          fill: var(--colorSerious, rgb(255, 179, 0));
-        }
-
-        .rux-status--critical,
-        .rux-status--emergency,
-        .rux-status--alert,
-        .rux-status--critical {
-          fill: var(--colorCritical, rgb(255, 56, 56));
-        }
-
         /* .rux-status  */
         .rux-status-indicator {
           font-size: 1rem;

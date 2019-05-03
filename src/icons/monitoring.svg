@@ -161,7 +161,6 @@
 			<circle
 				transform='rotate(-90 60 60) translate(-1 1)'
 				class="progress-ring__circle"
-				stroke="var(--monitoring-status, red)"
 				stroke-width="10"
 				stroke-dasharray="351.8583772021 351.8583772021"
 				stroke-dashoffset="var(--monitoring-progress, 1)"
