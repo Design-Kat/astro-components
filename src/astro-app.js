@@ -28,7 +28,7 @@ export class AstroApp extends LitElement {
 
     this.monitoringConfig = [
       {
-        threshold: 49,
+        threshold: 50,
         status: 'critical',
       },
       {
@@ -96,13 +96,13 @@ export class AstroApp extends LitElement {
 
       <br />
       <rux-monitoring-icon
-        label="Progress"
+        label="Ascending"
         icon="progress"
         progress="${this._progress}"
       ></rux-monitoring-icon>
 
       <rux-monitoring-icon
-        label="Progress"
+        label="Descending"
         icon="progress"
         progress="${this._regress}"
         .range="${this.monitoringConfig}"
