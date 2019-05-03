@@ -25,8 +25,8 @@ export class RuxMonitoringIcon extends LitElement {
       progress: {
         type: Number,
       },
-      config: {
-        type: Object,
+      range: {
+        type: Array,
       },
     };
   }
@@ -37,7 +37,6 @@ export class RuxMonitoringIcon extends LitElement {
     this._circumference = 56 * 2 * Math.PI;
 
     this.status = 'null';
-    this.sort = 'ascending';
     this.range = [
       {
         threshold: 17,
@@ -274,28 +273,28 @@ export class RuxMonitoringIcon extends LitElement {
   }
 
   _filterNotifications() {
-    const _n = Math.floor(this.notifications);
+    const n = Math.floor(this.notifications);
 
     // don't show any values less than 0
-    if (_n <= 0) return null;
+    if (n <= 0) return null;
 
     // get the place value
-    const _thousand = Math.floor((_n / 1000) % 1000); // only return a whole number
-    const _million = (_n / 1000000) % 1000000; // return a decimal value for numbers like 1.2m
-    const _billion = (_n / 1000000000) % 1000000000; // return a decimal value for numbers like 1.2b
-    const _trillion = (_n / 1000000000000) % 1000000000000; // trillion is just to offer an overflow instance
+    const thousand = Math.floor((n / 1000) % 1000); // only return a whole number
+    const million = (n / 1000000) % 1000000; // return a decimal value for numbers like 1.2m
+    const billion = (n / 1000000000) % 1000000000; // return a decimal value for numbers like 1.2b
+    const trillion = (n / 1000000000000) % 1000000000000; // trillion is just to offer an overflow instance
 
     // set the display to its original state
-    let _message = _n;
+    let _message = n;
 
-    if (_trillion >= 1) {
+    if (trillion >= 1) {
       _message = '∞';
-    } else if (_billion >= 1) {
-      _message = `${_billion.toFixed(1).toString()}b`;
-    } else if (_million >= 1) {
-      _message = `${_million.toFixed(1).toString()}m`;
-    } else if (_thousand >= 1) {
-      _message = `${_thousand}k`;
+    } else if (billion >= 1) {
+      _message = `${billion.toFixed(1).toString()}b`;
+    } else if (million >= 1) {
+      _message = `${million.toFixed(1).toString()}m`;
+    } else if (thousand >= 1) {
+      _message = `${thousand}k`;
     }
 
     return _message;

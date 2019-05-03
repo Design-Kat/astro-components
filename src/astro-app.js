@@ -26,7 +26,16 @@ export class AstroApp extends LitElement {
     this._progress = 0;
     this._regress = 100;
 
-    this.monitoringConfig = {};
+    this.monitoringConfig = [
+      {
+        threshold: 49,
+        status: 'critical',
+      },
+      {
+        threshold: 100,
+        status: 'normal',
+      },
+    ];
 
     setInterval(() => {
       const _increment = Math.floor(Math.random() * 5);
@@ -96,6 +105,7 @@ export class AstroApp extends LitElement {
         label="Progress"
         icon="progress"
         progress="${this._regress}"
+        .range="${this.monitoringConfig}"
       ></rux-monitoring-icon>
 
       <rux-status status="off"></rux-status>
