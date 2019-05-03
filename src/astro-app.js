@@ -12,12 +12,29 @@ export class AstroApp extends LitElement {
       appName: {
         type: String,
       },
+      _progress: {
+        type: Number,
+      },
     };
   }
 
   constructor() {
     super();
     this.appName = 'Astro 4.4';
+
+    this._progress = 0;
+
+    this.monitoringConfig = {};
+
+    setInterval(() => {
+      const _increment = Math.floor(Math.random() * 5);
+
+      if (this._progress + _increment > 100) {
+        this._progress = _increment;
+      } else {
+        this._progress += _increment;
+      }
+    }, 500);
   }
 
   /*
@@ -28,16 +45,30 @@ export class AstroApp extends LitElement {
   */
   render() {
     return html`
+      <style>
+        rux-status {
+          margin: 1rem;
+        }
+      </style>
+
       <h1>Testing ${this.appName}</h1>
       <rux-clock></rux-clock>
       <rux-status
-        label="Test"
+        label="Test Making this Longer"
         notifications="10"
         sublabel="Small"
         status="critical"
-        icon="#altitude"
+        icon="altitude"
       ></rux-status>
-      <rux-status label="Progress" icon="monitoring:altitude"></rux-status>
+      <rux-status label="A" status="critical" icon="processor" notifications="100000"></rux-status>
+      <rux-status label="B" status="serious" icon="thermal"></rux-status>
+      <rux-status label="Medium" status="caution" icon="mission"></rux-status>
+      <rux-status label="Short" status="normal" icon="antenna"></rux-status>
+      <rux-status label="Long Text Goes Here" status="standby" icon="satellite-off"></rux-status>
+      <rux-status label="Label" status="off" icon="processor-alt"></rux-status>
+
+      <br />
+      <rux-status label="Progress" icon="progress" progress="${this._progress}"></rux-status>
       <rux-status status="normal"></rux-status>
     `;
   }

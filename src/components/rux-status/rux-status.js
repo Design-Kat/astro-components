@@ -8,7 +8,6 @@ export class RuxStatus extends LitElement {
     return {
       status: {
         type: String,
-        reflect: true,
       },
       label: {
         type: String,
@@ -24,14 +23,12 @@ export class RuxStatus extends LitElement {
       },
       progress: {
         type: Number,
-        observer: 'setProgress',
-      },
-      _notifications: {
-        type: String,
-        computed: '_filterNotifications(notifications)',
       },
       advanced: {
         type: Boolean,
+      },
+      config: {
+        type: Object,
       },
     };
   }
@@ -42,8 +39,37 @@ export class RuxStatus extends LitElement {
     // this.advanced = !!(this.label || this.icon || this.notifications || this.progress || this.icon);
     this.advanced = true;
 
-    // magic number for progress icon
     this._circumference = 56 * 2 * Math.PI;
+
+    this.min = 0;
+    this.max = 100;
+    this.sort = 'ascending';
+    this.range = [
+      {
+        threshold: 0,
+        status: 'off',
+      },
+      {
+        threshold: 17,
+        status: 'standby',
+      },
+      {
+        threshold: 33,
+        status: 'normal',
+      },
+      {
+        threshold: 49,
+        status: 'caution',
+      },
+      {
+        threshold: 65,
+        status: 'serious',
+      },
+      {
+        threshold: 81,
+        status: 'critical',
+      },
+    ];
   }
 
   render() {
@@ -52,6 +78,9 @@ export class RuxStatus extends LitElement {
         :host {
           display: inline-block;
           padding: 0;
+
+          --monitoring-progress: 0;
+          --monitoring-status: var(--colorOff);
         }
 
         *[hidden] {
@@ -85,11 +114,11 @@ export class RuxStatus extends LitElement {
           display: flex;
           justify-content: center;
           max-width: 6.25rem;
-          min-width: 4rem;
+          min-width: 4.5rem;
 
           /*
                 Faux icon grid. Usefull for gross alignment
-                */
+                
           border: 1px solid red;
 
           background-image: linear-gradient(
@@ -101,6 +130,7 @@ export class RuxStatus extends LitElement {
             rgba(0, 255, 0, 0) 52%,
             rgba(0, 255, 0, 0) 100%
           );
+          */
         }
 
         .rux-advanced-status__status-icon {
@@ -122,8 +152,8 @@ export class RuxStatus extends LitElement {
           content: '';
           display: block;
           position: relative;
-          margin-bottom: -12px;
-          margin-left: -18px !important;
+          margin-bottom: -15px;
+          margin-left: -17px !important;
           height: 16px;
           width: 16px;
           background-repeat: no-repeat;
@@ -172,23 +202,23 @@ export class RuxStatus extends LitElement {
           transform-origin: 50% 50%;
         }
 
-        :host([status='off']) .progress {
-          stroke: var(--colorOff);
+        :host([status='off']) .progress-ring__circle {
+          --monitoring-status: var(--colorOff, green);
         }
-        :host([status='standby']) .progress {
-          stroke: var(--colorStandby);
+        :host([status='standby']) .progress-ring__circle {
+          --monitoring-status: var(--colorStandby);
         }
-        :host([status='normal']) .progress {
-          stroke: var(--colorNormal);
+        :host([status='normal']) .progress-ring__circle {
+          --monitoring-status: var(--colorNormal);
         }
-        :host([status='caution']) .progress {
-          stroke: var(--colorCaution);
+        :host([status='caution']) .progress-ring__circle {
+          --monitoring-status: var(--colorCaution);
         }
-        :host([status='serious']) .progress {
-          stroke: var(--colorSerious);
+        :host([status='serious']) .progress-ring__circle {
+          --monitoring-status: var(--colorSerious);
         }
-        :host([status='critical']) .progress {
-          stroke: var(--colorCritical);
+        :host([status='critical']) .progress-ring__circle {
+          --monitoring-status: var(--colorCritical);
         }
 
         .rux-advanced-status__badge {
@@ -359,9 +389,11 @@ export class RuxStatus extends LitElement {
         .rux-advanced-status__progress {
           font-family: var(--fontFamilyMono);
           font-size: 0.8rem;
+          align-self: center;
           position: absolute;
-          margin-top: 1.5rem;
-          margin-left: -1px;
+
+          /* margin-top: 1.5rem;
+          margin-left: -1px; */
           letter-spacing: -1px;
           text-align: center;
         }
@@ -395,14 +427,16 @@ export class RuxStatus extends LitElement {
             >
               <div class="rux-advanced-status__icon-group">
                 <rux-icon
-                  icon="#antenna"
-                  class="rux-advanced-status__icon rux-status--${this.status} ${this._isProgress()}"
+                  icon="${this.icon}"
+                  class="rux-advanced-status__icon rux-status--${this.status}"
                 >
                 </rux-icon>
+
                 <div class="rux-advanced-status__badge" ?hidden="${!this.notifications}">
-                  ${this.notifications}
+                  ${this._filterNotifications()}
                 </div>
-                <div class="rux-advanced-status__progress" ?hidden="${!this._progress}">
+
+                <div class="rux-advanced-status__progress" ?hidden="${!this.progress}">
                   ${this.progress}%
                 </div>
               </div>
@@ -416,69 +450,25 @@ export class RuxStatus extends LitElement {
             </div>
           `
         : html`
-            <!-- Use simple status if no other properties are set //-->
             <div class="rux-status-indicator rux-status--${this.status}"></div>
           `}
     `;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
+  updated(changedProperties) {
+    // super.update(changedProperties);
 
-    // set a progress icon if the progress value is set
-    if (this.progress >= 0 && !this.icon) {
-      this.icon = 'utility:progress';
+    if (changedProperties.get('progress')) {
+      this.status = this.range.find(range => this.progress < range.threshold).status;
+
+      const graphProgress = this._circumference - (this.progress / 100) * this._circumference;
+
+      this.style.setProperty('--monitoring-progress', graphProgress);
     }
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
-  }
-
-  /* updated(changedProperties) {
-    console.log(this);
-  } */
-
-  firstUpdated() {
-    // Find if this is a progress element and if so create
-    // a refernce to the underlying SVG, then set the progress
-    const statusIcon = this.shadowRoot.querySelector('.rux-advanced-status__icon');
-    // console.log('statusIcon', a);
-    // console.log('statusIcon', b);
-    this.progressCircleElement = statusIcon.shadowRoot.querySelector('.progress-ring__circle');
-    if (this.progressCircleElement) {
-      this.setProgress();
-    }
-  }
-
-  _isProgress() {
-    return this.progress > 1 ? 'progress' : '';
-  }
-
-  setProgress() {
-    if (this.progress > 0 && this.progress < 25) {
-      this.status = 'critical';
-    } else if (this.progress >= 25 && this.progress < 50) {
-      this.status = 'serious';
-    } else if (this.progress >= 50 && this.progress < 75) {
-      this.status = 'caution';
-    } else if (this.progress >= 75) {
-      this.status = 'normal';
-    }
-
-    this._progress = this._circumference - (this.progress / 100) * this._circumference;
-
-    if (this.progressCircleElement) {
-      this.progressCircleElement.setAttribute('style', `stroke-dashoffset:${this._progress}`);
-    }
-  }
-
-  _filterNotifications(n) {
-    if (Number.isNaN(n)) {
-      console.error(`${this.label}'s notification count is not a number`);
-    }
-
-    const _n = Math.floor(n);
+  _filterNotifications() {
+    const _n = Math.floor(this.notifications);
 
     // don't show any values less than 0
     if (_n <= 0) return null;
