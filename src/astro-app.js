@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit-element';
 /* eslint-disable no-unused-vars */
 import { RuxClock } from './components/rux-clock/rux-clock';
 import { RuxStatus } from './components/rux-status/rux-status';
+import { RuxMonitoringIcon } from './components/rux-monitoring-icon/rux-monitoring-icon';
 
 /* eslint-enable no-unused-vars */
 
@@ -46,30 +47,43 @@ export class AstroApp extends LitElement {
   render() {
     return html`
       <style>
-        rux-status {
+        rux-monitoring-icon {
           margin: 1rem;
         }
       </style>
 
       <h1>Testing ${this.appName}</h1>
       <rux-clock></rux-clock>
-      <rux-status
+      <rux-monitoring-icon
         label="Test Making this Longer"
         notifications="10"
         sublabel="Small"
         status="critical"
         icon="altitude"
-      ></rux-status>
-      <rux-status label="A" status="critical" icon="processor" notifications="100000"></rux-status>
-      <rux-status label="B" status="serious" icon="thermal"></rux-status>
-      <rux-status label="Medium" status="caution" icon="mission"></rux-status>
-      <rux-status label="Short" status="normal" icon="antenna"></rux-status>
-      <rux-status label="Long Text Goes Here" status="standby" icon="satellite-off"></rux-status>
-      <rux-status label="Label" status="off" icon="processor-alt"></rux-status>
+      ></rux-monitoring-icon>
+      <rux-monitoring-icon
+        label="A"
+        status="critical"
+        icon="processor"
+        notifications="100000"
+      ></rux-monitoring-icon>
+      <rux-monitoring-icon label="B" status="serious" icon="thermal"></rux-monitoring-icon>
+      <rux-monitoring-icon label="Medium" status="caution" icon="mission"></rux-monitoring-icon>
+      <rux-monitoring-icon label="Short" status="normal" icon="antenna"></rux-monitoring-icon>
+      <rux-monitoring-icon
+        label="Long Text Goes Here"
+        status="standby"
+        icon="satellite-off"
+      ></rux-monitoring-icon>
+      <rux-monitoring-icon label="Label" status="off" icon="processor-alt"></rux-monitoring-icon>
 
       <br />
-      <rux-status label="Progress" icon="progress" progress="${this._progress}"></rux-status>
-      <rux-status status="normal"></rux-status>
+      <rux-monitoring-icon
+        label="Progress"
+        icon="progress"
+        progress="${this._progress}"
+      ></rux-monitoring-icon>
+      <rux-monitoring-icon status="normal"></rux-monitoring-icon>
     `;
   }
 }
