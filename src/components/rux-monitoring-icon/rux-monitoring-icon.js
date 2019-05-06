@@ -37,32 +37,83 @@ export class RuxMonitoringIcon extends LitElement {
     this._circumference = 56 * 2 * Math.PI;
 
     this.status = 'null';
-    this.range = [
-      {
-        threshold: 17,
-        status: 'off',
-      },
-      {
-        threshold: 33,
-        status: 'standby',
-      },
-      {
-        threshold: 49,
-        status: 'normal',
-      },
-      {
-        threshold: 65,
-        status: 'caution',
-      },
-      {
-        threshold: 81,
-        status: 'serious',
-      },
-      {
-        threshold: 100,
-        status: 'critical',
-      },
-    ];
+  }
+
+  firstUpdated() {
+    super.connectedCallback();
+
+    if (Number.isInteger(parseInt(this.progress, 10)) && !this.range) {
+      this.range = [
+        {
+          threshold: 17,
+          status: 'off',
+        },
+        {
+          threshold: 33,
+          status: 'standby',
+        },
+        {
+          threshold: 81,
+          status: 'serious',
+        },
+        {
+          threshold: 49,
+          status: 'normal',
+        },
+        {
+          threshold: 65,
+          status: 'caution',
+        },
+
+        {
+          threshold: 100,
+          status: 'critical',
+        },
+      ];
+      console.log(this.range);
+    }
+
+    this.range = this.range.sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
+
+    console.log(this.range);
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.get('progress')) {
+      this.status = this.range.find(range => this.progress < range.threshold).status;
+
+      const graphProgress = this._circumference - (this.progress / 100) * this._circumference;
+
+      this.style.setProperty('--monitoring-progress', graphProgress);
+    }
+  }
+
+  _filterNotifications() {
+    const n = Math.floor(this.notifications);
+
+    // don't show any values less than 0
+    if (n <= 0) return null;
+
+    // get the place value
+    const thousand = Math.floor((n / 1000) % 1000); // only return a whole number
+    const million = (n / 1000000) % 1000000; // return a decimal value for numbers like 1.2m
+    const billion = (n / 1000000000) % 1000000000; // return a decimal value for numbers like 1.2b
+    const trillion = (n / 1000000000000) % 1000000000000; // trillion is just to offer an overflow instance
+
+    // set the display to its original state
+    let _message = n;
+
+    if (trillion >= 1) {
+      _message = '∞';
+    } else if (billion >= 1) {
+      _message = `${billion.toFixed(1).toString()}b`;
+    } else if (million >= 1) {
+      _message = `${million.toFixed(1).toString()}m`;
+    } else if (thousand >= 1) {
+      _message = `${thousand}k`;
+    }
+
+    return _message;
   }
 
   render() {
@@ -190,8 +241,7 @@ export class RuxMonitoringIcon extends LitElement {
           fill: var(--colorStandby, rgb(45, 204, 255));
         }
 
-        .rux-status--normal,
-        .rux-status--ok {
+        .rux-status--normal {
           stroke: var(--colorNormal, rgb(86, 240, 0));
           fill: var(--colorNormal, rgb(86, 240, 0));
         }
@@ -201,14 +251,11 @@ export class RuxMonitoringIcon extends LitElement {
           fill: var(--colorCaution, rgb(252, 232, 58));
         }
 
-        .rux-status--error,
         .rux-status--serious {
           stroke: var(--colorSerious, rgb(255, 179, 0));
           fill: var(--colorSerious, rgb(255, 179, 0));
         }
 
-        .rux-status--emergency,
-        .rux-status--alert,
         .rux-status--critical {
           stroke: var(--colorCritical, rgb(255, 56, 56));
           fill: var(--colorCritical, rgb(255, 56, 56));
@@ -222,6 +269,7 @@ export class RuxMonitoringIcon extends LitElement {
         .rux-advanced-status__progress {
           font-family: var(--fontFamilyMono);
           font-size: 0.8rem;
+          line-height: 0.25;
           align-self: center;
 
           letter-spacing: -1px;
@@ -260,44 +308,6 @@ export class RuxMonitoringIcon extends LitElement {
         </div>
       </div>
     `;
-  }
-
-  updated(changedProperties) {
-    if (changedProperties.get('progress')) {
-      this.status = this.range.find(range => this.progress < range.threshold).status;
-
-      const graphProgress = this._circumference - (this.progress / 100) * this._circumference;
-
-      this.style.setProperty('--monitoring-progress', graphProgress);
-    }
-  }
-
-  _filterNotifications() {
-    const n = Math.floor(this.notifications);
-
-    // don't show any values less than 0
-    if (n <= 0) return null;
-
-    // get the place value
-    const thousand = Math.floor((n / 1000) % 1000); // only return a whole number
-    const million = (n / 1000000) % 1000000; // return a decimal value for numbers like 1.2m
-    const billion = (n / 1000000000) % 1000000000; // return a decimal value for numbers like 1.2b
-    const trillion = (n / 1000000000000) % 1000000000000; // trillion is just to offer an overflow instance
-
-    // set the display to its original state
-    let _message = n;
-
-    if (trillion >= 1) {
-      _message = '∞';
-    } else if (billion >= 1) {
-      _message = `${billion.toFixed(1).toString()}b`;
-    } else if (million >= 1) {
-      _message = `${million.toFixed(1).toString()}m`;
-    } else if (thousand >= 1) {
-      _message = `${thousand}k`;
-    }
-
-    return _message;
   }
 }
 

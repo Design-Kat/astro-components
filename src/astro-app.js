@@ -23,17 +23,33 @@ export class AstroApp extends LitElement {
     super();
     this.appName = 'Astro 4.4';
 
+    this._negative = -50;
     this._progress = 0;
     this._regress = 100;
 
     this.monitoringConfig = [
       {
+        threshold: 100,
+        status: 'normal',
+      },
+      {
         threshold: 50,
         status: 'critical',
       },
+    ];
+
+    this.negativeConfig = [
       {
-        threshold: 100,
+        threshold: -50,
+        status: 'critical',
+      },
+      {
+        threshold: 25,
         status: 'normal',
+      },
+      {
+        threshold: 0,
+        status: 'standby',
       },
     ];
 
@@ -45,6 +61,12 @@ export class AstroApp extends LitElement {
         this._progress = _increment;
       } else {
         this._progress += _increment;
+      }
+
+      if (this._negative + _increment > 50) {
+        this._negative = -50;
+      } else {
+        this._negative += _increment;
       }
 
       if (this._regress + _decrement < 0) {
@@ -106,6 +128,13 @@ export class AstroApp extends LitElement {
         icon="progress"
         progress="${this._regress}"
         .range="${this.monitoringConfig}"
+      ></rux-monitoring-icon>
+
+      <rux-monitoring-icon
+        label="Descending"
+        icon="progress"
+        progress="${this._negative}"
+        .range="${this.negativeConfig}"
       ></rux-monitoring-icon>
 
       <rux-status status="off"></rux-status>
