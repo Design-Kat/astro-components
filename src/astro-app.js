@@ -38,21 +38,6 @@ export class AstroApp extends LitElement {
       },
     ];
 
-    this.negativeConfig = [
-      {
-        threshold: -50,
-        status: 'critical',
-      },
-      {
-        threshold: 25,
-        status: 'normal',
-      },
-      {
-        threshold: 0,
-        status: 'standby',
-      },
-    ];
-
     setInterval(() => {
       const _increment = Math.floor(Math.random() * 5);
       const _decrement = _increment * -1;
@@ -78,6 +63,23 @@ export class AstroApp extends LitElement {
   }
 
   /*
+  this.negativeConfig = [
+      {
+        threshold: -50,
+        status: 'critical',
+      },
+      {
+        threshold: 25,
+        status: 'normal',
+      },
+      {
+        threshold: 0,
+        status: 'standby',
+      },
+    ];
+    */
+
+  /*
     Template and styles blocks should appear as the very last code blocks
 
     IMPORTANT to pass linting if your render method doesn’t have any template
@@ -91,7 +93,16 @@ export class AstroApp extends LitElement {
         }
       </style>
 
-      <h1>Testing ${this.appName}</h1>
+      <rux-monitoring-icon label="Ascending" progress="${this._progress}"></rux-monitoring-icon>
+
+      <rux-monitoring-icon
+        label="Descending"
+        progress="${this._regress}"
+        .range="${this.monitoringConfig}"
+      ></rux-monitoring-icon>
+
+      <br />
+
       <rux-clock></rux-clock>
       <rux-monitoring-icon
         label="Test Making this Longer"
@@ -116,33 +127,12 @@ export class AstroApp extends LitElement {
       ></rux-monitoring-icon>
       <rux-monitoring-icon label="Label" status="off" icon="processor-alt"></rux-monitoring-icon>
 
-      <br />
-      <rux-monitoring-icon
-        label="Ascending"
-        icon="progress"
-        progress="${this._progress}"
-      ></rux-monitoring-icon>
-
-      <rux-monitoring-icon
-        label="Descending"
-        icon="progress"
-        progress="${this._regress}"
-        .range="${this.monitoringConfig}"
-      ></rux-monitoring-icon>
-
-      <rux-monitoring-icon
-        label="Descending"
-        icon="progress"
-        progress="${this._negative}"
-        .range="${this.negativeConfig}"
-      ></rux-monitoring-icon>
-
-      <rux-status status="off"></rux-status>
+      <!-- <rux-status status="off"></rux-status>
       <rux-status status="standby"></rux-status>
       <rux-status status="normal"></rux-status>
       <rux-status status="caution"></rux-status>
       <rux-status status="serious"></rux-status>
-      <rux-status status="critical"></rux-status>
+      <rux-status status="critical"></rux-status> -->
     `;
   }
 }

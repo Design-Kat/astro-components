@@ -42,50 +42,55 @@ export class RuxMonitoringIcon extends LitElement {
   firstUpdated() {
     super.connectedCallback();
 
-    if (Number.isInteger(parseInt(this.progress, 10)) && !this.range) {
-      this.range = [
-        {
-          threshold: 17,
-          status: 'off',
-        },
-        {
-          threshold: 33,
-          status: 'standby',
-        },
-        {
-          threshold: 81,
-          status: 'serious',
-        },
-        {
-          threshold: 49,
-          status: 'normal',
-        },
-        {
-          threshold: 65,
-          status: 'caution',
-        },
+    if (Number.isInteger(parseInt(this.progress, 10))) {
+      this.icon = 'progress';
+      if (!this.range) {
+        this.range = [
+          {
+            threshold: 17,
+            status: 'off',
+          },
+          {
+            threshold: 33,
+            status: 'standby',
+          },
+          {
+            threshold: 81,
+            status: 'serious',
+          },
+          {
+            threshold: 49,
+            status: 'normal',
+          },
+          {
+            threshold: 65,
+            status: 'caution',
+          },
 
-        {
-          threshold: 100,
-          status: 'critical',
-        },
-      ];
-      console.log(this.range);
+          {
+            threshold: 100,
+            status: 'critical',
+          },
+        ];
+      }
     }
 
     this.range = this.range.sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
-
-    console.log(this.range);
+    this.updateProgress();
   }
 
   updated(changedProperties) {
     if (changedProperties.get('progress')) {
-      this.status = this.range.find(range => this.progress < range.threshold).status;
-
-      const graphProgress = this._circumference - (this.progress / 100) * this._circumference;
-
-      this.style.setProperty('--monitoring-progress', graphProgress);
+      this.updateProgress();
     }
+  }
+
+  updateProgress() {
+    this.status = this.range.find(range => this.progress < range.threshold).status;
+
+    const graphProgress = this._circumference - (this.progress / 100) * this._circumference;
+
+    this.style.setProperty('--monitoring-progress', graphProgress);
   }
 
   _filterNotifications() {
@@ -137,13 +142,14 @@ export class RuxMonitoringIcon extends LitElement {
         }
 
         .rux-advanced-status {
-          position: relative;
-          margin: 0;
-          line-height: 0;
-
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
+          position: relative;
+
+          margin: 0;
+
+          line-height: 0;
 
           -webkit-user-select: none;
           -moz-user-select: none;
@@ -152,10 +158,10 @@ export class RuxMonitoringIcon extends LitElement {
         }
 
         .rux-advanced-status__icon-group {
-          position: relative;
-          margin: 0 auto;
           display: flex;
+          position: relative;
 
+          margin: 0 auto;
           width: 4.5rem;
 
           /*
@@ -172,11 +178,6 @@ export class RuxMonitoringIcon extends LitElement {
             rgba(0, 255, 0, 0) 100%
           );
            */
-        }
-
-        .rux-advanced-status__status-icon {
-          margin: 0 2px 0 auto;
-          order: 1;
         }
 
         .rux-advanced-status__icon {
@@ -203,31 +204,36 @@ export class RuxMonitoringIcon extends LitElement {
           border: 1px solid rgba(255, 255, 255, 0.6);
           border-radius: 3px;
           padding: 0.65rem 0.25rem;
+
+          color: var(--fontColor, #fff);
           font-size: 0.775rem;
           text-align: center;
-          color: #fff;
-          background-color: #000;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+
+          background-color: #000;
         }
 
         .rux-advanced-status__label {
-          text-align: center;
           color: var(--fontColor, #fff);
           font-size: 0.875rem;
-          line-height: 1.2;
-          margin-top: 1rem;
-          overflow: hidden;
+          text-align: center;
           text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 1.2;
+          overflow: hidden;
+
+          margin-top: 1rem;
+
           width: 100%;
           max-width: 6.25rem;
-          white-space: nowrap;
         }
 
-        .rux-advanced-status__label__sub-label {
+        .rux-advanced-status__sublabel {
           font-size: 0.65em;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--fontColor, #fff);
+          opacity: 0.6;
           display: block;
         }
 
@@ -302,7 +308,7 @@ export class RuxMonitoringIcon extends LitElement {
 
         <div class="rux-advanced-status__label">
           ${this.label}
-          <span class="rux-advanced-status__label__sub-label" ?hidden="${!this.sublabel}"
+          <span class="rux-advanced-status__sublabel" ?hidden="${!this.sublabel}"
             >${this.sublabel}</span
           >
         </div>
