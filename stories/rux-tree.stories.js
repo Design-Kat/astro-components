@@ -10,37 +10,45 @@ storiesOf('Components|Tree', module)
   .add('Tree', () => {
     const treeData = [
       {
-        label: 'Comms',
+        label: 'Pre',
+        status: 'off',
+      },
+      {
+        label: 'First',
         status: 'normal',
         children: [
           {
-            label: 'Component A',
+            label: 'Equipment 1247',
+            status: 'critical',
+          },
+          {
+            label: 'Equipment 2375',
+            status: 'serious',
             children: [
               {
-                id: 'E1247',
                 label: 'Equipment 1247',
                 status: 'critical',
               },
               {
-                id: 'E2375',
                 label: 'Equipment 2375',
                 status: 'serious',
               },
               {
-                id: 'E3267',
-                label: 'Equipment 3267',
-                status: 'critical',
-              },
-              {
-                id: 'E6757',
-                label: 'Equipment 6757',
-                status: 'serious',
+                label: 'Equipment 2375',
               },
             ],
           },
+          {
+            label: 'Equipment 2375',
+            status: 'serious',
+          },
         ],
       },
-      { label: 'Sat', status: 'critical' },
+      { label: 'Second', status: 'critical' },
+      {
+        label: 'Third',
+        status: 'null',
+      },
     ];
 
     return html`
