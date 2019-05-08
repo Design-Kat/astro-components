@@ -1,36 +1,72 @@
-#Status
-The RUX Status component is … RUX Icon is based on the industry standard [WebComponents v1 spec](https://html.spec.whatwg.org/multipage/custom-elements.html) and implemented with [Polymer Project 3](https://www.polymer-project.org) for backwards compatibility and document binding.
+# Monitoring Icons
 
-RUX Statusis available as a preview release and should not be used in production code.
+The RUX Monitoring Icon, formerly Rux Status is designed RUX Icon is based on the industry standard
 
-For stylesheet usage outside of a WebComponent environment, please see [Astro UXDS Stylesheets](https://bitbucket.org/rocketcom/astro-styles)
+## Guidelines
 
-##Guidelines
+- [Astro UXDS: Icons and Symbols](http://www.astrouxds.com/library/icons-and-symbols)
 
-* [Astro UXDS: Status Symbol](http://www.astrouxds.com/library/status-symbols)
+## Installation
 
-##Installation
-`npm i -S @astrouxds/rux-status`
+`npm i -save @astrouxds/rux-monitoring-icon`
 
-###Dependancies
+### Dependancies
 
-* [Polymer 3](https://www.polymer-project.com)
-* [Astro 3 Core CSS](https://bitbucket.org/rocketcom/astro-styles/src/master/)
-* [Rux Icon](https://bitbucket.org/rocketcom/astro-components/src/master/src/astro-components/rux-icon/)
+- [LitElement](http://lit-element.polymer-project.org/)
+- [Astro 3 Core CSS](https://bitbucket.org/rocketcom/astro-styles/src/master/)
+- [Rux Icon](https://bitbucket.org/rocketcom/astro-components/src/master/src/astro-components/rux-icon/)
+- [Rux Status](https://bitbucket.org/rocketcom/astro-components/src/master/src/astro-components/rux-status/)
 
-##Usage
-###Import RUX Status Indicator
+## Web Components Usage
+
+### 1. Installation
+
+#### ** Install the Astro RUX Monitoring Icon package via Command Line** (Preferred Method)
+
+```sh
+npm i --save @astrouxds/rux-monitoring-icon
+```
+
+You may use Yarn, NPM, or your Node package manager of choice. The `--save` flag adds this component as a dependency in your `package.json` file.
+
+#### **Alternatively**, download the [Astro Component Library](https://bitbucket.org/rocketcom/astro-components/src/master/) source to your project.
+
+Via CLI:
+
+```sh
+git clone https://bitbucket.org/rocketcom/astro-components.git
+```
+
+Or, [download Astro Components as a .zip](https://bitbucket.org/rocketcom/astro-components/get/master.zip)
+
+### 2. Import the RUX Monitoring Icon Web Component
+
+This example assumes you're using the NPM package in `node_modules`. Otherwise, import the component using the path to the Astro Components directory in your project.
 
 ```javascript
-import { RuxStatus } from "@astro-components/rux-status/rux-status.js";
+import { RuxMonitoringIcon } from '@astro-components/rux-monitoring-icon/rux-monitoring-icon.js';
 ```
 
-###Basic HTML Usage
-Rux Status supports both [simple status symbols](https://www.astrouxds.com/ui-components/status-symbol) and [advanced status symbols](https://www.astrouxds.com/ui-components/icons-and-symbols). RUX Status is assumed to be a simple status symbol if _only_ the status paramter is passed in. If any other param is passed the advanced status pattern is used.
+### 3. Use the RUX Monitoring Icon Web Component
 
 ```xml
-<rux-status status="error"></rux-status>
+<rux-monitoring-icon
+	status="critical"
+	label="Label"
+	sublabel="Sub Label"
+	icon="altitude"
+	notifications="10" ></rux-monitoring-icon>
 ```
+
+Astro 4.0 introduces an additional monitoring icon that depicts progress. When using the progress variant there is no need to assign an icon or status attribute
+
+```xml
+<rux-monitoring-icon
+	label="Label"
+	sublabel="Sub Label"
+	progress="50" ></rux-monitoring-icon>
+```
+
 **Note** Status valid strings have been updated
 ###Properties
 | Property | Type | Description |
@@ -39,3 +75,35 @@ Rux Status supports both [simple status symbols](https://www.astrouxds.com/ui-co
 | `label` | `string` | Primary label for an advanced status symbol. Labels exceeding width of the icon will be truncated with an ellipsis |
 | `sublabel` | `string` | An optional string value appearing underneath the primary label |
 | `notifications` | `number` | Indicates notifications for a give status. Values beyond 9,999 are shorthanded 10K, 100K, 1.5M, 1.5B and ∞ for numbers greater than 999,999,999,999 |
+| `progress` | `number` | Indicates the progress of a given operation, number must be provided in a range between 0-99 |
+| `range` | `array` | An array of objects defining the threshold and associated status. Default range array is
+
+```xml
+[
+ { threshold: 17, status: 'off' },
+ { threshold: 33, status: 'standby'},
+ { threshold: 81, status: 'serious'},
+ { threshold: 49, status: 'normal'},
+ { threshold: 65, status: 'caution'},
+ { threshold: 99, status: 'critical'},
+]
+```
+
+## Revision History
+
+##### **4.1**
+
+- Replaced [Polymer 3](https://www.polymer-project.org) implementation with [LitElement](https://lit-element.polymer-project.org/) for improved speed and interoperability with JS Frameworks as well as simpler template declaration now
+- Renamed component to more accurately reflect guidelines semantics
+- Moved simple status indicators to their own component [Rux Status](https://bitbucket.org/rocketcom/astro-components/src/master/src/astro-components/rux-status/)
+- Added support for Percentage Icon from EGS
+- Removed legacy `satcom_` prefix
+
+##### **3.0**
+
+- Removed margin on status symbols
+
+##### **1.4**
+
+- Added rux* and BEM compatible classes to all satcom* NOTE: satcom\_ will be removed in a future version
+- Embeded SVG graphics
