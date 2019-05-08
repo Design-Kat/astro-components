@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit-element';
 /* eslint-disable no-unused-vars */
 import { RuxClock } from './components/rux-clock/rux-clock';
 import { RuxStatus } from './components/rux-status/rux-status';
+import { RuxTree } from './components/rux-tree/rux-tree';
 import { RuxMonitoringIcon } from './components/rux-monitoring-icon/rux-monitoring-icon';
 
 /* eslint-enable no-unused-vars */
@@ -16,6 +17,9 @@ export class AstroApp extends LitElement {
       _progress: {
         type: Number,
       },
+      treeData: {
+        type: Array,
+      },
     };
   }
 
@@ -26,6 +30,49 @@ export class AstroApp extends LitElement {
     this._negative = -50;
     this._progress = 0;
     this._regress = 100;
+
+    this.treeData = [
+      {
+        label: 'Pre',
+        status: 'off',
+      },
+      {
+        label: 'First',
+        status: 'normal',
+        children: [
+          {
+            label: 'Equipment 1247',
+            status: 'critical',
+          },
+          {
+            label: 'Equipment 2375',
+            status: 'serious',
+            children: [
+              {
+                label: 'Equipment 1247',
+                status: 'critical',
+              },
+              {
+                label: 'Equipment 2375',
+                status: 'serious',
+              },
+              {
+                label: 'Equipment 2375',
+              },
+            ],
+          },
+          {
+            label: 'Equipment 2375',
+            status: 'serious',
+          },
+        ],
+      },
+      { label: 'Second', status: 'critical' },
+      {
+        label: 'Third',
+        status: 'null',
+      },
+    ];
 
     this.monitoringConfig = [
       {
@@ -92,6 +139,8 @@ export class AstroApp extends LitElement {
           margin: 1rem;
         }
       </style>
+
+      <rux-tree .treeData="${this.treeData}"></rux-tree>
 
       <rux-monitoring-icon label="Ascending" progress="${this._progress}"></rux-monitoring-icon>
 

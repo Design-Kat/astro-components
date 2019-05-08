@@ -17,23 +17,97 @@ export class RuxTree extends LitElement {
 
   constructor() {
     super();
-    this.temp = 'hello world';
+
     this._maxBranches = 4;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    document.addEventListener('keydown', this.handleKeyPress);
+
+    /* this._treeItems = this.shadowRoot.querySelectorAll(['role="treeitem"']);
+    console.warn('tree items', this._treeItems); */
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener('keydown', this.handleKeyPress);
+    document.disconnectedCallback();
+  }
+
+  static handleKeyPress(e) {
+    switch (e.keyCode) {
+      case 37:
+        // left
+        break;
+      case 38:
+        // up
+        break;
+      case 39:
+        // right
+        break;
+      case 40:
+        // down
+        break;
+      case 13:
+        // enter
+        break;
+      case 36:
+        // home
+        break;
+      case 35:
+        // end
+        break;
+      case 9:
+        // tab
+        break;
+      case 106:
+        // down
+        break;
+      default:
+        break;
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
   toggleTreeElement(e) {
-    const selectedTreeElement = e.target.closest('[aria-expanded]');
+    e.stopPropagation();
+    const toggleTreeElement = e.target.closest('[aria-expanded]');
 
-    selectedTreeElement.setAttribute(
+    toggleTreeElement.setAttribute(
       'aria-expanded',
-      selectedTreeElement.getAttribute('aria-expanded') !== 'true',
+      toggleTreeElement.getAttribute('aria-expanded') !== 'true',
+    );
+  }
+
+  selectTreeElement(e) {
+    // e.stopPropagation();
+
+    this.shadowRoot.querySelectorAll('[aria-selected="true"]').forEach(selectedTree => {
+      selectedTree.setAttribute('aria-selected', false);
+      selectedTree.setAttribute('tabindex', '-1');
+    });
+
+    e.target.setAttribute('aria-selected', true);
+    e.target.setAttribute('tabindex', '0');
+
+    this.dispatchEvent(
+      new CustomEvent({
+        detail: {},
+        bubbles: true,
+        composed: true,
+      }),
     );
   }
 
   render() {
     const treeItem = item => html`
-      <li class="rux-tree__tree-element" role="treeitem" aria-expanded="false">
+      <li
+        class="rux-tree__tree-element"
+        role="treeitem"
+        aria-expanded="false"
+        tabindex="-1"
+        @click="${this.selectTreeElement}"
+      >
         <div class="rux-tree__parent">
           <i
             class="rux-tree__arrow"
@@ -108,11 +182,34 @@ export class RuxTree extends LitElement {
           display: flex;
           align-items: center;
           padding: 0.5rem;
+          transition: background-color 0.0967s ease-in;
+          border-left: 4px solid var(--treeBackgroundColor, rgb(30, 47, 66));
+        }
+
+        .rux-tree__parent[aria-selected='true'] {
+          background-color: #00436b;
+          border-left: 4px solid #4dacff;
+          outline: none;
+        }
+
+        .rux-tree__parent:focus,
+        .rux-tree__tree-element:focus {
+          outline: none !important;
+        }
+
+        .rux-tree__parent:hover {
+          background-color: #103751;
+          transition: background-color 0.047s ease-out;
         }
 
         .rux-tree__parent rux-status {
           margin-left: calc(0.5rem + 0.4375rem);
           margin-right: 0.5rem;
+          pointer-events: none;
+        }
+
+        .rux-tree__label {
+          pointer-events: none;
         }
 
         /* .rux-tree__tree-element[aria-expanded='false'] .rux-tree__childre{
@@ -127,6 +224,16 @@ export class RuxTree extends LitElement {
 
           background-color: transparent;
           transition: transform 0.167s ease-in-out;
+        }
+
+        .rux-tree__arrow::before {
+          content: '';
+          display: block;
+          height: 1.5rem;
+          width: 1.5rem;
+          top: -0.15rem;
+          left: -0.65rem;
+          position: absolute;
         }
 
         .rux-tree__arrow::after {
@@ -159,7 +266,7 @@ export class RuxTree extends LitElement {
       </style>
 
       <menu class="rux-tree">
-        <ul>
+        <ul role="tree">
           ${this.treeData.map(
             parent =>
               html`
