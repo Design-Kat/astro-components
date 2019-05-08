@@ -1,4 +1,7 @@
 import { LitElement, html } from 'lit-element';
+/* eslint-disable no-unused-vars */
+import { RuxStatus } from '../rux-status/rux-status';
+/* eslint-enable no-unused-vars */
 
 export class RuxTree extends LitElement {
   static get properties() {
@@ -18,15 +21,36 @@ export class RuxTree extends LitElement {
   }
 
   render() {
+    const treeItem = el => html`
+      <li>
+        <div>
+          <rux-status status="${el.status}"></rux-status>
+          ${el.label}
+          ${el.children &&
+            el.children.length &&
+            html`
+              <ul>
+                ${el.children.map(
+                  child =>
+                    html`
+                      ${treeItem(child)}
+                    `,
+                )}
+              </ul>
+            `}
+        </div>
+      </li>
+    `;
+
     return html`
-      <h1>${this.temp}</h1>
-      <h1>${this.treeData[0].label}</h1>
-      ${this.treeData.map(
-        i =>
-          html`
-            <li>as ${i}</li>
-          `,
-      )}
+      <ul>
+        ${this.treeData.map(
+          parent =>
+            html`
+              ${treeItem(parent)}
+            `,
+        )}
+      </ul>
     `;
   }
 }

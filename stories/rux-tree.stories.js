@@ -11,6 +11,7 @@ storiesOf('Components|Tree', module)
     const treeData = [
       {
         label: 'Comms',
+        status: 'normal',
         children: [
           {
             label: 'Component A',
@@ -39,7 +40,7 @@ storiesOf('Components|Tree', module)
           },
         ],
       },
-      { label: 'Sat' },
+      { label: 'Sat', status: 'critical' },
     ];
 
     return html`
