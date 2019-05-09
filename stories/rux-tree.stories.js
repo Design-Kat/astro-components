@@ -102,8 +102,8 @@ storiesOf('Components|Tree', module)
         }
       </style>
       <div class="container">
-        <rux-tree .treeData="${treeData}"></rux-tree>
         <rux-tree .treeData="${treeData}" hasStatus></rux-tree>
+        <rux-tree .treeData="${treeData}"></rux-tree>
       </div>
     `;
   });

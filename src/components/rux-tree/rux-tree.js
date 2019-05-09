@@ -124,7 +124,7 @@ export class RuxTree extends LitElement {
       <li
         class="rux-tree__tree-element"
         role="treeitem"
-        aria-expanded="false"
+        aria-expanded="true"
         tabindex="-1"
         @click="${this.selectTreeElement}"
       >
@@ -160,6 +160,7 @@ export class RuxTree extends LitElement {
       <style>
         :host {
           display: inline-block;
+          position: relative;
           box-sizing: border-box;
 
           width: 100%;
@@ -198,21 +199,53 @@ export class RuxTree extends LitElement {
         }
 
         .rux-tree li {
+          font-weight: bold;
           border-top: 1px solid var(--treeItemBorderColor, rgb(40, 63, 88));
         }
 
         .rux-tree__parent {
           display: flex;
           align-items: center;
-          padding: 0.275rem 0.5rem;
-          transition: background-color 0.0967s ease-in;
+          padding: 0.425rem 0.5rem;
         }
+
+        /*  .rux-tree__parent,
+        [aria-expanded] .rux-tree__label:first-of-type {
+          font-weight: bold;
+        }
+
+        .rux-tree__children .rux-tree__label {
+          font-weight: normal;
+        }
+
+        .rux-tree__parent[aria-expanded='true'] .rux-tree__label {
+          font-weight: bold !important;
+        } */
 
         .rux-tree__parent[aria-selected='true'] {
           background-color: #00436b;
-
-          box-shadow: inset 4px 0 0 #4dacff;
           outline: none;
+        }
+
+        .rux-tree__parent::after {
+          content: '';
+          height: 2.3rem;
+          width: 100%;
+          left: 0;
+          z-index: 0;
+          position: absolute;
+          transition: background-color 0.0967s ease-in;
+          /* background-color: red; */
+        }
+
+        .rux-tree__parent:hover::after {
+          background-color: #103751;
+          transition: background-color 0.047s ease-out;
+        }
+
+        .rux-tree__parent[aria-selected='true']::after {
+          box-shadow: inset 0.25rem 0 0 #4dacff;
+          background-color: #00436b;
         }
 
         .rux-tree__parent:focus,
@@ -220,36 +253,53 @@ export class RuxTree extends LitElement {
           outline: none !important;
         }
 
-        .rux-tree__parent:hover {
+        /* .rux-tree__parent:hover {
           background-color: #103751;
           transition: background-color 0.047s ease-out;
-        }
-
-        .rux-tree__parent rux-status {
-          margin-left: calc(0.5rem + 0.4375rem);
-          margin-right: 0.5rem;
-          /* pointer-events: none; */
-        }
+        } */
 
         .rux-tree__label {
+          left: 3rem;
+
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+
+          order: 3;
+          z-index: 10;
 
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;
           user-select: none;
-          /* pointer-events: none; */
+        }
+
+        /* label w/o status */
+        .rux-tree__arrow[hidden] + .rux-tree__label {
+          margin-left: 1.5rem;
+        }
+
+        .rux-tree__parent rux-status {
+          margin: 0 0.5rem;
+          z-index: 12;
+          order: 2;
+        }
+
+        .rux-tree__arrow[hidden] + rux-status {
+          margin-left: 2rem;
         }
 
         .rux-tree__arrow {
+          order: 1;
           position: relative;
           cursor: pointer;
-          width: 0.4375rem;
-
+          width: 0.35rem;
+          margin-top: -1px;
+          margin-right: 1rem;
+          margin-left: 0.15rem;
           background-color: transparent;
           transition: transform 0.167s ease-in-out;
+          z-index: 11;
         }
 
         .rux-tree__arrow::before {
@@ -268,7 +318,7 @@ export class RuxTree extends LitElement {
           width: 0;
           height: 0;
           border-style: solid;
-          border-width: 0.4375rem 0 0.4375rem 0.4375rem;
+          border-width: 0.35rem 0 0.35rem 0.35rem;
           border-color: transparent transparent transparent
             var(--treeAccentColor, rgb(77, 172, 255));
           display: inline-block;
@@ -284,6 +334,7 @@ export class RuxTree extends LitElement {
         }
 
         [aria-expanded='true'] > .rux-tree__children li {
+          font-weight: normal;
           border-top: none;
         }
 
@@ -293,6 +344,10 @@ export class RuxTree extends LitElement {
 
         .rux-tree__children {
           padding-left: 1.5rem;
+        }
+
+        .rux-tree__children .rux-tree__parent {
+          margin-left: -1.5rem;
         }
       </style>
 
