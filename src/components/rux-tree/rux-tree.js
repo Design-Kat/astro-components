@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 /* eslint-disable no-unused-vars */
 import { RuxStatus } from '../rux-status/rux-status';
 /* eslint-enable no-unused-vars */
@@ -26,6 +26,7 @@ export class RuxTree extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
     document.addEventListener('keyup', this._handleKeyPress);
   }
 
@@ -39,7 +40,7 @@ export class RuxTree extends LitElement {
   }
 
   handleKeyPress(e) {
-    console.log(e);
+    // console.log('KEY PRESS');
 
     switch (e.keyCode) {
       case 37:
@@ -47,12 +48,14 @@ export class RuxTree extends LitElement {
         break;
       case 38:
         // up
+        this.traverse(-1);
         break;
       case 39:
         // right
         break;
       case 40:
         // down
+        this.traverse(1);
         break;
       case 13:
         // enter
@@ -68,7 +71,7 @@ export class RuxTree extends LitElement {
         break;
       case 106: {
         // asterisk
-        this.toggleAll();
+        this.expandAll();
         break;
       }
       default:
@@ -76,11 +79,49 @@ export class RuxTree extends LitElement {
     }
   }
 
-  toggleAll() {
-    const expand = this.shadowRoot.querySelector('[aria-expanded="true"]') === null;
+  traverse(direction) {
+    /* console.log('direction', direction);
+    console.log(this.shadowRoot.querySelector('[aria-selected="true"]'));
+    console.log(this.shadowRoot.querySelector('[aria-selected="true"]').nextElementSibling);
+    console.log(this.shadowRoot.querySelector('[aria-selected="true"]').previousElementSibling); */
+
+    const selectTreeItem = this.shadowRoot.querySelector('[aria-selected="true"]');
+    selectTreeItem.setAttribute('aria-selected', false);
+
+    if (direction === 1) {
+      selectTreeItem.nextElementSibling.setAttribute('aria-selected', true);
+    } else {
+      selectTreeItem.previousElementSibling.setAttribute('aria-selected', true);
+    }
+
+    /* const this.selected;
+
+    if (direction === 1) {
+      this.shadowRoot
+        .querySelector('[aria-selected="true"]')
+        .nextElementSibling.setAttribute('aria-selected', true);
+    } else {
+      this.shadowRoot
+        .querySelector('[aria-selected="true"]')
+        .previousElementSibling.setAttribute('aria-selected', true);
+    }
+    this.shadowRoot.querySelector('[aria-selected="true"]').setAttribute('aria-selected', false); */
+
+    /* this._treeItems[selectedIndex].setAttribute('aria-selected', false);
+    this._treeItems[selectedIndex + direction].setAttribute('aria-selected', true); */
+
+    // console.log(selectedIndex);
+  }
+
+  expandAll() {
+    // technically ARIA states the asterisk should open a/all group/s but does not
+    // mention collapsing them again. This would allow for collapse as well if
+    // desired, just replace "true" in the loop with 'expand'
+
+    // const expand = this.shadowRoot.querySelector('[aria-expanded="true"]') === null;
 
     this.shadowRoot.querySelectorAll('[aria-expanded]').forEach(item => {
-      item.setAttribute('aria-expanded', expand);
+      item.setAttribute('aria-expanded', 'true');
     });
   }
 
@@ -107,7 +148,7 @@ export class RuxTree extends LitElement {
     });
 
     // find the nearest parent. handles clicks on tree and status
-    this.selected = e.target.closest('.rux-tree__parent');
+    this.selected = e.target.closest('.rux-tree__tree-item');
 
     // select clicked item
     this.selected.setAttribute('aria-selected', true);
@@ -143,7 +184,7 @@ export class RuxTree extends LitElement {
             ? html`
                 <rux-status status="${item.status || 'null'}"></rux-status>
               `
-            : nothing}
+            : ``}
           <div title="${item.label}, status ${item.status}" class="rux-tree__label">
             ${item.label}
           </div>
@@ -216,7 +257,7 @@ export class RuxTree extends LitElement {
           padding: 0.3rem 0.5rem;
         }
 
-        .rux-tree__parent[aria-selected='true'] {
+        [aria-selected='true'] > .rux-tree__parent {
           background-color: #00436b; /* @todo set color with variable */
           outline: none;
         }
@@ -236,7 +277,7 @@ export class RuxTree extends LitElement {
           transition: background-color 0.047s ease-out;
         }
 
-        .rux-tree__parent[aria-selected='true']::after {
+        [aria-selected='true'] > .rux-tree__parent::after {
           box-shadow: inset 0.25rem 0 0 #4dacff;
           background-color: #00436b; /* @todo set color with variable */
         }
