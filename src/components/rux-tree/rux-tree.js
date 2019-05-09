@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, nothing } from 'lit-element';
 /* eslint-disable no-unused-vars */
 import { RuxStatus } from '../rux-status/rux-status';
 /* eslint-enable no-unused-vars */
@@ -36,14 +36,6 @@ export class RuxTree extends LitElement {
     this._treeItems = this.shadowRoot.querySelectorAll('[role="treeitem"]');
   }
 
-  keyTo(where) {
-    console.log('keying to');
-    const index = this._treeItems.find(item => item === this.selected);
-
-    console.log('index === ', index);
-    console.log(this._treeItems[index + where]);
-  }
-
   static handleKeyPress(e) {
     switch (e.keyCode) {
       case 37:
@@ -51,7 +43,6 @@ export class RuxTree extends LitElement {
         break;
       case 38:
         // up
-        this.keyTo(1);
         break;
       case 39:
         // right
@@ -80,22 +71,22 @@ export class RuxTree extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  toggleTreeElement(e) {
+  toggleTreeItem(e) {
     e.stopPropagation();
     // find the closest ancestor
-    const toggleTreeElement = e.target.closest('[aria-expanded]');
+    const toggleTreeItem = e.target.closest('[aria-expanded]');
 
     // unfortunately the aria-expanded attribute isn’t boolean so
     // have to treat true/false as strings
-    toggleTreeElement.setAttribute(
+    toggleTreeItem.setAttribute(
       'aria-expanded',
-      toggleTreeElement.getAttribute('aria-expanded') !== 'true',
+      toggleTreeItem.getAttribute('aria-expanded') !== 'true',
     );
   }
 
-  selectTreeElement(e) {
+  selectTreeItem(e) {
     e.stopPropagation();
-    // reset currently selected elements
+    // reset currently selected items
     this.shadowRoot.querySelectorAll('[aria-selected="true"]').forEach(selectedTree => {
       selectedTree.setAttribute('aria-selected', false);
       selectedTree.setAttribute('tabindex', '-1');
@@ -104,7 +95,7 @@ export class RuxTree extends LitElement {
     // find the nearest parent. handles clicks on tree and status
     this.selected = e.target.closest('.rux-tree__parent');
 
-    // select clicked element
+    // select clicked item
     this.selected.setAttribute('aria-selected', true);
     this.selected.setAttribute('tabindex', '0');
 
@@ -122,24 +113,26 @@ export class RuxTree extends LitElement {
   render() {
     const treeItem = item => html`
       <li
-        class="rux-tree__tree-element"
+        class="rux-tree__tree-item"
         role="treeitem"
         aria-expanded="true"
         tabindex="-1"
-        @click="${this.selectTreeElement}"
+        @click="${this.selectTreeItem}"
       >
         <div class="rux-tree__parent">
           <i
             class="rux-tree__arrow"
-            @click="${this.toggleTreeElement}"
+            @click="${this.toggleTreeItem}"
             ?hidden="${!item.children}"
           ></i>
           ${this.hasStatus
             ? html`
                 <rux-status status="${item.status || 'null'}"></rux-status>
               `
-            : ``}
-          <div title="${item.label}" class="rux-tree__label">${item.label}</div>
+            : nothing}
+          <div title="${item.label}, status ${item.status}" class="rux-tree__label">
+            ${item.label}
+          </div>
         </div>
         ${item.children &&
           item.children.length &&
@@ -209,19 +202,6 @@ export class RuxTree extends LitElement {
           padding: 0.425rem 0.5rem;
         }
 
-        /*  .rux-tree__parent,
-        [aria-expanded] .rux-tree__label:first-of-type {
-          font-weight: bold;
-        }
-
-        .rux-tree__children .rux-tree__label {
-          font-weight: normal;
-        }
-
-        .rux-tree__parent[aria-expanded='true'] .rux-tree__label {
-          font-weight: bold !important;
-        } */
-
         .rux-tree__parent[aria-selected='true'] {
           background-color: #00436b;
           outline: none;
@@ -249,7 +229,7 @@ export class RuxTree extends LitElement {
         }
 
         .rux-tree__parent:focus,
-        .rux-tree__tree-element:focus {
+        .rux-tree__tree-item:focus {
           outline: none !important;
         }
 
