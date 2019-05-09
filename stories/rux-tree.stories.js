@@ -19,7 +19,6 @@ storiesOf('Components|Tree', module)
         children: [
           {
             label: 'Equipment 1247',
-            status: 'critical',
           },
           {
             label: 'Equipment 2375',
@@ -27,7 +26,46 @@ storiesOf('Components|Tree', module)
             children: [
               {
                 label: 'Equipment 1247',
-                status: 'critical',
+
+                children: [
+                  {
+                    label: 'Equipment 1247',
+                    status: 'critical',
+                    children: [
+                      {
+                        label: 'Equipment 1247',
+                        status: 'critical',
+                      },
+                      {
+                        label: 'Equipment 2375',
+
+                        children: [
+                          {
+                            label: 'Equipment 1247',
+                            status: 'critical',
+                          },
+                          {
+                            label: 'Equipment 2375',
+                            status: 'serious',
+                          },
+                          {
+                            label: 'Equipment 2375',
+                          },
+                        ],
+                      },
+                      {
+                        label: 'Equipment 2375',
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Equipment 2375',
+                    status: 'serious',
+                  },
+                  {
+                    label: 'Equipment 2375',
+                  },
+                ],
               },
               {
                 label: 'Equipment 2375',
@@ -52,6 +90,20 @@ storiesOf('Components|Tree', module)
     ];
 
     return html`
-      <rux-tree .treeData="${treeData}"></rux-tree>
+      <style>
+        .container {
+          display: flex;
+          justify-content: center;
+        }
+
+        rux-tree {
+          width: 18rem;
+          margin: 1rem;
+        }
+      </style>
+      <div class="container">
+        <rux-tree .treeData="${treeData}"></rux-tree>
+        <rux-tree .treeData="${treeData}" hasStatus></rux-tree>
+      </div>
     `;
   });

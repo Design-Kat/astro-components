@@ -9,8 +9,8 @@ export class RuxTree extends LitElement {
       treeData: {
         type: Array,
       },
-      temp: {
-        type: String,
+      hasStatus: {
+        type: Boolean,
       },
     };
   }
@@ -19,19 +19,29 @@ export class RuxTree extends LitElement {
     super();
 
     this._maxBranches = 4;
+    this.hasStatus = false;
   }
 
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener('keydown', this.handleKeyPress);
-
-    /* this._treeItems = this.shadowRoot.querySelectorAll(['role="treeitem"']);
-    console.warn('tree items', this._treeItems); */
   }
 
   disconnectedCallback() {
     this.removeEventListener('keydown', this.handleKeyPress);
     document.disconnectedCallback();
+  }
+
+  firstUpdated() {
+    this._treeItems = this.shadowRoot.querySelectorAll('[role="treeitem"]');
+  }
+
+  keyTo(where) {
+    console.log('keying to');
+    const index = this._treeItems.find(item => item === this.selected);
+
+    console.log('index === ', index);
+    console.log(this._treeItems[index + where]);
   }
 
   static handleKeyPress(e) {
@@ -41,6 +51,7 @@ export class RuxTree extends LitElement {
         break;
       case 38:
         // up
+        this.keyTo(1);
         break;
       case 39:
         // right
@@ -71,8 +82,11 @@ export class RuxTree extends LitElement {
   // eslint-disable-next-line class-methods-use-this
   toggleTreeElement(e) {
     e.stopPropagation();
+    // find the closest ancestor
     const toggleTreeElement = e.target.closest('[aria-expanded]');
 
+    // unfortunately the aria-expanded attribute isn’t boolean so
+    // have to treat true/false as strings
     toggleTreeElement.setAttribute(
       'aria-expanded',
       toggleTreeElement.getAttribute('aria-expanded') !== 'true',
@@ -80,16 +94,22 @@ export class RuxTree extends LitElement {
   }
 
   selectTreeElement(e) {
-    // e.stopPropagation();
-
+    e.stopPropagation();
+    // reset currently selected elements
     this.shadowRoot.querySelectorAll('[aria-selected="true"]').forEach(selectedTree => {
       selectedTree.setAttribute('aria-selected', false);
       selectedTree.setAttribute('tabindex', '-1');
     });
 
-    e.target.setAttribute('aria-selected', true);
-    e.target.setAttribute('tabindex', '0');
+    // find the nearest parent. handles clicks on tree and status
+    this.selected = e.target.closest('.rux-tree__parent');
 
+    // select clicked element
+    this.selected.setAttribute('aria-selected', true);
+    this.selected.setAttribute('tabindex', '0');
+
+    // dispatch event to app to handle what
+    // should happen next
     this.dispatchEvent(
       new CustomEvent({
         detail: {},
@@ -111,12 +131,15 @@ export class RuxTree extends LitElement {
         <div class="rux-tree__parent">
           <i
             class="rux-tree__arrow"
-            title="Expand"
             @click="${this.toggleTreeElement}"
             ?hidden="${!item.children}"
           ></i>
-          <rux-status status="${item.status || 'null'}"></rux-status>
-          <div class="rux-tree__label">${item.label}</div>
+          ${this.hasStatus
+            ? html`
+                <rux-status status="${item.status || 'null'}"></rux-status>
+              `
+            : ``}
+          <div title="${item.label}" class="rux-tree__label">${item.label}</div>
         </div>
         ${item.children &&
           item.children.length &&
@@ -174,21 +197,21 @@ export class RuxTree extends LitElement {
           list-style: none;
         }
 
-        li {
+        .rux-tree li {
           border-top: 1px solid var(--treeItemBorderColor, rgb(40, 63, 88));
         }
 
         .rux-tree__parent {
           display: flex;
           align-items: center;
-          padding: 0.5rem;
+          padding: 0.275rem 0.5rem;
           transition: background-color 0.0967s ease-in;
-          border-left: 4px solid var(--treeBackgroundColor, rgb(30, 47, 66));
         }
 
         .rux-tree__parent[aria-selected='true'] {
           background-color: #00436b;
-          border-left: 4px solid #4dacff;
+
+          box-shadow: inset 4px 0 0 #4dacff;
           outline: none;
         }
 
@@ -205,22 +228,25 @@ export class RuxTree extends LitElement {
         .rux-tree__parent rux-status {
           margin-left: calc(0.5rem + 0.4375rem);
           margin-right: 0.5rem;
-          pointer-events: none;
+          /* pointer-events: none; */
         }
 
         .rux-tree__label {
-          pointer-events: none;
-        }
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
 
-        /* .rux-tree__tree-element[aria-expanded='false'] .rux-tree__childre{
-          
-        } */
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          /* pointer-events: none; */
+        }
 
         .rux-tree__arrow {
           position: relative;
           cursor: pointer;
           width: 0.4375rem;
-          margin-right: -0.4375rem;
 
           background-color: transparent;
           transition: transform 0.167s ease-in-out;
@@ -254,6 +280,11 @@ export class RuxTree extends LitElement {
 
         [aria-expanded='true'] > .rux-tree__children {
           display: block;
+          background-color: #182736;
+        }
+
+        [aria-expanded='true'] > .rux-tree__children li {
+          border-top: none;
         }
 
         [aria-expanded='true'] > .rux-tree__parent .rux-tree__arrow {
@@ -261,7 +292,7 @@ export class RuxTree extends LitElement {
         }
 
         .rux-tree__children {
-          padding: 0 0 0 1.5rem;
+          padding-left: 1.5rem;
         }
       </style>
 
