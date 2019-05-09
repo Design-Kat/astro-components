@@ -20,15 +20,17 @@ export class RuxTree extends LitElement {
 
     this._maxBranches = 4;
     this.hasStatus = false;
+
+    this._handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener('keydown', this.handleKeyPress);
+    document.addEventListener('keyup', this._handleKeyPress);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('keydown', this.handleKeyPress);
+    this.removeEventListener('keyup', this._handleKeyPress);
     document.disconnectedCallback();
   }
 
@@ -36,7 +38,9 @@ export class RuxTree extends LitElement {
     this._treeItems = this.shadowRoot.querySelectorAll('[role="treeitem"]');
   }
 
-  static handleKeyPress(e) {
+  handleKeyPress(e) {
+    console.log(e);
+
     switch (e.keyCode) {
       case 37:
         // left
@@ -62,12 +66,22 @@ export class RuxTree extends LitElement {
       case 9:
         // tab
         break;
-      case 106:
-        // down
+      case 106: {
+        // asterisk
+        this.toggleAll();
         break;
+      }
       default:
         break;
     }
+  }
+
+  toggleAll() {
+    const expand = this.shadowRoot.querySelector('[aria-expanded="true"]') === null;
+
+    this.shadowRoot.querySelectorAll('[aria-expanded]').forEach(item => {
+      item.setAttribute('aria-expanded', expand);
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -115,7 +129,7 @@ export class RuxTree extends LitElement {
       <li
         class="rux-tree__tree-item"
         role="treeitem"
-        aria-expanded="true"
+        aria-expanded="false"
         tabindex="-1"
         @click="${this.selectTreeItem}"
       >
@@ -199,44 +213,38 @@ export class RuxTree extends LitElement {
         .rux-tree__parent {
           display: flex;
           align-items: center;
-          padding: 0.425rem 0.5rem;
+          padding: 0.3rem 0.5rem;
         }
 
         .rux-tree__parent[aria-selected='true'] {
-          background-color: #00436b;
+          background-color: #00436b; /* @todo set color with variable */
           outline: none;
         }
 
         .rux-tree__parent::after {
           content: '';
-          height: 2.3rem;
+          height: 2rem;
           width: 100%;
           left: 0;
           z-index: 0;
           position: absolute;
           transition: background-color 0.0967s ease-in;
-          /* background-color: red; */
         }
 
         .rux-tree__parent:hover::after {
-          background-color: #103751;
+          background-color: #103751; /* @todo set color with variable */
           transition: background-color 0.047s ease-out;
         }
 
         .rux-tree__parent[aria-selected='true']::after {
           box-shadow: inset 0.25rem 0 0 #4dacff;
-          background-color: #00436b;
+          background-color: #00436b; /* @todo set color with variable */
         }
 
         .rux-tree__parent:focus,
         .rux-tree__tree-item:focus {
           outline: none !important;
         }
-
-        /* .rux-tree__parent:hover {
-          background-color: #103751;
-          transition: background-color 0.047s ease-out;
-        } */
 
         .rux-tree__label {
           left: 3rem;
@@ -310,7 +318,7 @@ export class RuxTree extends LitElement {
 
         [aria-expanded='true'] > .rux-tree__children {
           display: block;
-          background-color: #182736;
+          background-color: #182736; /* @todo set color with variable */
         }
 
         [aria-expanded='true'] > .rux-tree__children li {

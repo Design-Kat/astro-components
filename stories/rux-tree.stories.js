@@ -82,10 +82,10 @@ storiesOf('Components|Tree', module)
           },
         ],
       },
-      { label: 'Second', status: 'critical' },
+      { label: 'Second' },
       {
         label: 'Third',
-        status: 'null',
+        status: 'critical',
       },
     ];
 
