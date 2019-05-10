@@ -122,7 +122,6 @@ export class RuxTree extends LitElement {
           const items = selectTreeItem.previousElementSibling.getElementsByClassName(
             'rux-tree__tree-item',
           );
-          console.log(items);
           items[items.length - 1].setAttribute('aria-selected', true);
         } else {
           selectTreeItem.previousElementSibling.setAttribute('aria-selected', true);
@@ -269,12 +268,15 @@ export class RuxTree extends LitElement {
         .rux-tree li {
           font-weight: bold;
           border-top: 1px solid var(--treeItemBorderColor, rgb(40, 63, 88));
+          /* outline: 1px solid red; */
+          /* margin: 1rem 0; */
         }
 
         .rux-tree__parent {
           display: flex;
           align-items: center;
-          padding: 0.3rem 0.5rem;
+          padding: 0 0.5rem;
+          height: 2rem;
         }
 
         [aria-selected='true'] > .rux-tree__parent {
@@ -343,12 +345,13 @@ export class RuxTree extends LitElement {
           position: relative;
           cursor: pointer;
           width: 0.35rem;
-          margin-top: -1px;
+          /* margin-top: -2px; */
           margin-right: 1rem;
           margin-left: 0.15rem;
           background-color: transparent;
           transition: transform 0.167s ease-in-out;
           z-index: 11;
+          /* outline: 1px solid red; */
         }
 
         .rux-tree__arrow::before {

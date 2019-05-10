@@ -14,6 +14,14 @@ storiesOf('Components|Tree', module)
         status: 'off',
       },
       {
+        label: 'New 2',
+        status: 'normal',
+      },
+      {
+        label: 'New',
+        status: 'normal',
+      },
+      {
         label: 'First',
         status: 'normal',
         children: [
