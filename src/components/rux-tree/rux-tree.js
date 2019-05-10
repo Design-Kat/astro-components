@@ -45,7 +45,7 @@ export class RuxTree extends LitElement {
     switch (e.keyCode) {
       case 37:
         // left
-        this.toggleTreeItemRefactor(-1);
+        this.toggleTreeItemRefactor('closed');
         break;
       case 38:
         // up
@@ -53,15 +53,17 @@ export class RuxTree extends LitElement {
         break;
       case 39:
         // right
-        this.toggleTreeItemRefactor(1);
+        this.toggleTreeItemRefactor('open');
         break;
       case 40:
         // down
         this.traverse(1);
         break;
       case 13:
+      case 32:
         // enter
-        this.toggleTreeItemRefactor(2);
+        // space
+        this.toggleTreeItemRefactor();
         break;
       case 36:
         // home
@@ -82,54 +84,55 @@ export class RuxTree extends LitElement {
     }
   }
 
+  getFocusedItem() {
+    console.log(this.activeElement);
+  }
+
   toggleTreeItemRefactor(direction) {
-    const selectTreeItem = this.shadowRoot.querySelector('[aria-selected="true"]');
-    if (selectTreeItem.hasAttribute('aria-expanded')) {
-      if (direction === 1) {
-        selectTreeItem.setAttribute('aria-expanded', true);
-      } else if (direction === -1) {
-        selectTreeItem.setAttribute('aria-expanded', false);
-      } else {
-        selectTreeItem.setAttribute(
-          'aria-expanded',
-          selectTreeItem.getAttribute('aria-expanded') !== 'true',
-        );
-      }
+    const currentActiveElement = this.shadowRoot.activeElement;
+
+    if (
+      (currentActiveElement.getAttribute('aria-expanded') === 'false' && direction === 'open') ||
+      (currentActiveElement.getAttribute('aria-expanded') === 'true' && direction === 'closed') ||
+      !direction
+    ) {
+      this.setToggleTreeItem(currentActiveElement);
     }
   }
 
   traverse(direction) {
-    const selectTreeItem = this.shadowRoot.querySelector('[aria-selected="true"]');
-    selectTreeItem.setAttribute('aria-selected', false);
+    const currentActiveElement = this.shadowRoot.activeElement;
+    let activeElement = null;
 
     if (direction === 1) {
       // if the next item has children but isn't expanded then select it
-      if (selectTreeItem.getAttribute('aria-expanded') === 'false') {
-        if (selectTreeItem.nextElementSibling) {
-          selectTreeItem.nextElementSibling.setAttribute('aria-selected', true);
+      if (currentActiveElement.getAttribute('aria-expanded') === 'false') {
+        if (currentActiveElement.nextElementSibling) {
+          activeElement = currentActiveElement.nextElementSibling;
         } else {
-          selectTreeItem
-            .closest('[aria-expanded="true"]')
-            .nextElementSibling.setAttribute('aria-selected', true);
+          activeElement = currentActiveElement.closest('[aria-expanded="true"]').nextElementSibling;
         }
         // if the section is expanded then go to the first child element
       } else {
-        selectTreeItem.querySelector('.rux-tree__tree-item').setAttribute('aria-selected', true);
+        activeElement = currentActiveElement.querySelector('.rux-tree__tree-item');
       }
     } else if (direction === -1) {
-      if (selectTreeItem.previousElementSibling) {
-        if (selectTreeItem.previousElementSibling.getAttribute('aria-expanded') === 'true') {
-          const items = selectTreeItem.previousElementSibling.getElementsByClassName(
+      if (currentActiveElement.previousElementSibling) {
+        if (currentActiveElement.previousElementSibling.getAttribute('aria-expanded') === 'true') {
+          const items = currentActiveElement.previousElementSibling.getElementsByClassName(
             'rux-tree__tree-item',
           );
-          items[items.length - 1].setAttribute('aria-selected', true);
+          activeElement = items[items.length - 1];
         } else {
-          selectTreeItem.previousElementSibling.setAttribute('aria-selected', true);
+          activeElement = currentActiveElement.previousElementSibling;
         }
       } else {
-        selectTreeItem.closest('[aria-expanded="true"]').setAttribute('aria-selected', true);
+        activeElement = currentActiveElement.closest('[aria-expanded="true"]');
       }
     }
+
+    currentActiveElement.blur();
+    activeElement.focus();
   }
 
   expandAll() {
@@ -145,29 +148,33 @@ export class RuxTree extends LitElement {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  setToggleTreeItem(to) {
+    // unfortunately the aria-expanded attribute isn’t boolean so
+    // have to treat true/false as strings
+
+    to.setAttribute('aria-expanded', to.getAttribute('aria-expanded') !== 'true');
+  }
+
   toggleTreeItem(e) {
     e.stopPropagation();
     // find the closest ancestor
-    const toggleTreeItem = e.target.closest('[aria-expanded]');
-
-    // unfortunately the aria-expanded attribute isn’t boolean so
-    // have to treat true/false as strings
-    toggleTreeItem.setAttribute(
-      'aria-expanded',
-      toggleTreeItem.getAttribute('aria-expanded') !== 'true',
-    );
+    this.setToggleTreeItem(e.target.closest('[aria-expanded]'));
   }
 
-  selectTreeItem(e) {
-    e.stopPropagation();
-    // reset currently selected items
+  resetSelectedTreeItem() {
     this.shadowRoot.querySelectorAll('[aria-selected="true"]').forEach(selectedTree => {
       selectedTree.setAttribute('aria-selected', false);
       selectedTree.setAttribute('tabindex', '-1');
+      selectedTree.blur();
     });
+  }
 
-    // find the nearest parent. handles clicks on tree and status
-    this.selected = e.target.closest('.rux-tree__tree-item');
+  // handles setting the selected element regardless of
+  // event trigger
+  setSelectedTreeItem(to) {
+    this.resetSelectedTreeItem();
+
+    this.selected = to;
 
     // select clicked item
     this.selected.setAttribute('aria-selected', true);
@@ -182,6 +189,14 @@ export class RuxTree extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  // handle clicked on tree elements
+  selectTreeItem(e) {
+    e.stopPropagation();
+
+    // find the nearest parent. handles clicks on tree and status
+    this.setSelectedTreeItem(e.target.closest('.rux-tree__tree-item'));
   }
 
   render() {
@@ -307,6 +322,7 @@ export class RuxTree extends LitElement {
         .rux-tree__parent:focus,
         .rux-tree__tree-item:focus {
           outline: none !important;
+          border: 1px solid red !important;
         }
 
         .rux-tree__label {
