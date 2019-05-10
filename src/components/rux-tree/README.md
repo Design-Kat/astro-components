@@ -44,14 +44,14 @@ import { RuxTree } from '@astro-components/rux-tree/rux-tree.js';
 <rux-tree .treeData="${treeDataArray}"></rux-tree>
 ```
 
-### Properties
+### Component Properties
 
 | Property  | Type      | Required | Description                                                                 |
 | --------- | --------- | -------- | --------------------------------------------------------------------------- |
 | treeData  | `array`   | yes      | An array of objects defining the tree structure. See a sample object below. |
 | hasStatus | `boolean` | no       | An array of objects defining the tree structure                             |
 
-#### Sample object
+#### Sample `treeData` object
 
 ```json
 [
@@ -75,7 +75,7 @@ import { RuxTree } from '@astro-components/rux-tree/rux-tree.js';
 ]
 ```
 
-### Object Properties
+### `treeData` Object Properties
 
 | Property | Type     | Required | Description                                                                                                               |
 | -------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
