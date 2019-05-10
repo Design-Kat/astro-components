@@ -8,6 +8,61 @@ import { RuxStatus } from '../src/components/rux-status/rux-status.js';
 storiesOf('Components|Tree', module)
   .addDecorator(withKnobs)
   .add('Tree', () => {
+    const treeDataNoStatus = [
+      {
+        label: 'New',
+      },
+      {
+        label: 'First',
+        children: [
+          {
+            label: 'Equipment 1247',
+          },
+          {
+            label: 'Equipment 2375',
+            children: [
+              {
+                label: 'Equipment 1247',
+
+                children: [
+                  {
+                    label: 'Equipment 1247',
+
+                    children: [
+                      {
+                        label: 'Equipment 1247',
+                      },
+                      {
+                        label: 'Equipment 2375',
+                      },
+                      {
+                        label: 'Equipment 2375',
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Equipment 2375',
+                  },
+                  {
+                    label: 'Equipment 2375',
+                  },
+                ],
+              },
+              {
+                label: 'Equipment 2375',
+              },
+              {
+                label: 'Equipment 2375',
+              },
+            ],
+          },
+          {
+            label: 'Equipment 2375',
+          },
+        ],
+      },
+    ];
+
     const treeData = [
       {
         label: 'Pre',
@@ -110,8 +165,8 @@ storiesOf('Components|Tree', module)
         }
       </style>
       <div class="container">
-        <rux-tree .treeData="${treeData}" hasStatus></rux-tree>
         <rux-tree .treeData="${treeData}"></rux-tree>
+        <rux-tree .treeData="${treeDataNoStatus}"></rux-tree>
       </div>
     `;
   });

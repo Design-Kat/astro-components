@@ -9,22 +9,20 @@ export class RuxTree extends LitElement {
       treeData: {
         type: Array,
       },
-      hasStatus: {
-        type: Boolean,
-      },
     };
   }
 
   constructor() {
     super();
 
-    this.hasStatus = false;
-
     this._handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   connectedCallback() {
     super.connectedCallback();
+
+    // check to see if any of the elements have status and set the hasStatus property
+    this.hasStatus = this.treeData.flat(2).find(element => element.status);
 
     document.addEventListener('keyup', this._handleKeyPress);
   }
