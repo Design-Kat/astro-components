@@ -45,6 +45,7 @@ export class RuxTree extends LitElement {
     switch (e.keyCode) {
       case 37:
         // left
+        this.toggleTreeItemRefactor(-1);
         break;
       case 38:
         // up
@@ -52,6 +53,7 @@ export class RuxTree extends LitElement {
         break;
       case 39:
         // right
+        this.toggleTreeItemRefactor(1);
         break;
       case 40:
         // down
@@ -59,6 +61,7 @@ export class RuxTree extends LitElement {
         break;
       case 13:
         // enter
+        this.toggleTreeItemRefactor(2);
         break;
       case 36:
         // home
@@ -79,38 +82,55 @@ export class RuxTree extends LitElement {
     }
   }
 
-  traverse(direction) {
-    /* console.log('direction', direction);
-    console.log(this.shadowRoot.querySelector('[aria-selected="true"]'));
-    console.log(this.shadowRoot.querySelector('[aria-selected="true"]').nextElementSibling);
-    console.log(this.shadowRoot.querySelector('[aria-selected="true"]').previousElementSibling); */
+  toggleTreeItemRefactor(direction) {
+    const selectTreeItem = this.shadowRoot.querySelector('[aria-selected="true"]');
+    if (selectTreeItem.hasAttribute('aria-expanded')) {
+      if (direction === 1) {
+        selectTreeItem.setAttribute('aria-expanded', true);
+      } else if (direction === -1) {
+        selectTreeItem.setAttribute('aria-expanded', false);
+      } else {
+        selectTreeItem.setAttribute(
+          'aria-expanded',
+          selectTreeItem.getAttribute('aria-expanded') !== 'true',
+        );
+      }
+    }
+  }
 
+  traverse(direction) {
     const selectTreeItem = this.shadowRoot.querySelector('[aria-selected="true"]');
     selectTreeItem.setAttribute('aria-selected', false);
 
     if (direction === 1) {
-      selectTreeItem.nextElementSibling.setAttribute('aria-selected', true);
-    } else {
-      selectTreeItem.previousElementSibling.setAttribute('aria-selected', true);
+      // if the next item has children but isn't expanded then select it
+      if (selectTreeItem.getAttribute('aria-expanded') === 'false') {
+        if (selectTreeItem.nextElementSibling) {
+          selectTreeItem.nextElementSibling.setAttribute('aria-selected', true);
+        } else {
+          selectTreeItem
+            .closest('[aria-expanded="true"]')
+            .nextElementSibling.setAttribute('aria-selected', true);
+        }
+        // if the section is expanded then go to the first child element
+      } else {
+        selectTreeItem.querySelector('.rux-tree__tree-item').setAttribute('aria-selected', true);
+      }
+    } else if (direction === -1) {
+      if (selectTreeItem.previousElementSibling) {
+        if (selectTreeItem.previousElementSibling.getAttribute('aria-expanded') === 'true') {
+          const items = selectTreeItem.previousElementSibling.getElementsByClassName(
+            'rux-tree__tree-item',
+          );
+          console.log(items);
+          items[items.length - 1].setAttribute('aria-selected', true);
+        } else {
+          selectTreeItem.previousElementSibling.setAttribute('aria-selected', true);
+        }
+      } else {
+        selectTreeItem.closest('[aria-expanded="true"]').setAttribute('aria-selected', true);
+      }
     }
-
-    /* const this.selected;
-
-    if (direction === 1) {
-      this.shadowRoot
-        .querySelector('[aria-selected="true"]')
-        .nextElementSibling.setAttribute('aria-selected', true);
-    } else {
-      this.shadowRoot
-        .querySelector('[aria-selected="true"]')
-        .previousElementSibling.setAttribute('aria-selected', true);
-    }
-    this.shadowRoot.querySelector('[aria-selected="true"]').setAttribute('aria-selected', false); */
-
-    /* this._treeItems[selectedIndex].setAttribute('aria-selected', false);
-    this._treeItems[selectedIndex + direction].setAttribute('aria-selected', true); */
-
-    // console.log(selectedIndex);
   }
 
   expandAll() {
