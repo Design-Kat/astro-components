@@ -298,12 +298,15 @@ export class RuxTree extends LitElement {
           left: 0;
           z-index: 0;
           position: absolute;
-          transition: background-color 0.0967s ease-in;
+          /* transition: background-color 1.0967s ease-in; */
         }
 
         .rux-tree__tree-item:focus > .rux-tree__parent::after,
-        .rux-tree__parent:hover::after {
+        :not([aria-selected='true']) .rux-tree__parent:hover::after {
           background-color: #103751; /* @todo set color with variable */
+        }
+
+        .rux-tree__parent:hover::after {
           transition: background-color 0.047s ease-out;
         }
 
