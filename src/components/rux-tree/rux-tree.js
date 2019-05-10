@@ -18,7 +18,6 @@ export class RuxTree extends LitElement {
   constructor() {
     super();
 
-    this._maxBranches = 4;
     this.hasStatus = false;
 
     this._handleKeyPress = this.handleKeyPress.bind(this);
@@ -33,10 +32,6 @@ export class RuxTree extends LitElement {
   disconnectedCallback() {
     this.removeEventListener('keyup', this._handleKeyPress);
     document.disconnectedCallback();
-  }
-
-  firstUpdated() {
-    this._treeItems = this.shadowRoot.querySelectorAll('[role="treeitem"]');
   }
 
   handleKeyPress(e) {
@@ -88,13 +83,13 @@ export class RuxTree extends LitElement {
     console.log(this.activeElement);
   }
 
-  toggleTreeItemRefactor(direction) {
+  toggleTreeItemRefactor(state) {
     const currentActiveElement = this.shadowRoot.activeElement;
 
     if (
-      (currentActiveElement.getAttribute('aria-expanded') === 'false' && direction === 'open') ||
-      (currentActiveElement.getAttribute('aria-expanded') === 'true' && direction === 'closed') ||
-      !direction
+      (currentActiveElement.getAttribute('aria-expanded') === 'false' && state === 'open') ||
+      (currentActiveElement.getAttribute('aria-expanded') === 'true' && state === 'closed') ||
+      !state
     ) {
       this.setToggleTreeItem(currentActiveElement);
     }
@@ -127,7 +122,7 @@ export class RuxTree extends LitElement {
           activeElement = currentActiveElement.previousElementSibling;
         }
       } else {
-        activeElement = currentActiveElement.closest('[aria-expanded="true"]');
+        activeElement = currentActiveElement.parentElement.closest('[aria-expanded="true"]');
       }
     }
 
@@ -151,7 +146,6 @@ export class RuxTree extends LitElement {
   setToggleTreeItem(to) {
     // unfortunately the aria-expanded attribute isn’t boolean so
     // have to treat true/false as strings
-
     to.setAttribute('aria-expanded', to.getAttribute('aria-expanded') !== 'true');
   }
 
@@ -283,8 +277,6 @@ export class RuxTree extends LitElement {
         .rux-tree li {
           font-weight: bold;
           border-top: 1px solid var(--treeItemBorderColor, rgb(40, 63, 88));
-          /* outline: 1px solid red; */
-          /* margin: 1rem 0; */
         }
 
         .rux-tree__parent {
@@ -309,6 +301,7 @@ export class RuxTree extends LitElement {
           transition: background-color 0.0967s ease-in;
         }
 
+        .rux-tree__tree-item:focus .rux-tree__parent::after,
         .rux-tree__parent:hover::after {
           background-color: #103751; /* @todo set color with variable */
           transition: background-color 0.047s ease-out;
@@ -322,7 +315,6 @@ export class RuxTree extends LitElement {
         .rux-tree__parent:focus,
         .rux-tree__tree-item:focus {
           outline: none !important;
-          border: 1px solid red !important;
         }
 
         .rux-tree__label {
@@ -361,13 +353,11 @@ export class RuxTree extends LitElement {
           position: relative;
           cursor: pointer;
           width: 0.35rem;
-          /* margin-top: -2px; */
           margin-right: 1rem;
           margin-left: 0.15rem;
           background-color: transparent;
           transition: transform 0.167s ease-in-out;
           z-index: 11;
-          /* outline: 1px solid red; */
         }
 
         .rux-tree__arrow::before {
