@@ -225,7 +225,8 @@
   --treeBorderColor: var(--colorBlack);
   --treeItemBorderColor: var(--colorTertiary);
 
-  --treeSelectedBackgroundColor: var(--colorPrimaryDarken1, rgb(58, 129, 191));
+  --treeSelectedBackgroundColor: var(--colorPrimaryDarken2, rgb(0, 54, 86));
+  --treeHoverBackgroundColor: var(--colorSecondaryDarken3, rgb(46, 103, 153));
 
   /* 
     
