@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const browsersync = require('browser-sync').create();
-const concat = require('gulp-concat-css-import');
+const cssimport = require('gulp-cssimport');
 const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 const csso = require('gulp-csso');
@@ -97,7 +97,7 @@ function css() {
   return gulp
     .src('./src/css/src/*.css')
     .pipe(sourcemaps.init())
-    .pipe(concat({ inlineImports: true }))
+    .pipe(cssimport())
     .pipe(gulpif(condition, postcss([properties()])))
     .pipe(gulpif(condition, autoprefixer({ browsers: 'last 2 versions' })))
     .pipe(gulp.dest('src/css'))

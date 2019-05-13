@@ -246,7 +246,8 @@ export class RuxTree extends LitElement {
 
           font-size: 1rem;
 
-          background-color: var(--treeBackgroundColor, rgb(30, 47, 66));
+          color: var(--treeTextColor, rgb(255, 255, 255));
+          background-color: var(--treeBackgroundColor, rgb(32, 50, 70));
 
           -webkit-user-select: none;
           -moz-user-select: none;
@@ -297,26 +298,29 @@ export class RuxTree extends LitElement {
           transition: background-color 0.0967s ease-in;
         }
 
-        .rux-tree__tree-item:focus > .rux-tree__parent::after,
+        [aria-selected='true'] > .rux-tree__parent {
+          color: var(--treeSelectedTextColor, rgb(0, 0, 0));
+        }
+
+        [aria-selected='true'] > .rux-tree__parent::after,
+        [aria-selected='true'] > .rux-tree__parent:hover::after {
+          box-shadow: inset 0.25rem 0 0 var(--treeSelectedAccentColor, rgb(77, 172, 255)) !important;
+          background-color: var(--treeSelectedBackgroundColor, rgb(0, 72, 114)) !important;
+        }
+
+        .rux-tree__tree-item:focus > .rux-tree__parent:not(:hover)::after,
         :not([aria-selected='true']) > .rux-tree__parent:hover::after {
-          background-color: var(--treeFocusedBackgroundColor, rgb(16, 25, 35));
-          box-shadow: inset 0.25rem 0 0 var(--treeFocusedAccentColor, rgb(46, 103, 153));
+          background-color: var(--treeHoverBackgroundColor, rgb(0, 72, 114));
+          box-shadow: inset 0.25rem 0 0 var(--treeHoverAccentColor, rgb(77, 172, 255));
+        }
+
+        .rux-tree__tree-item:focus > .rux-tree__parent:not(:hover)::after {
+          border-top: 1px solid var(--treeHoverAccentColor, rgb(77, 172, 255));
+          border-bottom: 1px solid var(--treeHoverAccentColor, rgb(77, 172, 255));
         }
 
         .rux-tree__parent:hover::after {
           transition: background-color 0.047s ease-out;
-        }
-
-        [aria-selected='true'] > .rux-tree__parent,
-        [aria-selected='true'] .rux-tree__parent:hover::after {
-          background-color: var(--treeSelectedBackgroundColor, rgb(0, 72, 114));
-          outline: none;
-        }
-
-        [aria-selected='true'] > .rux-tree__parent::after,
-        [aria-selected='true'] .rux-tree__parent:hover::after {
-          box-shadow: inset 0.25rem 0 0 var(--treeAccentColor, rgb(77, 172, 255));
-          background-color: var(--treeSelectedBackgroundColor, rgb(0, 72, 114)) !important;
         }
 
         .rux-tree__parent:focus,
