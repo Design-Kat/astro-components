@@ -150,10 +150,12 @@ function watch() {
 }
 
 const start = gulp.series(clean, build, browserSync, watch);
+const dev = gulp.series(clean, build, watch);
 
 exports.css = css;
 exports.color = color;
 exports.watch = watch;
 exports.build = build;
 exports.start = start;
+exports.dev = dev;
 exports.clean = clean;

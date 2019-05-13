@@ -35,6 +35,7 @@ storiesOf('Components|Tree', module)
       {
         label: 'Pre',
         status: 'off',
+        selected: true,
       },
       {
         label: 'New 2',

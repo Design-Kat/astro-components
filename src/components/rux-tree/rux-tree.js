@@ -8,9 +8,6 @@ export class RuxTree extends LitElement {
     return {
       treeData: {
         type: Array,
-        hasChanged(newVal) {
-          console.log(newVal);
-        },
       },
     };
   }
@@ -280,7 +277,7 @@ export class RuxTree extends LitElement {
 
         .rux-tree li {
           font-weight: bold;
-          border-top: 1px solid var(--treeItemBorderColor, rgb(40, 63, 88));
+          border-top: 1px solid var(--treeItemBorderColor, #172535);
         }
 
         .rux-tree__parent {
@@ -288,11 +285,6 @@ export class RuxTree extends LitElement {
           align-items: center;
           padding: 0 0.5rem;
           height: 2rem;
-        }
-
-        [aria-selected='true'] > .rux-tree__parent {
-          background-color: #00436b; /* @todo set color with variable */
-          outline: none;
         }
 
         .rux-tree__parent::after {
@@ -306,17 +298,25 @@ export class RuxTree extends LitElement {
         }
 
         .rux-tree__tree-item:focus > .rux-tree__parent::after,
-        :not([aria-selected='true']) .rux-tree__parent:hover::after {
+        :not([aria-selected='true']) > .rux-tree__parent:hover::after {
           background-color: #103751; /* @todo set color with variable */
+          box-shadow: inset 0.25rem 0 0 rgb(46, 103, 153);
         }
 
         .rux-tree__parent:hover::after {
           transition: background-color 0.047s ease-out;
         }
 
-        [aria-selected='true'] > .rux-tree__parent::after {
-          box-shadow: inset 0.25rem 0 0 #4dacff;
+        [aria-selected='true'] > .rux-tree__parent,
+        [aria-selected='true'] .rux-tree__parent:hover::after {
           background-color: #00436b; /* @todo set color with variable */
+          outline: none;
+        }
+
+        [aria-selected='true'] > .rux-tree__parent::after,
+        [aria-selected='true'] .rux-tree__parent:hover::after {
+          box-shadow: inset 0.25rem 0 0 #4dacff;
+          background-color: #00436b !important; /* @todo set color with variable */
         }
 
         .rux-tree__parent:focus,
@@ -409,10 +409,6 @@ export class RuxTree extends LitElement {
 
         .rux-tree__children {
           padding-left: 1.5rem;
-        }
-
-        .rux-tree__children .rux-tree__parent {
-          /* margin-left: -1.5rem; */
         }
       </style>
 

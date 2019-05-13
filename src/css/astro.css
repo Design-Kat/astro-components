@@ -231,7 +231,7 @@ li.light-theme{display:none;}
     Tree Colors 
     ==========================================================================
 
-  */--treetextcolor:var(--colorWhite, rgb(255, 255, 255));--treebackgroundcolor:var(--colorTertiaryDarken1);--treebordercolor:var(--colorBlack);--treeitembordercolor:var(--colorTertiary);--treeselectedbackgroundcolor:var(--colorPrimaryDarken1, rgb(58, 129, 191));/* 
+  */--treetextcolor:var(--colorWhite, rgb(255, 255, 255));--treebackgroundcolor:var(--colorTertiaryDarken1);--treebordercolor:var(--colorBlack);--treeitembordercolor:var(--colorTertiary);--treeselectedbackgroundcolor:var(--colorPrimaryDarken2, rgb(0, 54, 86));--treehoverbackgroundcolor:var(--colorSecondaryDarken3, rgb(46, 103, 153));/* 
     
     Tab Colors 
     ==========================================================================
