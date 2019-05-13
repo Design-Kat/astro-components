@@ -8,6 +8,9 @@ export class RuxTree extends LitElement {
     return {
       treeData: {
         type: Array,
+        hasChanged(newVal) {
+          console.log(newVal);
+        },
       },
     };
   }
@@ -175,8 +178,10 @@ export class RuxTree extends LitElement {
     // dispatch event to app to handle what
     // should happen next
     this.dispatchEvent(
-      new CustomEvent({
-        detail: {},
+      new CustomEvent('tree-update', {
+        detail: {
+          treeData: this.treeData,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -197,6 +202,7 @@ export class RuxTree extends LitElement {
         class="rux-tree__tree-item"
         role="treeitem"
         aria-expanded="false"
+        aria-selected="${item.selected}"
         tabindex="-1"
         @click="${this.selectTreeItem}"
       >
@@ -296,7 +302,7 @@ export class RuxTree extends LitElement {
           left: 0;
           z-index: 0;
           position: absolute;
-          /* transition: background-color 1.0967s ease-in; */
+          transition: background-color 0.0967s ease-in;
         }
 
         .rux-tree__tree-item:focus > .rux-tree__parent::after,
@@ -406,7 +412,7 @@ export class RuxTree extends LitElement {
         }
 
         .rux-tree__children .rux-tree__parent {
-          margin-left: -1.5rem;
+          /* margin-left: -1.5rem; */
         }
       </style>
 
