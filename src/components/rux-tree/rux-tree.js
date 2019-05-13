@@ -277,7 +277,7 @@ export class RuxTree extends LitElement {
 
         .rux-tree li {
           font-weight: bold;
-          border-top: 1px solid var(--treeItemBorderColor, #172535);
+          border-top: 1px solid var(--treeItemBorderColor, rgb(24, 38, 53));
         }
 
         .rux-tree__parent {
@@ -299,8 +299,8 @@ export class RuxTree extends LitElement {
 
         .rux-tree__tree-item:focus > .rux-tree__parent::after,
         :not([aria-selected='true']) > .rux-tree__parent:hover::after {
-          background-color: #103751; /* @todo set color with variable */
-          box-shadow: inset 0.25rem 0 0 rgb(46, 103, 153);
+          background-color: var(--treeFocusedBackgroundColor, rgb(16, 25, 35));
+          box-shadow: inset 0.25rem 0 0 var(--treeFocusedAccentColor, rgb(46, 103, 153));
         }
 
         .rux-tree__parent:hover::after {
@@ -309,14 +309,14 @@ export class RuxTree extends LitElement {
 
         [aria-selected='true'] > .rux-tree__parent,
         [aria-selected='true'] .rux-tree__parent:hover::after {
-          background-color: #00436b; /* @todo set color with variable */
+          background-color: var(--treeSelectedBackgroundColor, rgb(0, 72, 114));
           outline: none;
         }
 
         [aria-selected='true'] > .rux-tree__parent::after,
         [aria-selected='true'] .rux-tree__parent:hover::after {
-          box-shadow: inset 0.25rem 0 0 #4dacff;
-          background-color: #00436b !important; /* @todo set color with variable */
+          box-shadow: inset 0.25rem 0 0 var(--treeAccentColor, rgb(77, 172, 255));
+          background-color: var(--treeSelectedBackgroundColor, rgb(0, 72, 114)) !important;
         }
 
         .rux-tree__parent:focus,
@@ -395,7 +395,7 @@ export class RuxTree extends LitElement {
 
         [aria-expanded='true'] > .rux-tree__children {
           display: block;
-          background-color: #182736; /* @todo set color with variable */
+          background-color: var(--treeChildrenBackgroundColor, rgb(24, 38, 53));
         }
 
         [aria-expanded='true'] > .rux-tree__children li {
