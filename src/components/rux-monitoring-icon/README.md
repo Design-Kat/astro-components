@@ -10,7 +10,7 @@ These icons represent objects, equipment, and concepts that are being administer
 
 `npm i -save @astrouxds/rux-monitoring-icon`
 
-### Dependancies
+### Dependencies
 
 - [LitElement](http://lit-element.polymer-project.org/)
 - [Astro 3 Core CSS](https://bitbucket.org/rocketcom/astro-styles/src/master/)
@@ -58,7 +58,7 @@ import { RuxMonitoringIcon } from '@astro-components/rux-monitoring-icon/rux-mon
  notifications="10" ></rux-monitoring-icon>
 ```
 
-Astro 4.0 introduces an additional monitoring icon that depicts progress. When using the progress variant there is no need to assign an icon or status attribute
+Astro 4.0 introduces an additional monitoring icon that depicts progress. You may replace the `icon` and `status` properties with a `progress` attribute with the value equal to a Number between 0 and 99 or 1 and 100 to show progress in a percentage format with a donut graph. The donut graph’s color will adopt status color. Status color is defined by a `range` property (see below).
 
 ```xml
 <rux-monitoring-icon
@@ -117,3 +117,9 @@ Astro 4.0 introduces an additional monitoring icon that depicts progress. When u
 
 - Added rux* and BEM compatible classes to all satcom* NOTE: satcom\_ will be removed in a future version
 - Embeded SVG graphics
+
+##### Notes
+
+RUX Tree is based on the industry standard [WebComponents v1 spec](https://html.spec.whatwg.org/multipage/custom-elements.html).
+
+**Note:** RUX Tree is available as a preview release and should not be used in production code.
