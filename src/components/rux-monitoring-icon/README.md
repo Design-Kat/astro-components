@@ -1,6 +1,6 @@
 # Monitoring Icons
 
-The RUX Monitoring Icon, formerly Rux Status is designed RUX Icon is based on the industry standard
+These icons represent objects, equipment, and concepts that are being administered or monitored. The purpose of these icons is to easily, concisely, and clearly visually communicate their status to be to users.
 
 ## Guidelines
 
@@ -21,7 +21,7 @@ The RUX Monitoring Icon, formerly Rux Status is designed RUX Icon is based on th
 
 ### 1. Installation
 
-#### ** Install the Astro RUX Monitoring Icon package via Command Line** (Preferred Method)
+#### **Install the Astro RUX Monitoring Icon package via Command Line** (Preferred Method)
 
 ```sh
 npm i --save @astrouxds/rux-monitoring-icon
@@ -51,32 +51,35 @@ import { RuxMonitoringIcon } from '@astro-components/rux-monitoring-icon/rux-mon
 
 ```xml
 <rux-monitoring-icon
-	status="critical"
-	label="Label"
-	sublabel="Sub Label"
-	icon="altitude"
-	notifications="10" ></rux-monitoring-icon>
+ status="critical"
+ label="Label"
+ sublabel="Sub Label"
+ icon="altitude"
+ notifications="10" ></rux-monitoring-icon>
 ```
 
 Astro 4.0 introduces an additional monitoring icon that depicts progress. When using the progress variant there is no need to assign an icon or status attribute
 
 ```xml
 <rux-monitoring-icon
-	label="Label"
-	sublabel="Sub Label"
-	progress="50" ></rux-monitoring-icon>
+ label="Label"
+ progress="50" ></rux-monitoring-icon>
 ```
 
 **Note** Status valid strings have been updated
-###Properties
-| Property | Type | Description |
-| -------- | ---- | ------------|
-| `status` | `string` | Valid options are `off`, `standby`, `normal`, `caution`, `serious` and `critical`.
-| `label` | `string` | Primary label for an advanced status symbol. Labels exceeding width of the icon will be truncated with an ellipsis |
-| `sublabel` | `string` | An optional string value appearing underneath the primary label |
-| `notifications` | `number` | Indicates notifications for a give status. Values beyond 9,999 are shorthanded 10K, 100K, 1.5M, 1.5B and ∞ for numbers greater than 999,999,999,999 |
-| `progress` | `number` | Indicates the progress of a given operation, number must be provided in a range between 0-99 |
-| `range` | `array` | An array of objects defining the threshold and associated status. Default range array is
+
+### Component Properties
+
+| Property        | Type     | Required | Description                                                                                                                                         |
+| --------------- | -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `status`        | `string` | true     | Valid options are `off`, `standby`, `normal`, `caution`, `serious` and `critical`.                                                                  |
+| `label`         | `string` | true     | Primary label for an advanced status symbol. Labels exceeding width of the icon will be truncated with an ellipsis                                  |
+| `sublabel`      | `string` | false    | An optional string value appearing underneath the primary label                                                                                     |
+| `notifications` | `number` | false    | Indicates notifications for a give status. Values beyond 9,999 are shorthanded 10K, 100K, 1.5M, 1.5B and ∞ for numbers greater than 999,999,999,999 |
+| `progress`      | `number` | false    | Indicates the progress of a given operation, number must be provided in a range between 0-99                                                        |
+| `range`         | `array`  | false    | An array of objects defining the threshold and associated status. See below for a valid range array.                                                |
+
+#### Sample `range` Object
 
 ```xml
 [
@@ -88,6 +91,13 @@ Astro 4.0 introduces an additional monitoring icon that depicts progress. When u
  { threshold: 99, status: 'critical'},
 ]
 ```
+
+#### Sample `range` Object Properties
+
+| Property    | Type     | Required | Description                                                                        |
+| ----------- | -------- | -------- | ---------------------------------------------------------------------------------- |
+| `threshold` | `number` | true     | A number between 0 and 99 or 1 and 100 depending on your implementation.           |
+| `status`    | `string` | true     | Valid options are `off`, `standby`, `normal`, `caution`, `serious` and `critical`. |
 
 ## Revision History
 
