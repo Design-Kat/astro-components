@@ -299,7 +299,7 @@ export class RuxTree extends LitElement {
         }
 
         [aria-selected='true'] > .rux-tree__parent {
-          color: var(--treeSelectedTextColor, rgb(0, 0, 0));
+          color: var(--treeSelectedTextColor, rgb(255, 255, 255));
         }
 
         [aria-selected='true'] > .rux-tree__parent::after,

@@ -234,7 +234,7 @@
 
   --treeSelectedBackgroundColor: var(--colorPrimaryDarken1, rgb(0, 72, 114));
   --treeSelectedAccentColor: var(--colorSecondary, rgb(77, 172, 255));
-  --treeSelectedTextColor: var(--colorBlack, rgb(0,0,0));
+  --treeSelectedTextColor: var(--colorWhite, rgb(255,255,255));
 
   --treeChildrenBackgroundColor: var(--colorTertiaryDarken2, rgb(24, 38, 53));
   /* 

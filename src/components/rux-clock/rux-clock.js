@@ -2,6 +2,11 @@ import { LitElement, html } from 'lit-element';
 // import style from './rux-clock.css';
 import RuxUtils from '../rux-utils/datetime.js';
 
+/** Class representing a single Clock instance. */
+/**
+ * @polymer
+ * @extends HTMLElement
+ */
 export class RuxClock extends LitElement {
   static get properties() {
     return {
@@ -13,24 +18,41 @@ export class RuxClock extends LitElement {
       },
       timezone: {
         type: String,
+        reflect: true,
       },
       locale: {
         type: String,
       },
       hideTimezone: {
         type: Boolean,
+        attribute: 'hide-timezone',
       },
       hideDate: {
+        type: Boolean,
+        attribute: 'hide-date',
+      },
+      compact: {
         type: Boolean,
       },
       time: {
         type: String,
-        reflect: true,
       },
       dayOfYear: {
         type: String,
-        reflect: true,
       },
+    };
+  }
+
+  get timeOptions() {
+    if (!this.hideTimezone) {
+      return {
+        hour12: false,
+        timeZone: this.timezone,
+        timeZoneName: 'short',
+      };
+    }
+    return {
+      hour12: false,
     };
   }
 
@@ -38,15 +60,9 @@ export class RuxClock extends LitElement {
     super();
 
     this.timezone = 'UTC';
-    this.locale = 'us-en';
-    this.hideTimezone = true;
+    this.locale = 'us-EN';
+    this.hideTimezone = false;
     this.hideDate = false;
-
-    this.timeOptions = {
-      hour12: false,
-      timeZone: this.timezone,
-      timeZoneName: 'short',
-    };
 
     this.updateTime();
   }
@@ -75,7 +91,7 @@ export class RuxClock extends LitElement {
     Private functions should occur after public functions
   */
   updateTime() {
-    this.time = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions);
+    this.time = RuxUtils.formatTime(new Date(), this.locale, this.timeOptions, this.hideTimezone);
     this.dayOfYear = RuxUtils.dayOfYear();
   }
 
@@ -155,15 +171,16 @@ export class RuxClock extends LitElement {
         }
       </style>
 
-      ${!this.hideDate &&
-        html`
-          <div class="rux-clock__segment rux-clock__day-of-the-year">
-            <div class="rux-clock__segment__value" aria-labelledby="rux-clock__day-of-year-label">
-              ${this.dayOfYear}
+      ${!this.hideDate
+        ? html`
+            <div class="rux-clock__segment rux-clock__day-of-the-year">
+              <div class="rux-clock__segment__value" aria-labelledby="rux-clock__day-of-year-label">
+                ${this.dayOfYear}
+              </div>
+              <div class="rux-clock__segment__label" id="rux-clock__day-of-year-label">Date</div>
             </div>
-            <div class="rux-clock__segment__label" id="rux-clock__day-of-year-label">Date</div>
-          </div>
-        `}
+          `
+        : ``}
 
       <div class="rux-clock__segment rux-clock__time">
         <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
@@ -177,10 +194,10 @@ export class RuxClock extends LitElement {
       ${this.aos &&
         html`
           <div class="rux-clock__segment rux-clock__segment--secondary rux-clock__aos">
-            <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
-              ${RuxUtils.formatTime(this.aos, this.locale, this.timeOptions)}
+            <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label--aos">
+              ${RuxUtils.formatTime(this.aos, this.locale, this.timeOptions, this.hideTimezone)}
             </div>
-            <div class="rux-clock__segment__label" id="rux-clock__time-label">
+            <div class="rux-clock__segment__label" id="rux-clock__time-label--aos">
               AOS
             </div>
           </div>
@@ -188,10 +205,10 @@ export class RuxClock extends LitElement {
       ${this.los &&
         html`
           <div class="rux-clock__segment rux-clock__segment--secondary rux-clock__los">
-            <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label">
-              ${RuxUtils.formatTime(this.los, this.locale, this.timeOptions)}
+            <div class="rux-clock__segment__value" aria-labelledby="rux-clock__time-label--los">
+              ${RuxUtils.formatTime(this.los, this.locale, this.timeOptions, this.hideTimezone)}
             </div>
-            <div class="rux-clock__segment__label" id="rux-clock__time-label">
+            <div class="rux-clock__segment__label" id="rux-clock__time-label--los">
               LOS
             </div>
           </div>
