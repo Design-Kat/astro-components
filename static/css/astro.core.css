@@ -2076,7 +2076,7 @@ label {
   padding: 0.3rem 0 0.3rem 1.5rem;
 }
 
-.rux-form-field input[type="search"]::-webkit-search-cancel-button {
+.rux-form-field ::-webkit-search-cancel-button {
   position: relative;
 
   -webkit-appearance: none;

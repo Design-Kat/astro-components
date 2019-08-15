@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit-element';
 import RuxUtils from '../rux-utils/datetime.js';
 /* eslint-disable no-unused-vars */
 import { RuxStatus } from '../rux-status/rux-status.js';
+import { RuxInput } from '../rux-input/rux-input.js';
 /* eslint-enable no-unused-vars */
 
 export class RuxLog extends LitElement {
@@ -105,6 +106,8 @@ export class RuxLog extends LitElement {
 
         .rux-log__header-labels {
           display: flex;
+
+          align-items: center;
           width: 100%;
           color: var(--logHeaderTextColor, rgb(255, 255, 255));
         }
@@ -230,15 +233,17 @@ export class RuxLog extends LitElement {
           <li class="log-event__status"></li>
           <li class="log-event__message log-header__message">Event</li>
           <li>
-            <div class="rux-form-field rux-form-field--small">
+            <rux-input orientation="horizontal" size="small" hideLabel>
+              <label for="log-filter">Search</label>
               <input
+                id="log-filter"
                 class="rux-input"
                 placeholder="Filter Log…"
                 type="search"
                 .value="${this._filterValue}"
                 @input="${this.filterChanged}"
               />
-            </div>
+            </rux-input>
           </li>
         </ul>
       </header>

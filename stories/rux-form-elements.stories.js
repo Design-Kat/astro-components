@@ -2,6 +2,7 @@
 import { storiesOf } from '@storybook/polymer';
 import { html, render } from 'lit-html';
 import { RuxButton } from '../src/components/rux-button/rux-button.js';
+import { RuxInput } from '../src/components/rux-input/rux-input.js';
 import inputFieldsReadme from '../src/css/documentation/input-fields-README.md';
 import checkboxesReadme from '../src/css/documentation/checkboxes-README.md';
 import radioButtonsReadme from '../src/css/documentation/radio-buttons-README.md';
@@ -327,6 +328,56 @@ storiesOf('Components|Form Elements', module)
             </select>
           </div>
         </div>
+      `;
+        },
+        {
+          exports: {
+            render,
+            html,
+          },
+          notes: {
+            markdown: checkboxesReadme,
+          },
+        }
+    )
+    .add(
+        'Input (WC)',
+        () => {
+          return html`
+        <style>
+          body {
+            padding: 10%;
+          }
+
+          rux-input {
+            margin: 1rem 0;
+          }
+
+          /* input::-webkit-search-cancel-button {
+            position: relative;
+            border: 1px solid red;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20128%20128%22%3E%0A%20%20%3Cpath%20fill%3D%22rgb(0%2C%2090%2C%20143)%22%20fill-rule%3D%22evenodd%22%20d%3D%22M69.028%2064l22.628%2022.627-5.029%205.029L64%2069.028%2041.373%2091.656l-5.029-5.029L58.972%2064%2036.344%2041.373l5.029-5.029L64%2058.972l22.627-22.628%205.029%205.029L69.028%2064z%22%2F%3E%0A%3C%2Fsvg%3E');
+          } */
+        </style>
+
+        <input id="search" type="search" placeholder="test" />
+        <rux-input orientation="horizontal" size="small" hideLabel>
+          <input id="search" type="search" placeholder="test" />
+          <label for="search">Test</label>
+        </rux-input>
+
+        <rux-input required>
+          <input id="text" type="text" />
+          <label for="text">Test</label>
+        </rux-input>
+
+        <rux-input>
+          <label for="number">Test</label>
+          <input id="number" type="number" />
+        </rux-input>
       `;
         },
         {
