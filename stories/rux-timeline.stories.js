@@ -12,7 +12,23 @@ import Readme from '../src/components/rux-toggle/README.md';
 storiesOf('Components|Timeline', module)
     .addDecorator(withKnobs)
     .add('Test', () => {
-      const tracks = ['track1', 'track2', 'track3', 'track4', 'track5'];
+      const tracks = [
+        'track1',
+        'track2',
+        'track3',
+        'track4',
+        'track5',
+        'track1',
+        'track2',
+        'track3',
+        'track4',
+        'track5',
+        'track1',
+        'track2',
+        'track3',
+        'track4',
+        'track5',
+      ];
 
       return html`
       <style>
@@ -28,52 +44,77 @@ storiesOf('Components|Timeline', module)
 
         .timeline {
           width: 100%;
+          height: 100%;
           position: fixed;
-          border: 1px solid red;
-          height: 50%;
-          overflow-x: scroll;
-          overflow-y: scroll;
-          overscroll-behavior: contain;
+
+          overflow: auto;
+          overscroll-behavior: none;
         }
 
         .track-label,
         .track {
           display: flex;
           align-items: center;
+          margin: 2px 0;
         }
 
         .track-label {
-          width: 100px;
-          outline: 1px solid green;
+          width: 10%;
+          height: 100%;
+
           flex-shrink: 0;
           position: -webkit-sticky;
           position: sticky;
           left: 0;
           z-index: 10;
-          background-color: red;
+          background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
+          padding: 1rem;
+          border-right: 2px solid black;
+        }
+
+        .track-content {
+          height: 100%;
+          width: 100%;
+          background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
         }
 
         .track {
           display: flex;
-          outline: 1px solid aqua;
-          width: 150rem;
-          flex-shrink: 0;
+          width: 200%;
+        }
+
+        .track:not(.timeline-ruler) {
           z-index: 1;
           height: 5rem;
-          width: 200%;
+        }
+
+        .timeline-ruler {
+          position: sticky;
+          bottom: 0;
+          z-index: 20;
+          color: var(--fontColor, rgb(255, 255, 255));
+
+          background-color: var(--timelineRulerBackgroundColor, rgb(32, 50, 70));
+          height: 2em;
+        }
+
+        .timeline-ruler .track-label {
+          background-color: var(--timelineRulerBackgroundColor, rgb(32, 50, 70));
         }
       </style>
 
       <div class="timeline">
-        <div class="scroller">
-          ${tracks.map(
+        ${tracks.map(
       (track) => html`
-              <div class="track">
-                <div class="track-label">${track}</div>
-                <div>Track</div>
-              </div>
-            `
+            <div class="track">
+              <div class="track-label">${track}</div>
+              <div class="track-content">Track</div>
+            </div>
+          `
   )}
+        <div class="track timeline-ruler">
+          <div class="track-label">Ruler</div>
+          <div class="track-content">Tix Marks</div>
         </div>
       </div>
     `;
