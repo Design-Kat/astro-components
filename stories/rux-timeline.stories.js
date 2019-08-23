@@ -44,18 +44,33 @@ storiesOf('Components|Timeline', module)
 
         .timeline {
           width: 100%;
-          height: 100%;
+          max-height: 100%;
           position: fixed;
 
           overflow: auto;
-          overscroll-behavior: none;
+          overscroll-behavior: contain;
+        }
+
+        .track {
+          background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
+        }
+        .track:not(:first-of-type):not(:last-of-type) {
+          border-top: 1px solid black;
+          border-bottom: 1px solid black;
+        }
+
+        .track:first-of-type {
+          border-bottom: 1px solid black;
+        }
+
+        .track:last-of-type {
+          border-top: 10px solid black;
         }
 
         .track-label,
         .track {
           display: flex;
           align-items: center;
-          margin: 2px 0;
         }
 
         .track-label {
@@ -67,20 +82,24 @@ storiesOf('Components|Timeline', module)
           position: sticky;
           left: 0;
           z-index: 10;
-          background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
+
           padding: 1rem;
           border-right: 2px solid black;
+          background-color: var(--timelineTrackLabelBackgroundColor);
         }
 
         .track-content {
+          display: flex;
           height: 100%;
           width: 100%;
-          background-color: var(--timelineTrackBackgroundColor, rgb(40, 63, 88));
+          align-items: center;
         }
 
+        .timeline-ruler,
         .track {
           display: flex;
           width: 200%;
+          /* width: 200%; */
         }
 
         .track:not(.timeline-ruler) {
@@ -89,17 +108,32 @@ storiesOf('Components|Timeline', module)
         }
 
         .timeline-ruler {
+          display: flex;
           position: sticky;
           bottom: 0;
+          height: 2rem;
           z-index: 20;
-          color: var(--fontColor, rgb(255, 255, 255));
 
-          background-color: var(--timelineRulerBackgroundColor, rgb(32, 50, 70));
-          height: 2em;
+          font-size: var(--fontSizeSM);
+
+          color: var(--timelineRulerTextColor, rgb(255, 255, 255));
+          background-color: var(--timelineRulerBackgroundColor);
         }
 
         .timeline-ruler .track-label {
-          background-color: var(--timelineRulerBackgroundColor, rgb(32, 50, 70));
+          background-color: var(--timelineRulerBackgroundColor);
+        }
+
+        .timeline-ruler .track-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+
+        .timeline-ruler .track-content div:not(:first-of-type) {
+          border-left: 1px solid rgba(255, 255, 255, 0.3);
+          padding-top: 0.15rem;
+          padding-left: 0.35rem;
         }
       </style>
 
@@ -112,10 +146,31 @@ storiesOf('Components|Timeline', module)
             </div>
           `
   )}
-        <div class="track timeline-ruler">
-          <div class="track-label">Ruler</div>
-          <div class="track-content">Tix Marks</div>
-        </div>
+
+        <span class="timeline-ruler">
+          <div class="track-label"></div>
+          <div class="track-content">
+            <div>00:00</div>
+            <div>01:00</div>
+            <div>02:00</div>
+            <div>03:00</div>
+            <div>04:00</div>
+            <div>05:00</div>
+            <div>06:00</div>
+            <div>07:00</div>
+            <div>08:00</div>
+            <div>09:00</div>
+            <div>10:00</div>
+            <div>11:00</div>
+            <div>12:00</div>
+            <div>13:00</div>
+            <div>14:00</div>
+            <div>15:00</div>
+            <div>16:00</div>
+            <div>17:00</div>
+            <div>18:00</div>
+          </div>
+        </span>
       </div>
     `;
     })
