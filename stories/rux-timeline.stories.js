@@ -145,9 +145,23 @@ storiesOf('Components|Timeline', module)
               <div class="track-content">Track</div>
             </div>
           `
-  )}
+  )}  
+        <!-- 
+          NOTE SEE  https://en.wikipedia.org/wiki/ISO_8601#Durations
+          for more information on duration strings
 
-        <span class="timeline-ruler">
+          P: Indicates a duration
+          Y: If duration is years
+          M: If duration is months
+          D: If duration is days
+          T: Indicates time starter
+          H: If duration is hours
+          M: If duration is minutes
+          S: Id duration is seconds
+
+          e.g., PTH24M0S0 is a duration of 24 hours
+        //--> 
+        <time class="timeline-ruler" datetime="PTH24M0S0">
           <div class="track-label"></div>
           <div class="track-content">
             <div>00:00</div>
@@ -171,7 +185,7 @@ storiesOf('Components|Timeline', module)
             <div>18:00</div>
           </div>
         </span>
-      </div>
+      </time>
     `;
     })
 
