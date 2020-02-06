@@ -18,6 +18,11 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "private": false,
   "scripts": {
+    "test": "karma start --coverage",
+    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test:update-snapshots": "karma start --update-snapshots",
+    "test:prune-snapshots": "karma start --prune-snapshots",
+    "test:bs": "karma start karma.bs.config.js --coverage",
     "build-storybook": "build-storybook -c .storybook -s ./static",
     "start": "webpack-dev-server",
     "storybook": "start-storybook -p 9001 -c .storybook -s ./static && gulp"
@@ -29,6 +34,8 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@open-wc/demoing-storybook": "^0.2.2",
+    "@open-wc/testing": "^2.4.2",
+    "@open-wc/testing-karma": "^3.2.24",
     "@polymer/polymer": "^2.6.0",
     "@storybook/addon-a11y": "^5.1.9",
     "@storybook/addon-actions": "5.1.9",
@@ -41,8 +48,9 @@
     "@storybook/addon-storysource": "5.1.9",
     "@storybook/addon-viewport": "5.1.9",
     "@storybook/polymer": "5.1.9",
-    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "@webcomponents/webcomponentsjs": "^2.4.0",
     "babel-loader": "^8.0.0",
+    "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.6.0",
     "del": "^4.1.1",
     "eslint": "^5.16.0",
@@ -59,12 +67,15 @@
     "gulp-sourcemaps": "^2.6.5",
     "html-webpack-plugin": "^4.0.0-beta.2",
     "husky": "^2.3.0",
+    "karma": "^4.4.1",
     "lerna": "^3.16.4",
     "lint-staged": "^8.1.6",
+    "mocha": "^6.2.2",
     "polymer-webpack-loader": "^2.0.3",
     "postcss-color-mod-function": "^3.0.3",
     "postcss-custom-properties": "^8.0.10",
     "prettier": "^1.17.1",
+    "sinon": "^8.0.2",
     "storybook-dark-mode": "^0.1.4"
   },
   "hooks": {
