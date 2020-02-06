@@ -3,7 +3,11 @@ import { directive } from 'lit-html';
 
 const getIcon = directive((library, icon) => (part) => {
   try {
-    part.setValue(`${library}#${icon}`);
+    if (library) {
+      part.setValue(`${library}#${icon}`);
+    } else {
+      part.setValue(`${icon}`);
+    }
   } catch (error) {
     throw error;
   }
@@ -21,9 +25,6 @@ export class RuxIcon extends LitElement {
       color: {
         type: String,
       },
-      library: {
-        type: String,
-      },
       label: {
         type: String,
       },
@@ -33,7 +34,6 @@ export class RuxIcon extends LitElement {
   constructor() {
     super();
 
-    this.library = '/icons/astro.svg';
     /* TODO: a non-presumptive way to assign a better default label if the user doesn’t provide one */
     this.label = 'icon';
   }
@@ -91,7 +91,36 @@ export class RuxIcon extends LitElement {
           preserveAspectRatio="xMidYMid meet"
           focusable="false"
         >
-          <use href="${getIcon(this.library, this.icon)}"></use>
+          <use
+            style="display: ${this.icon === 'progress' ? 'none' : 'block'}"
+            href="${getIcon(this.library, this.icon)}"
+          ></use>
+          <g
+            id="progress"
+            style="display: ${this.icon === 'progress' ? 'block' : 'none'}"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              r="56"
+              fill="transparent"
+              stroke="rgba(40, 63, 88, 1)"
+              stroke-width="10"
+              transform="rotate(-90 61 60)"
+            />
+            <circle
+              cx="60"
+              cy="60"
+              r="56"
+              fill="transparent"
+              stroke-dasharray="351.8583772 351.8583772"
+              stroke-dashoffset="var(--monitoring-progress, 1)"
+              stroke-linecap="round"
+              stroke-width="10"
+              class="progress-ring__circle"
+              transform="rotate(-90 61 60)"
+            />
+          </g>
         </svg>
       </span>
     `;

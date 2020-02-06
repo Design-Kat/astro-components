@@ -62,7 +62,9 @@ export class RuxMonitoringProgressIcon extends RuxMonitoringIcon {
           },
         ];
       }
-      this.range = this.range.sort((a, b) => (a.threshold > b.threshold ? 1 : -1));
+      this.range = this.range.sort((a, b) =>
+        a.threshold > b.threshold ? 1 : -1,
+      );
 
       this.updateProgress();
     }
@@ -75,9 +77,12 @@ export class RuxMonitoringProgressIcon extends RuxMonitoringIcon {
   }
 
   updateProgress() {
-    this.status = this.range.find((range) => this.progress < range.threshold).status || this.range[0];
+    this.status =
+      this.range.find((range) => this.progress < range.threshold).status ||
+      this.range[0];
 
-    const graphProgress = this._circumference - (this.progress / this.max) * this._circumference;
+    const graphProgress =
+      this._circumference - (this.progress / this.max) * this._circumference;
 
     this.style.setProperty('--monitoring-progress', graphProgress);
   }
@@ -123,4 +128,7 @@ export class RuxMonitoringProgressIcon extends RuxMonitoringIcon {
   }
 }
 
-customElements.define('rux-monitoring-progress-icon', RuxMonitoringProgressIcon);
+customElements.define(
+  'rux-monitoring-progress-icon',
+  RuxMonitoringProgressIcon,
+);
