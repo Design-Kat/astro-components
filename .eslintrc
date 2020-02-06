@@ -1,5 +1,5 @@
 {
-  "extends": ["google"],
+  "extends": ["google", "plugin-wc"],
   "rules": {
     "require-jsdoc": 0,
     "object-curly-spacing": 0,
