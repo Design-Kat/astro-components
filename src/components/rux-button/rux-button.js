@@ -1,6 +1,6 @@
-import { LitElement, html } from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 // eslint-disable-next-line no-unused-vars
-import { RuxIcon } from '../rux-icon/rux-icon.js';
+// import { RuxIcon } from '../rux-icon/rux-icon.js';
 export class RuxButton extends LitElement {
   static get properties() {
     return {
@@ -11,18 +11,10 @@ export class RuxButton extends LitElement {
       outline: { type: Boolean },
     };
   }
-  constructor() {
-    super();
-    this.size = '';
-    (this.icon = ''), (this.iconOnly = false);
-    this.disabled = false;
-    this.outline = false;
-  }
 
-  render() {
-    return html`
-      <style>
-        :host {
+  static get styles() {
+    return css `
+     :host {
           display: inline-flex;
         }
 
@@ -191,16 +183,23 @@ export class RuxButton extends LitElement {
           height: 1.75rem;
           width: 1.75rem;
           margin-left: -0.8rem;
-          /* margin: -0.65rem 0.25rem -0.3rem calc((1.5rem - 0.625rem) * -1); */
+          
         }
+        `
+  }
 
-        /* .rux-button__icon .rux-icon {
-          height: auto;
-          width: 100%;
-          fill: var(--buttonTextColor, rgb(255, 255, 255));
-        } */
-      </style>
+  constructor() {
+    super();
+    
+    this.size = '';
+    this.icon = '', 
+    this.iconOnly = false;
+    this.disabled = false;
+    this.outline = false;
+  }
 
+  render() {
+    return html`
       <button
         class="rux-button
           ${this.size ? `rux-button--${this.size}` : ''} 
@@ -208,11 +207,15 @@ export class RuxButton extends LitElement {
           ${this.outline ? 'rux-button--outline' : ''}"
         ?disabled="${this.disabled}"
       >
-        <rux-icon
-          icon="${this.icon}"
-          color="${this.outline ? 'rgb(0, 90, 143)' : '#ffffff'}"
-          ?hidden="${!this.icon}"
-        ></rux-icon>
+       ${ this.icon
+          ? html` 
+          <rux-icon
+            icon="${this.icon}"
+            color="${this.outline ? 'rgb(0, 90, 143)' : '#ffffff'}"
+            ?hidden="${!this.icon}"
+          ></rux-icon>`
+          : ''
+       }
         <slot></slot>
       </button>
     `;

@@ -29,15 +29,15 @@
   },
   "dependencies": {
     "lit-element": "^2.1.0",
-    "lit-html": "^1.0.0"
+    "lit-html": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.8.4",
     "@open-wc/demoing-storybook": "^0.2.2",
-    "@open-wc/testing": "^2.4.2",
-    "@open-wc/testing-karma": "^3.2.24",
+    "@open-wc/testing": "^2.5.4",
+    "@open-wc/testing-karma": "^3.2.42",
     "@polymer/polymer": "^2.6.0",
-    "@storybook/addon-a11y": "^5.1.9",
+    "@storybook/addon-a11y": "^5.3.13",
     "@storybook/addon-actions": "5.1.9",
     "@storybook/addon-backgrounds": "5.1.9",
     "@storybook/addon-console": "^1.2.1",
@@ -48,14 +48,14 @@
     "@storybook/addon-storysource": "5.1.9",
     "@storybook/addon-viewport": "5.1.9",
     "@storybook/polymer": "5.1.9",
-    "@webcomponents/webcomponentsjs": "^2.4.0",
+    "@webcomponents/webcomponentsjs": "^2.4.1",
     "babel-loader": "^8.0.0",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.6.0",
     "del": "^4.1.1",
     "eslint": "^5.16.0",
     "eslint-config-google": "^0.13.0",
-    "eslint-plugin-wc": "^1.1.0",
+    "eslint-plugin-wc": "^1.2.0",
     "global": "^4.3.2",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
@@ -65,7 +65,7 @@
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
-    "html-webpack-plugin": "^4.0.0-beta.2",
+    "html-webpack-plugin": "^4.0.0-beta.11",
     "husky": "^2.3.0",
     "karma": "^4.4.1",
     "lerna": "^3.16.4",
@@ -74,9 +74,9 @@
     "polymer-webpack-loader": "^2.0.3",
     "postcss-color-mod-function": "^3.0.3",
     "postcss-custom-properties": "^8.0.10",
-    "prettier": "^1.17.1",
-    "sinon": "^8.0.2",
-    "storybook-dark-mode": "^0.1.4"
+    "prettier": "^1.19.1",
+    "sinon": "^8.1.1",
+    "storybook-dark-mode": "^0.1.9"
   },
   "hooks": {
     "pre-commit": "lint-staged"
