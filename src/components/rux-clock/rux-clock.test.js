@@ -33,7 +33,7 @@ describe('RUX Clock', () => {
     );
     expect(el.shadowRoot.querySelector('.rux-clock__aos')).to.exist;
   });
-  it('shows acquisition of signal (AOS) when aos property provided', async() => {
+  it('shows loss of signal (LOS) when aos property provided', async() => {
     const el = await fixture(
       html`
         <rux-clock los="2019-05-10T16:21:12.000Z"></rux-clock>
