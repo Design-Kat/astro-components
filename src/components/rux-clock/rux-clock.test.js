@@ -48,7 +48,7 @@ describe('RUX Clock', () => {
     
     expect(RuxUtils.formatClockTimeUTC(dates[0], 'UTC', true)).to.equal('19:43:02');
     expect(RuxUtils.formatClockTimeUTC(dates[1], 'UTC', true)).to.equal('04:28:07');
-    expect(RuxUtils.formatClockTimeUTC(dates[2], 'UTC', true)).to.equal(`${new Date(dates[2]).getUTCHours().toString().padStart('00')}:${new Date(dates[2]).getUTCMinutes().toString().padStart('00')}:${new Date(dates[2]).getUTCSeconds().toString().padStart('00')}`);
+    expect(RuxUtils.formatClockTimeUTC(dates[2], 'UTC', true)).to.equal(`${new Date(dates[2]).getUTCHours().toString().padStart(2, '0')}:${new Date(dates[2]).getUTCMinutes().toString().padStart(2, '0')}:${new Date(dates[2]).getUTCSeconds().toString().padStart(2, '0')}`);
 
   });
   it('will transform an ISO 8601 datetime string to UTC', async() => {
@@ -59,11 +59,12 @@ describe('RUX Clock', () => {
     );
 
     
-    const dates = ['1962-02-20T19:43:02Z', '2007-10-15T04:28:07Z', new Date(Date.now()).toISOString()] ;
+    const dates = ['1962-02-20T19:43:02Z', '2007-10-15T04:28:07Z', new Date(Date.now()).toISOString()];
 
     expect(RuxUtils.formatClockTimeUTC(dates[0], 'UTC', true)).to.equal('19:43:02');
     expect(RuxUtils.formatClockTimeUTC(dates[1], 'UTC', true)).to.equal('04:28:07');
-    expect(RuxUtils.formatClockTimeUTC(dates[2], 'UTC', true)).to.equal(`${new Date(dates[2]).getUTCHours().toString().padStart('00')}:${new Date(dates[2]).getUTCMinutes().toString().padStart('00')}:${new Date(dates[2]).getUTCSeconds().toString().padStart('00')}`);
+    expect(RuxUtils.formatClockTimeUTC(dates[2], 'UTC', true)).to.equal(`${new Date(dates[2]).getUTCHours().toString().padStart(2, '0')}:${new Date(dates[2]).getUTCMinutes().toString().padStart(2, '0')}:${new Date(dates[2]).getUTCSeconds().toString().padStart(2, '0')}`);
+    
   });
 
 
