@@ -26,6 +26,43 @@ describe('RUX Icon', () => {
 				</svg>
 			</span>`)
 		});
+	it('should apply an accessible label when the label property is set', async() => {
+		const el = await fixture(
+      html`
+        <rux-icon label="Icon description"></rux-icon>
+      `,
+		);
+		expect(el.shadowRoot.querySelector('#rux-icon').getAttribute('title')).to.equal(el.label)
+	});
+	it('set icon size based on size properties', async() => {
+		let size = "extra-small";
+
+		const el = await fixture(
+      html`
+        <rux-icon size="extra-small"></rux-icon>
+      `,
+		);
+	
+		expect(el.shadowRoot.querySelector('#rux-icon').offsetWidth).to.equal(16);
+		
+
+
+		// test small size
+		el.size = 'small';
+		await elementUpdated(el);
+		expect(el.shadowRoot.querySelector('#rux-icon').offsetWidth).to.equal(32);
+		
+		// test normal size
+		el.size = 'normal';
+		await elementUpdated(el);
+		expect(el.shadowRoot.querySelector('#rux-icon').offsetWidth).to.equal(44);
+
+		// test large size
+		el.size = 'large';
+		await elementUpdated(el);
+		expect(el.shadowRoot.querySelector('#rux-icon').offsetWidth).to.equal(64);
+		
+	});
   it('changes color when color property is set', async() => {
 		const el = await fixture(
       html`
