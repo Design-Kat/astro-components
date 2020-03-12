@@ -18,6 +18,7 @@ describe('RUX Icon', () => {
 
 		/*
 		TODO: undefined should not be the default icon
+		TODO: need a better default icon set location
 		*/
 		expect(el).shadowDom.to.equal(`
 			<span id="rux-icon" title="icon">
@@ -25,6 +26,25 @@ describe('RUX Icon', () => {
 					<use href="/icons/astro.svg#undefined"></use>
 				</svg>
 			</span>`)
+		});
+	it('should show the correct icon', async() => {
+			const el = await fixture(
+				html`
+					<rux-icon icon="equipment"></rux-icon>
+				`,
+			);
+
+			const [library, icon] = el.shadowRoot.querySelector('use').getAttribute('href').split('#');
+			expect(icon).to.equal(el.icon);
+		});
+	it('should load an external icon library', async() => {
+			const el = await fixture(
+				html`
+					<rux-icon library="../static/icons.svg" icon="equipment"></rux-icon>
+				`,
+			);
+			
+			
 		});
 	it('should apply an accessible label when the label property is set', async() => {
 		const el = await fixture(
