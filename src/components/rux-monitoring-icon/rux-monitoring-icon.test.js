@@ -9,7 +9,7 @@ function trimShadowCruft(dom) {
 }
 
 /**
- * @typedef {import('./rux-monitoring-icon.js').RuxIcon} RuxIcon
+ * @typedef {import('./rux-monitoring-icon.js').RuxMonitoringIcon} RuxMonitoringIcon
  */
 
 describe('RUX Monitoring Icon', () => {
