@@ -289,8 +289,7 @@ export class RuxLog extends LitElement {
 
       <ol class="rux-log__events">
         <li class="rux-log__filter-enabled" ?hidden=${!this._filterValue}>
-          A filter with&nbsp;"<b>${this._filterValue}</b>"&nbsp;is enabled. ${this.visibleItems} of ${this.data.length}
-          records are currently hidden.
+          A filter with&nbsp;"<b>${this._filterValue}</b>"&nbsp;is enabled. ${this.visibleItems} of ${this.data.length} records are currently hidden.
         </li>
 
         ${this.filteredLog.map(
