@@ -37,7 +37,8 @@ export class RuxSlider extends LitElement {
     this.step = 1;
     this.val = 0;
     this.label = '';
-    (this.axisLabels = []), (this.disabled = false);
+    (this.axisLabels = []), 
+    (this.disabled = false);
     this.hideInput = false;
   }
 
