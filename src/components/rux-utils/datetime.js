@@ -29,6 +29,9 @@ export default class {
     if (hideTimezone) {
       return new Date(time).toLocaleTimeString('us-EN', { hour12: false, timeZone: timezone });
     }
+    if (timezone == 'UTC') { // reformat "UTC" as "Z"
+      return new Date(time).toLocaleTimeString('us-EN', { hour12: false, timeZone: timezone}) + ' Z';
+    }
     return new Date(time).toLocaleTimeString('us-EN', { hour12: false, timeZone: timezone, timeZoneName: 'short' });
   }
 

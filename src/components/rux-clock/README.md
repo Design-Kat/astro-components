@@ -56,12 +56,15 @@ Define AOS and LOS with valid [Unix Time Stamp](http://pubs.opengroup.org/online
 | -------------- | ------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `aos`          | String  | —       | No       | When supplied with a valid [date string or value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#syntax) displays a timestamp labeled "AOS" next to the standard clock.                                                                                          |
 | `los`          | String  | —       | No       | When supplied with a valid [date string or value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#syntax), displays a timestamp labeled "LOS" next to the standard clock.                                                                                         |
-| `timezone`     | String  | `'UTC'` | No       | Accepts [IANA timezone string format](https://www.iana.org/time-zones) such as `America/Los_Angeles`. Default timezone is `UTC`. See [`toLocaleString()` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString#Parameters) for more details. |
+| `timezone`     | String  | `'UTC'` | No       | Accepts [IANA timezone string format](https://www.iana.org/time-zones) such as `America/Los_Angeles`. Default timezone is `UTC`, which will be displayed as 'Z' in the clock. See [`toLocaleString()` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString#Parameters) for more details. |
 | `hideTimezone` | Boolean | `false` | No       | Hides the timezone in the main 24-hour clock. Timezone does not display on AOS/LOS.                                                                                                                                                                                                                     |
 | `hideDate`     | Boolean | `false` | No       | Hides the day of the year.                                                                                                                                                                                                                                                                              |
 | `small`        | Boolean | `false` | No       | Applies a smaller clock style. Previously `compact`                                                                                                                                                                                                                                                     |
 
 ## Revision History
+
+##### **4.5.1**
+- Changed display of "UTC" timezone indicator to "Z".
 
 ##### **4.0**
 
