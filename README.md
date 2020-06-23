@@ -10,7 +10,7 @@ The Astro Web Component and CSS Library provides a starting point to begin devel
 - All components have been updated to [LitElement](https://lit-element.polymer-project.org) from Polymer
 - Updated documentation
 - [Storybook Component Sandbox](https://astro-components.netlify.com)
-- Merged [Astro Style Library](https://bitbucket.org/rocketcom/astro-styles/src/master/) in to Astro Components
+- Merged [Astro Style Library](https://github.com/RocketCommunicationsInc/astro-components) in to Astro Components
 
 ## Download and Install for all Astro Web Components and Styles
 
@@ -26,7 +26,7 @@ cd astro
 Clone this repository
 
 ```
-git clone https://bitbucket.org/rocketcom/astro-components.git
+git clone https://github.com/RocketCommunicationsInc/astro-components.git
 ```
 
 Install NPM modules for this project

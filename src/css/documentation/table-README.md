@@ -10,7 +10,7 @@ Tables display tabular data in two dimensions.
 
 ### 1. Include the Astro UXDS CSS file
 
-Latest release is available in [Astro UXDS Styles repo](https://bitbucket.org/rocketcom/astro-styles/src/master/).
+Latest release is available in [Astro UXDS Styles repo](https://github.com/RocketCommunicationsInc/astro-components).
 
 ```xml
 <link rel="stylesheet" href="/your-project/path/astro.css" />
